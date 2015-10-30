@@ -22,7 +22,7 @@
         android:orientation="horizontal" >
 
         <RadioButton
-            android:id="@+id/favorite"
+            android:id="@+id/shopping"
             style="@style/tab_radio"
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -32,7 +32,7 @@
             android:textSize="13sp" />
 
         <RadioButton
-            android:id="@+id/category"
+            android:id="@+id/buy"
             style="@style/tab_radio"
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -42,7 +42,7 @@
             android:textSize="13sp" />
 
         <RadioButton
-            android:id="@+id/collocation"
+            android:id="@+id/photo"
             style="@style/tab_radio"
             android:layout_width="0dp"
             android:layout_height="50dp"

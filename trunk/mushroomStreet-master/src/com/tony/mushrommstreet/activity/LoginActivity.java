@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -32,11 +33,20 @@ public class LoginActivity extends BaseActivity {
 		titleBar = (TitleBar) findViewById(R.id.title_bar);
 		titleBar.setTitle("µÇÂ¼");
 		titleBar.setRightText("×¢²á");
+		titleBar.setLeftButtonListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(LoginActivity.this,MainActivity.class));
+				finish();
+			}
+		});
 		titleBar.setRightButtonListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+				finish();
 			}
 		});
 		
@@ -46,7 +56,15 @@ public class LoginActivity extends BaseActivity {
 		etAccount.addTextChangedListener(textWatcher);
 		etPsw.addTextChangedListener(textWatcher);
 	}
-	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			startActivity(new Intent(LoginActivity.this,MainActivity.class));
+			finish();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 	private TextWatcher textWatcher = new TextWatcher() {
 		
 		@Override
@@ -71,13 +89,18 @@ public class LoginActivity extends BaseActivity {
 	
 	public void onClick(View v) {
 		switch (v.getId()) {
+		//µÇÂ¼
 		case R.id.btn_login:
 			String accout = etAccount.getText().toString();
 			String psw = etPsw.getText().toString();
 			//ÕËºÅÃÜÂëÕýÈ·
 			if (accout.equals("1") && psw.equals("1")) {
 				PreferenceUtils.setBoolean(this, "isLogin", true);
-				startActivity(new Intent(this,HaotaoActivity.class));
+				int whichFragment = getIntent().
+						getIntExtra("whichFragment", 0);
+				Intent intent = new Intent(this,MainActivity.class);
+				intent.putExtra("whichFragment", whichFragment);
+				startActivity(intent);
 				//´æ´¢ÕËºÅÃÜÂë
 				PreferenceUtils.setString(this, "accout", accout);
 				PreferenceUtils.setString(this, "psw", psw);

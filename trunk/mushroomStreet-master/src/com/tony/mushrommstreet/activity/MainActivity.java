@@ -44,9 +44,27 @@ public class MainActivity extends FragmentActivity implements
 
 	public void initView() {
 		radioGroup = (RadioGroup) findViewById(R.id.bottom_menu);
-		radioGroup.check(R.id.favorite);
-		redirectTo(ShoppingFragment.getInstance());
-		whichFragment = 1;
+		int flag = getIntent().getIntExtra("whichFragment", -1);
+		switch (flag) {
+		case -1:
+			radioGroup.check(R.id.shopping);
+			redirectTo(ShoppingFragment.getInstance());
+			whichFragment = 1;
+			break;
+		case 4:
+			radioGroup.check(R.id.message);
+			redirectTo(ChatFragment.getInstance());
+			whichFragment = 4;
+			break;
+		case 5:
+			radioGroup.check(R.id.mine);
+			redirectTo(MineFragment.getInstance());
+			whichFragment = 5;
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 
@@ -82,8 +100,9 @@ public class MainActivity extends FragmentActivity implements
 	 * */
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		Intent intent;
 		switch (checkedId) {
-		case R.id.favorite:
+		case R.id.shopping:
 			switch (whichFragment) {
 			case 2:
 				switchContent(BuyFragment.getInstance(),
@@ -104,7 +123,7 @@ public class MainActivity extends FragmentActivity implements
 			}
 			whichFragment = 1;
 			break;
-		case R.id.category:
+		case R.id.buy:
 			switch (whichFragment) {
 			case 1:
 				switchContent(ShoppingFragment.getInstance(),
@@ -125,7 +144,7 @@ public class MainActivity extends FragmentActivity implements
 			}
 			whichFragment = 2;
 			break;
-		case R.id.collocation:
+		case R.id.photo:
 			switch (whichFragment) {
 			case 1:
 				switchContent(ShoppingFragment.getInstance(),
@@ -148,11 +167,23 @@ public class MainActivity extends FragmentActivity implements
 			break;
 		case R.id.message:
 			if (!PreferenceUtils.getBoolean(this, "isLogin", false)) {
-				whichFragment = 4;
-				startActivity(new Intent(this,LoginActivity.class));
+				switch (whichFragment) {
+				case 1:
+					radioGroup.check(R.id.shopping);
+					break;
+					
+				case 2:
+					radioGroup.check(R.id.buy);
+					break;
+
+				default:
+					break;
+				}
+				intent = new Intent(this,LoginActivity.class);
+				intent.putExtra("whichFragment", 4);
+				startActivity(intent);
+				finish();
 				return;
-			}else {
-				startActivity(new Intent(this,HaotaoActivity.class));
 			}
 			switch (whichFragment) {
 			case 1:
@@ -176,11 +207,23 @@ public class MainActivity extends FragmentActivity implements
 			break;
 		case R.id.mine:
 			if (!PreferenceUtils.getBoolean(this, "isLogin", false)) {
-				whichFragment = 5;
-				startActivity(new Intent(this,LoginActivity.class));
+				switch (whichFragment) {
+				case 1:
+					radioGroup.check(R.id.shopping);
+					break;
+					
+				case 2:
+					radioGroup.check(R.id.buy);
+					break;
+
+				default:
+					break;
+				}
+				intent = new Intent(this,LoginActivity.class);
+				intent.putExtra("whichFragment", 5);
+				startActivity(intent);
+				finish();
 				return;
-			}else {
-				startActivity(new Intent(this,HaotaoActivity.class));
 			}
 			switch (whichFragment) {
 			case 1:

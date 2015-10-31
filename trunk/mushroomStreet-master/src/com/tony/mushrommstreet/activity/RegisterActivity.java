@@ -53,6 +53,7 @@ public class RegisterActivity extends BaseActivity {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				btnRigister.setBackgroundResource(R.drawable.login);
+				btnRigister.setClickable(true);
 			}
 			
 			@Override
@@ -67,6 +68,7 @@ public class RegisterActivity extends BaseActivity {
 				phoneNum = s.toString();
 				if ("".equals(phoneNum) && "".equals(authcode) && "".equals(psw)) {
 					btnRigister.setBackgroundResource(R.drawable.login_white_button_disable);
+					btnRigister.setClickable(false);
 				}
 			}
 		});
@@ -88,6 +90,7 @@ public class RegisterActivity extends BaseActivity {
 				authcode = s.toString();
 				if ("".equals(phoneNum) && "".equals(authcode) && "".equals(psw)){
 					btnRigister.setBackgroundResource(R.drawable.login_white_button_disable);
+					btnRigister.setClickable(false);
 				}
 			}
 		});
@@ -109,6 +112,7 @@ public class RegisterActivity extends BaseActivity {
 				psw = s.toString();
 				if ("".equals(phoneNum) && "".equals(authcode) && "".equals(psw)) {
 					btnRigister.setBackgroundResource(R.drawable.login_white_button_disable);
+					btnRigister.setClickable(false);
 				}
 			}
 		});
@@ -120,7 +124,7 @@ public class RegisterActivity extends BaseActivity {
 		case R.id.btn_register:
 			if ("".equals(authcode)) {
 				Toast.makeText(this, "请填写验证码", Toast.LENGTH_LONG).show();
-			} else if ("".equals(psw) || psw.length() < 6) {
+			} else if (psw == null || "".equals(psw) || psw.length() < 6) {
 				Toast.makeText(this, "密码不能少于6位", Toast.LENGTH_LONG).show();
 			} else {
 				//以下代码应为请求后台进行注册

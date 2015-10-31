@@ -37,7 +37,7 @@ public class LoginActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(LoginActivity.this,MainActivity.class));
+//				startActivity(new Intent(LoginActivity.this,MainActivity.class));
 				finish();
 			}
 		});
@@ -56,20 +56,12 @@ public class LoginActivity extends BaseActivity {
 		etAccount.addTextChangedListener(textWatcher);
 		etPsw.addTextChangedListener(textWatcher);
 	}
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			startActivity(new Intent(LoginActivity.this,MainActivity.class));
-			finish();
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
 	private TextWatcher textWatcher = new TextWatcher() {
 		
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			btnLogin.setBackgroundResource(R.drawable.login);
+			btnLogin.setClickable(true);
 		}
 		
 		@Override
@@ -83,6 +75,7 @@ public class LoginActivity extends BaseActivity {
 		public void afterTextChanged(Editable s) {
 			if ("".equals(s.toString())) {
 				btnLogin.setBackgroundResource(R.drawable.login_white_button_disable);
+				btnLogin.setClickable(false);
 			}
 		}
 	};
@@ -96,11 +89,11 @@ public class LoginActivity extends BaseActivity {
 			//’À∫≈√‹¬Î’˝»∑
 			if (accout.equals("1") && psw.equals("1")) {
 				PreferenceUtils.setBoolean(this, "isLogin", true);
-				int whichFragment = getIntent().
-						getIntExtra("whichFragment", 0);
-				Intent intent = new Intent(this,MainActivity.class);
-				intent.putExtra("whichFragment", whichFragment);
-				startActivity(intent);
+//				int whichFragment = getIntent().
+//						getIntExtra("whichFragment", 0);
+//				Intent intent = new Intent(this,MainActivity.class);
+//				intent.putExtra("whichFragment", whichFragment);
+//				startActivity(intent);
 				//¥Ê¥¢’À∫≈√‹¬Î
 				PreferenceUtils.setString(this, "accout", accout);
 				PreferenceUtils.setString(this, "psw", psw);

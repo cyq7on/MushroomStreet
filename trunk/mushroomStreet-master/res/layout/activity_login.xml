@@ -57,6 +57,7 @@
 	        android:layout_marginTop="10dp"
 	        android:background="@drawable/login_white_button_disable"
 	        android:text="登录"
+	        android:clickable="false"
 	        android:onClick="onClick"
 	        android:textColor="@color/white" />
     	<LinearLayout 

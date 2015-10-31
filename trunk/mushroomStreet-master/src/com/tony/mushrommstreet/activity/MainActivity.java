@@ -1,16 +1,18 @@
 package com.tony.mushrommstreet.activity;
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.example.mushroomstreet.R;
+import com.tony.mushrommstreet.fragment.BasicFragment;
 import com.tony.mushrommstreet.fragment.BuyFragment;
 import com.tony.mushrommstreet.fragment.ChatFragment;
 import com.tony.mushrommstreet.fragment.MineFragment;
@@ -30,6 +32,10 @@ public class MainActivity extends FragmentActivity implements
 	 * 4表示ChatFragment 5表示MineFragment
 	 * */
 	private int whichFragment;
+	private int which;
+	private BasicFragment shoppinFragment,buyFragment,
+	photoFragment,chatFragment,mineFragment;
+	private RadioButton rbChat,rbMine;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,27 +45,36 @@ public class MainActivity extends FragmentActivity implements
 
 		AppConfig.initConfig(this);
 		initView();
-		initListener();
+		radioGroup.setOnCheckedChangeListener(this);
 	}
 
-	public void initView() {
+	private void initView() {
 		radioGroup = (RadioGroup) findViewById(R.id.bottom_menu);
-		int flag = getIntent().getIntExtra("whichFragment", -1);
-		switch (flag) {
-		case -1:
-			radioGroup.check(R.id.shopping);
-			redirectTo(ShoppingFragment.getInstance());
-			whichFragment = 1;
-			break;
+		rbChat = (RadioButton) findViewById(R.id.message);
+		rbMine = (RadioButton) findViewById(R.id.mine);
+		radioGroup.check(R.id.shopping);
+		onCheckedChanged(radioGroup,R.id.shopping);
+	}
+	
+	@Override
+	
+	
+	protected void onStart() {
+		super.onStart();
+		switch (which) {
 		case 4:
-			radioGroup.check(R.id.message);
-			redirectTo(ChatFragment.getInstance());
-			whichFragment = 4;
+			if (PreferenceUtils.getBoolean(this, "isLogin", false)
+					&& !rbChat.isChecked()) {
+				radioGroup.check(R.id.message);
+				onCheckedChanged(radioGroup,R.id.message);
+			}
 			break;
 		case 5:
-			radioGroup.check(R.id.mine);
-			redirectTo(MineFragment.getInstance());
-			whichFragment = 5;
+			if (PreferenceUtils.getBoolean(this, "isLogin", false)
+					&& !rbMine.isChecked()) {
+				radioGroup.check(R.id.mine);
+				onCheckedChanged(radioGroup,R.id.mine);
+			}
 			break;
 
 		default:
@@ -67,105 +82,70 @@ public class MainActivity extends FragmentActivity implements
 		}
 	}
 	
+	private void hideFragments(FragmentTransaction transaction)  
+    {  
+        if (shoppinFragment != null)  
+        {  
+            transaction.hide(shoppinFragment);  
+        }  
+        if (buyFragment != null)  
+        {  
+            transaction.hide(buyFragment);  
+        }  
+        if (photoFragment != null)  
+        {  
+            transaction.hide(photoFragment);  
+        }  
+        if (chatFragment != null)  
+        {  
+            transaction.hide(chatFragment);  
+        }  
+        if (mineFragment != null)  
+        {  
+            transaction.hide(mineFragment);  
+        }  
+          
+    }  
 
-	public void initListener() {
-		radioGroup.setOnCheckedChangeListener(this);
-	}
 	
-	public void redirectTo(Fragment fragment) {
-		FragmentTransaction beginTransaction = getSupportFragmentManager()
-				.beginTransaction();
-		beginTransaction.replace(R.id.fragment_container, fragment)
-				.commitAllowingStateLoss();
-	}
-
-	public void switchContent(Fragment from, Fragment to) {
-		FragmentTransaction transaction = getSupportFragmentManager()
-				.beginTransaction();
-		if (!to.isAdded()) { // 先判断是否被add过
-			transaction.hide(from).add(R.id.fragment_container, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
-		} else {
-			transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
-		}
-	}
-	
-	
-	/**单纯使用redirectTo切换fragment会导致fragment切换时候数据丢失
-	 * 因为fragment被replace掉了，所以改用switchContent切换fragment
-	 * 9.14
-	 * switchContent会造成actionBar title异常，暂时换回redirecTo
-	 * 9.19
-	 * actionBarTitle 问题解决
-	 * 9.26
-	 * */
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		Intent intent;
+		FragmentManager fragmentManager = getFragmentManager();
+		// 开启一个Fragment事务
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况  
+        hideFragments(transaction);  
 		switch (checkedId) {
 		case R.id.shopping:
-			switch (whichFragment) {
-			case 2:
-				switchContent(BuyFragment.getInstance(),
-						ShoppingFragment.getInstance());
-				break;
-			case 3:
-				switchContent(ChatFragment.getInstance(),
-						ShoppingFragment.getInstance());
-				break;
-			case 4:
-				switchContent(ChatFragment.getInstance(),
-						ShoppingFragment.getInstance());
-				break;
-			case 5:
-				switchContent(MineFragment.getInstance(),
-						ShoppingFragment.getInstance());
-				break;
+			if (shoppinFragment == null) {
+				shoppinFragment = new ShoppingFragment();
+				transaction.add(R.id.fragment_container,shoppinFragment);
+			} else {
+				transaction.show(shoppinFragment);
 			}
 			whichFragment = 1;
 			break;
 		case R.id.buy:
-			switch (whichFragment) {
-			case 1:
-				switchContent(ShoppingFragment.getInstance(),
-						BuyFragment.getInstance());
-				break;
-			case 3:
-				switchContent(PhotoFragment.getInstance(),
-						BuyFragment.getInstance());
-				break;
-			case 4:
-				switchContent(ChatFragment.getInstance(),
-						BuyFragment.getInstance());
-				break;
-			case 5:
-				switchContent(MineFragment.getInstance(),
-						BuyFragment.getInstance());
-				break;
-			}
+			if (buyFragment == null) {
+				buyFragment = new BuyFragment();
+				transaction.add(R.id.fragment_container,buyFragment);
+			} else {
+				transaction.show(buyFragment);
+			}			
 			whichFragment = 2;
 			break;
 		case R.id.photo:
-			switch (whichFragment) {
-			case 1:
-				switchContent(ShoppingFragment.getInstance(),
-						PhotoFragment.getInstance());
-				break;
-			case 2:
-				switchContent(BuyFragment.getInstance(),
-						PhotoFragment.getInstance());
-				break;
-			case 4:
-				switchContent(ChatFragment.getInstance(),
-						PhotoFragment.getInstance());
-				break;
-			case 5:
-				switchContent(MineFragment.getInstance(),
-						PhotoFragment.getInstance());
-				break;
+			if (photoFragment == null) {
+				photoFragment = new PhotoFragment();
+				transaction.add(R.id.fragment_container,photoFragment);
+			} else {
+				transaction.show(photoFragment);
 			}
 			whichFragment = 3;
 			break;
 		case R.id.message:
+			which = 4;
 			if (!PreferenceUtils.getBoolean(this, "isLogin", false)) {
 				switch (whichFragment) {
 				case 1:
@@ -182,30 +162,19 @@ public class MainActivity extends FragmentActivity implements
 				intent = new Intent(this,LoginActivity.class);
 				intent.putExtra("whichFragment", 4);
 				startActivity(intent);
-				finish();
+//				finish();
 				return;
 			}
-			switch (whichFragment) {
-			case 1:
-				switchContent(ShoppingFragment.getInstance(),
-						ChatFragment.getInstance());
-				break;
-			case 2:
-				switchContent(BuyFragment.getInstance(),
-						ChatFragment.getInstance());
-				break;
-			case 3:
-				switchContent(PhotoFragment.getInstance(),
-						ChatFragment.getInstance());
-				break;
-			case 5:
-				switchContent(MineFragment.getInstance(),
-						ChatFragment.getInstance());
-				break;
-			}
+			if (chatFragment == null) {System.out.println("new");
+				chatFragment = new ChatFragment();
+				transaction.add(R.id.fragment_container,chatFragment);
+			} else {System.out.println("show");
+				transaction.show(chatFragment);
+			}System.out.println("ffff");
 			whichFragment = 4;
 			break;
 		case R.id.mine:
+			which = 5;
 			if (!PreferenceUtils.getBoolean(this, "isLogin", false)) {
 				switch (whichFragment) {
 				case 1:
@@ -222,33 +191,21 @@ public class MainActivity extends FragmentActivity implements
 				intent = new Intent(this,LoginActivity.class);
 				intent.putExtra("whichFragment", 5);
 				startActivity(intent);
-				finish();
+//				finish();
 				return;
 			}
-			switch (whichFragment) {
-			case 1:
-				switchContent(ShoppingFragment.getInstance(),
-						MineFragment.getInstance());
-				break;
-			case 2:
-				switchContent(BuyFragment.getInstance(),
-						MineFragment.getInstance());
-				break;
-			case 3:
-				switchContent(PhotoFragment.getInstance(),
-						MineFragment.getInstance());
-				break;
-			case 4:
-				switchContent(ChatFragment.getInstance(),
-						MineFragment.getInstance());
-				break;
+			if (mineFragment == null) {
+				mineFragment = new MineFragment();
+				transaction.add(R.id.fragment_container,mineFragment);
+			} else {
+				transaction.show(mineFragment);
 			}
 			whichFragment = 5;
 			break;
 		default:
 			break;
 		}
-		
+		transaction.commit();
 	}
 
 }

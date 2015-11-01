@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white" >
+
+    <LinearLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/shopping"
+            style="@style/tab_radio"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/selector_tab_shopping"
+            android:text="逛逛逛"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/buy"
+            style="@style/tab_radio"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/selector_tab_classification"
+            android:text="买买买"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/photo"
+            style="@style/tab_radio"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/index_publish_icon"
+            android:gravity="center"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/message"
+            style="@style/tab_radio"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/selector_tab_message"
+            android:gravity="center"
+            android:text="聊聊聊"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/mine"
+            style="@style/tab_radio"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/selector_tab_mine"
+            android:gravity="center"
+            android:text="我我我"
+            android:textSize="13sp" />
+    </RadioGroup>
+
+</LinearLayout>

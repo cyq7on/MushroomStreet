@@ -17,7 +17,7 @@
             android:background="@color/pink_drak"
             android:padding="15dp" >
 
-            <com.tony.mushrommstreet.widget.RoundImageView
+            <com.cyq7on.mushrommstreet.widget.RoundImageView
                 android:id="@+id/avatar"
                 android:layout_width="45dp"
                 android:layout_height="45dp"

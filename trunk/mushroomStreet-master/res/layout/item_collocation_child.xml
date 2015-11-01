@@ -20,7 +20,7 @@
         android:background="@color/gray_line"
         android:layout_height="wrap_content" >
 
-        <com.tony.mushrommstreet.widget.RoundImageView
+        <com.cyq7on.mushrommstreet.widget.RoundImageView
             android:id="@+id/avatar"
             android:layout_width="35dp"
             android:layout_height="35dp"

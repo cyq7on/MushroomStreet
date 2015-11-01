@@ -18,7 +18,7 @@
         android:label="@string/app_name" 
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.tony.mushrommstreet.activity.MainActivity"
+            android:name="com.cyq7on.mushrommstreet.activity.MainActivity"
             android:label="@string/app_name" 
             android:launchMode="singleInstance">
             <intent-filter>
@@ -28,25 +28,25 @@
         </activity>
         
         <activity
-            android:name="com.tony.mushrommstreet.activity.MessageActivity"
+            android:name="com.cyq7on.mushrommstreet.activity.MessageActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         
         <activity
-            android:name="com.tony.mushrommstreet.activity.HaotaoActivity">
+            android:name="com.cyq7on.mushrommstreet.activity.HaotaoActivity">
         </activity>
         
         <activity
-            android:name="com.tony.mushrommstreet.activity.LoginActivity">
+            android:name="com.cyq7on.mushrommstreet.activity.LoginActivity">
         </activity>
         
         <activity
-            android:name="com.tony.mushrommstreet.activity.RegisterActivity">
+            android:name="com.cyq7on.mushrommstreet.activity.RegisterActivity">
         </activity>
         
         <activity
-            android:name="com.tony.mushrommstreet.waterfall.PullToRefreshSampleActivity"
+            android:name="com.cyq7on.mushrommstreet.waterfall.PullToRefreshSampleActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>

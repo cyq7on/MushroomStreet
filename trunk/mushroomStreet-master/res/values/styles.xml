@@ -1,0 +1,19 @@
+<resources>
+
+    <style name="tab_radio">
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/tab_bottom_normal_bg</item>
+        <item name="android:textColor">@drawable/selector_tab_text</item>
+
+    </style>
+    
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+</resources>

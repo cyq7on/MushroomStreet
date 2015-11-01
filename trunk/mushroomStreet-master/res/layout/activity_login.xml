@@ -1,0 +1,182 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff">
+
+    <com.cyq7on.mushrommstreet.utils.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:orientation="vertical">
+        
+        <EditText 
+	        android:id="@+id/et_account"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:hint="昵称/邮箱/手机"
+	        android:textCursorDrawable="@null"
+	        android:background="@null"
+	        android:paddingBottom="12dp"
+	        android:textColor="#000"/>
+    
+    	<View
+	        android:layout_width="match_parent"
+	        android:layout_height="0.5dp"
+	        android:background="#B8B8B8" />
+    	
+    	<EditText 
+    	    android:paddingTop="15dp"
+	        android:id="@+id/et_password"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:inputType="textPassword"
+	        android:hint="密码"
+	        android:textCursorDrawable="@null"
+	        android:background="@null"
+	        android:paddingBottom="12dp"
+	        android:textColor="#000"/>
+    
+    	<View
+	        android:layout_width="match_parent"
+	        android:layout_height="0.5dp"
+	        android:background="#B8B8B8" />
+    	
+    	<Button
+	        android:id="@+id/btn_login"
+	        android:layout_width="match_parent"
+	        android:layout_height="45dp"
+	        android:layout_marginTop="10dp"
+	        android:background="@drawable/login_white_button_disable"
+	        android:text="登录"
+	        android:clickable="false"
+	        android:onClick="onClick"
+	        android:textColor="@color/white" />
+    	<LinearLayout 
+    	    android:layout_width="match_parent"
+	        android:layout_height="wrap_content">
+    	    <Button 
+    	        android:background="@null"
+    	        android:id="@+id/btn_global"
+    	        android:layout_width="0dp"
+	        	android:layout_height="wrap_content"
+	        	android:layout_weight="1"
+	        	android:text="全球手机登录"
+	        	android:textColor="#000"
+	        	android:onClick="onClick"
+	        	android:textSize="13sp"/>
+    	    <View
+    	        android:layout_gravity="center_vertical"
+		        android:layout_width="0.5dp"
+		        android:layout_height="20dp"
+		        android:background="#B8B8B8" />
+    	    
+    	    <Button 
+    	        android:background="@null"
+    	        android:id="@+id/btn_forgetpsw"
+    	        android:layout_width="0dp"
+	        	android:layout_height="wrap_content"
+	        	android:layout_weight="1"
+	        	android:text="忘记密码"
+	        	android:textColor="#000"
+	        	android:onClick="onClick"
+	        	android:textSize="13sp"/>
+    	    <View
+    	        android:layout_gravity="center_vertical"
+		        android:layout_width="0.5dp"
+		        android:layout_height="20dp"
+		        android:background="#B8B8B8" />
+    	    <Button 
+    	        android:background="@null"
+    	        android:id="@+id/btn_setting"
+    	        android:layout_width="0dp"
+	        	android:layout_height="wrap_content"
+	        	android:layout_weight="1"
+	        	android:text="设置与帮助"
+	        	android:textColor="#000"
+	        	android:onClick="onClick"
+	        	android:textSize="13sp"/>
+    	</LinearLayout>
+    	
+    	<LinearLayout 
+    	    android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="100dp">
+    	    <View
+    	        android:layout_gravity="center_vertical"
+		        android:layout_width="0dp"
+		        android:layout_height="0.5dp"
+		        android:layout_weight="1"
+		        android:background="#B8B8B8" />
+    	    <TextView 
+    	        android:layout_width="0dp"
+	        	android:layout_height="wrap_content"
+	        	android:layout_weight="1.5"
+	        	android:text="第三方账号快速登录"
+	        	android:textSize="13sp"
+	        	android:paddingLeft="3dp"
+	        	android:textColor="#000"
+	        	android:paddingRight="3dp"/>
+    	    <View
+    	        android:layout_gravity="center_vertical"
+		        android:layout_width="0dp"
+		        android:layout_height="0.5dp"
+		        android:layout_weight="1"
+		        android:background="#B8B8B8" />
+    	    
+    	</LinearLayout>
+    	
+    	<LinearLayout 
+    	    android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="20dp">
+    	    <Button
+    	        android:id="@+id/tv_qq"
+    	        android:layout_width="0dp"
+	        	android:layout_height="wrap_content"
+	        	android:layout_weight="1"
+	        	android:text="QQ登录"
+	        	android:background="@null"
+	        	android:gravity="center_horizontal"
+	        	android:textSize="13sp"
+	        	android:textColor="#000"
+	        	android:onClick="onClick"
+	        	android:drawableTop="@drawable/share_qq_bg_2"/>
+    	    <Button 
+    	        android:id="@+id/tv_wechat"
+    	        android:layout_width="0dp"
+	        	android:layout_height="wrap_content"
+	        	android:layout_weight="1"
+	        	android:text="微信登录"
+	        	android:background="@null"
+	        	android:gravity="center_horizontal"
+	        	android:textSize="13sp"
+	        	android:textColor="#000"
+	        	android:onClick="onClick"
+	        	android:drawableTop="@drawable/share_wechat_bg_2"/>
+    	    <Button 
+    	        android:id="@+id/tv_sina"
+    	        android:layout_width="0dp"
+	        	android:layout_height="wrap_content"
+	        	android:layout_weight="1"
+	        	android:text="微博登录"
+	        	android:background="@null"
+	        	android:gravity="center_horizontal"
+	        	android:textSize="13sp"
+	        	android:textColor="#000"
+	        	android:onClick="onClick"
+	        	android:drawableTop="@drawable/share_sina_bg_2"/>
+    	    
+    	</LinearLayout>
+    	
+    </LinearLayout>
+
+</LinearLayout>

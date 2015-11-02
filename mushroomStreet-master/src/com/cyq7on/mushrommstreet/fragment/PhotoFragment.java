@@ -40,16 +40,16 @@ public class PhotoFragment extends BasicFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		contextView = inflater.inflate(R.layout.fragment_collocation, null, false);
+		view = inflater.inflate(R.layout.fragment_collocation, null, false);
 		screenWidth = AppConfig.wm.getDefaultDisplay().getWidth();
 		super.onCreateView(inflater, container, savedInstanceState);
 		
-		return contextView;
+		return view;
 	}
 	
 	@Override
 	public void initView() {
-		pullToRefresh =  (PullToRefreshListView) contextView.findViewById(R.id.list_collocation);
+		pullToRefresh =  (PullToRefreshListView) view.findViewById(R.id.list_collocation);
 		collocationLV = pullToRefresh.getRefreshableView();
 		adapter = new CollocationAdapter(activity, screenWidth);
 	}

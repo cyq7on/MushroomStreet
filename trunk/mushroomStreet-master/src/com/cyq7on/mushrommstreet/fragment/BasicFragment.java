@@ -10,7 +10,7 @@ import com.cyq7on.mushrommstreet.activity.MainActivity;
 
 public class BasicFragment extends Fragment{
 	
-	public View contextView;
+	public View view;
 	protected MainActivity activity;
 	
 	
@@ -23,7 +23,7 @@ public class BasicFragment extends Fragment{
 		initListener();
 		initData();
 		
-		return contextView;
+		return view;
 	}
 
 	public void initView(){

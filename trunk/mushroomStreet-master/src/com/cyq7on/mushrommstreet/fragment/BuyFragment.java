@@ -49,7 +49,7 @@ public class BuyFragment extends BasicFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		contextView = inflater.inflate(R.layout.fragment_category, null, false);
+		contextView = inflater.inflate(R.layout.fragment_buy, null, false);
 		screenWidth = AppConfig.wm.getDefaultDisplay().getWidth();
 		super.onCreateView(inflater, container, savedInstanceState);
 //		initActionBar();

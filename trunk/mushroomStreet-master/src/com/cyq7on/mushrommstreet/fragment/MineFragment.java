@@ -28,11 +28,11 @@ public class MineFragment extends BasicFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		contextView = inflater.inflate(R.layout.fragment_mine, null, false);
+		view = inflater.inflate(R.layout.fragment_mine, null, false);
 		super.onCreateView(inflater, container, savedInstanceState);
 //		initActionBar();
 		
-		return contextView;
+		return view;
 	}
 
 	/*public void initActionBar() {

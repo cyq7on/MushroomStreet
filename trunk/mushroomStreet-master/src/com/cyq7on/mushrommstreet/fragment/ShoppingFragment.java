@@ -1,373 +1,286 @@
 package com.cyq7on.mushrommstreet.fragment;
 
-/**
- * @author TonyWang
- * @time 2014 9.9
- * */
-
-import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Fragment;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.os.AsyncTask.Status;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager.LayoutParams;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView.ScaleType;
+import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.activity.MainActivity;
-import com.cyq7on.mushrommstreet.bean.Message;
-import com.cyq7on.mushrommstreet.waterfall.DuitangInfo;
-import com.cyq7on.mushrommstreet.waterfall.Helper;
-import com.cyq7on.mushrommstreet.waterfall.ImageFetcher;
-import com.cyq7on.mushrommstreet.waterfall.ScaleImageView;
-import com.cyq7on.mushrommstreet.waterfall.XListView;
-import com.cyq7on.mushrommstreet.waterfall.XListView.IXListViewListener;
-import com.cyq7on.mushrommstreet.widget.TopImage;
+import com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity;
+import com.cyq7on.mushrommstreet.view.HorizontalListView;
 import com.example.mushroomstreet.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-/**
- * 此页面的瀑布流是参考github上的PinterestLikeAdapterView
- *
- * */
-public class ShoppingFragment extends BasicFragment implements
-		IXListViewListener {
-	private DisplayImageOptions options;
-	protected ImageLoader imageLoader = ImageLoader.getInstance();
-	private ImageFetcher mImageFetcher;
-	private XListView mAdapterView = null;
-	private StaggeredAdapter mAdapter = null;
-	private int currentPage = 0;
-	ContentTask task = new ContentTask((MainActivity) getActivity(), 2);
-	private TopImage topView;
-	private int type = 1;
-	private List<View> images = new ArrayList<View>();
-	private List<Message> datas = new ArrayList<Message>();
+import com.viewpagerindicator.CirclePageIndicator;
 
-	/** 控制单例 */
-	public static ShoppingFragment instance = new ShoppingFragment();
 
-	public static ShoppingFragment getInstance() {
-		return instance;
-	}
+public class ShoppingFragment extends BasicFragment implements OnClickListener{
 
-	private class ContentTask extends
-			AsyncTask<String, Integer, List<DuitangInfo>> {
-
-		private Context mContext;
-		private int mType = 1;
-
-		public ContentTask(Context context, int type) {
-			super();
-			mContext = context;
-			mType = type;
-		}
-
-		@Override
-		protected List<DuitangInfo> doInBackground(String... params) {
-			try {
-				return parseNewsJSON(params[0]);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(List<DuitangInfo> result) {
-			if (mType == 1) {
-
-				mAdapter.addItemTop(result);
-				mAdapter.notifyDataSetChanged();
-				mAdapterView.stopRefresh();
-
-			} else if (mType == 2) {
-				mAdapterView.stopLoadMore();
-				mAdapter.addItemLast(result);
-				mAdapter.notifyDataSetChanged();
-			}
-
-		}
-
-		@Override
-		protected void onPreExecute() {
-		}
-
-		public List<DuitangInfo> parseNewsJSON(String url) throws IOException {
-			List<DuitangInfo> duitangs = new ArrayList<DuitangInfo>();
-			String json = "";
-			if (Helper.checkConnection(mContext)) {
-				try {
-					json = Helper.getStringFromUrl(url);
-
-				} catch (IOException e) {
-					Log.e("IOException is : ", e.toString());
-					e.printStackTrace();
-					return duitangs;
-				}
-			}
-			Log.d("MainActiivty", "json:" + json);
-
-			try {
-				if (null != json) {
-					JSONObject newsObject = new JSONObject(json);
-					JSONObject jsonObject = newsObject.getJSONObject("data");
-					JSONArray blogsJson = jsonObject.getJSONArray("blogs");
-
-					for (int i = 0; i < blogsJson.length(); i++) {
-						JSONObject newsInfoLeftObject = blogsJson
-								.getJSONObject(i);
-						DuitangInfo newsInfo1 = new DuitangInfo();
-						newsInfo1
-								.setAlbid(newsInfoLeftObject.isNull("albid") ? ""
-										: newsInfoLeftObject.getString("albid"));
-						newsInfo1
-								.setIsrc(newsInfoLeftObject.isNull("isrc") ? ""
-										: newsInfoLeftObject.getString("isrc"));
-						newsInfo1.setMsg(newsInfoLeftObject.isNull("msg") ? ""
-								: newsInfoLeftObject.getString("msg"));
-						newsInfo1.setHeight(newsInfoLeftObject.getInt("iht"));
-						duitangs.add(newsInfo1);
-					}
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return duitangs;
-		}
-	}
-
-	private void AddItemToContainer(int pageindex, int type) {
-		if (task.getStatus() != Status.RUNNING) {
-			String url = "http://www.duitang.com/album/1733789/masn/p/"
-					+ pageindex + "/24/";
-			Log.d("MainActivity", "current url:" + url);
-			ContentTask task = new ContentTask((MainActivity) getActivity(),
-					type);
-			task.execute(url);
-
-		}
-	}
-
-	public class StaggeredAdapter extends BaseAdapter {
-		private Context mContext;
-		private LinkedList<DuitangInfo> mInfos;
-		private XListView mListView;
-
-		public StaggeredAdapter(Context context, XListView xListView) {
-			mContext = context;
-			mInfos = new LinkedList<DuitangInfo>();
-			mListView = xListView;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-
-			ViewHolder holder;
-			DuitangInfo duitangInfo = mInfos.get(position);
-
-			if (convertView == null) {
-				LayoutInflater layoutInflator = LayoutInflater.from(parent
-						.getContext());
-				convertView = layoutInflator.inflate(R.layout.infos_list, null);
-				holder = new ViewHolder();
-				holder.imageView = (ScaleImageView) convertView
-						.findViewById(R.id.news_pic);
-				holder.contentView = (TextView) convertView
-						.findViewById(R.id.news_title);
-				convertView.setTag(holder);
-			}
-
-			holder = (ViewHolder) convertView.getTag();
-			holder.imageView.setImageWidth(duitangInfo.getWidth());
-			holder.imageView.setImageHeight(duitangInfo.getHeight());
-			holder.contentView.setText(duitangInfo.getMsg());
-			mImageFetcher.loadImage(duitangInfo.getIsrc(), holder.imageView);
-			return convertView;
-		}
-
-		class ViewHolder {
-			ScaleImageView imageView;
-			TextView contentView;
-			TextView timeView;
-		}
-
-		@Override
-		public int getCount() {
-			return mInfos.size();
-		}
-
-		@Override
-		public Object getItem(int arg0) {
-			return mInfos.get(arg0);
-		}
-
-		@Override
-		public long getItemId(int arg0) {
-			return 0;
-		}
-
-		public void addItemLast(List<DuitangInfo> datas) {
-			mInfos.addAll(datas);
-		}
-
-		public void addItemTop(List<DuitangInfo> datas) {
-			for (DuitangInfo info : datas) {
-				mInfos.addFirst(info);
-			}
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		options = new DisplayImageOptions.Builder()
-		.showImageOnLoading(R.drawable.fav_backgroud)
-		.showImageForEmptyUri(R.drawable.fav_backgroud)
-		.showImageOnFail(R.drawable.fav_backgroud)
-		.cacheInMemory(true)
-		.cacheOnDisc(true)
-		.displayer(new RoundedBitmapDisplayer(10)) 
-		.bitmapConfig(Bitmap.Config.RGB_565).build();
-	}
-
+	private ImageView ivAdd;
+	private EditText etSearch;
+	private ViewPager vpTop;
+	//轮播图和griveiw的数据源，这里为了方便二者用了同一个数据源
+	private List<ImageView> list = new ArrayList<ImageView>();
+	private CirclePageIndicator circlePageIndicator;
+	private Handler mHandler;
+	private int which;//哪个图片被选中
+	private GridView gridView;
+	private HorizontalListView horizontalListView;
+	//轮播图片地址
+	private String [] url = {
+			"https://img.alicdn.com/tps/TB1Z1siKXXXXXcvXVXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/tps/TB16nMPKXXXXXcQXVXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/tps/TB1hMIUKXXXXXakXVXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/tps/TB1MsspKXXXXXcUXFXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/bao/uploaded/i1/TB1OwwiKXXXXXaQXpXXSutbFXXX.jpg",
+			"https://img.alicdn.com/bao/uploaded/i1/TB1XzItKXXXXXbLXVXXSutbFXXX.jpg"};
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		contextView = inflater.inflate(R.layout.act_pull_to_refresh_sample,
-				null);
-		super.onCreateView(inflater, container, savedInstanceState);
-		return contextView;
+		view = inflater.inflate(R.layout.fragment_shopping, container, false);
+		initView();
+		return view;
 	}
-
-	// TODO
-	public void getData() {
-		if (type == 2)
-			return;
-		View view0 = LayoutInflater.from((MainActivity) getActivity()).inflate(
-				R.layout.lunbotu, null);
-		ImageView image0 = (ImageView) view0.findViewById(R.id.item_image);
-		imageLoader.displayImage("http://img.my.csdn.net/uploads/201409/21/1411310258_7497.jpg", image0);
-		View view1 = LayoutInflater.from((MainActivity) getActivity()).inflate(
-				R.layout.lunbotu, null);
-		ImageView image1 = (ImageView) view1.findViewById(R.id.item_image);
-		imageLoader.displayImage("http://img.my.csdn.net/uploads/201409/21/1411310258_2775.jpg", image1);
-		View view2 = LayoutInflater.from((MainActivity) getActivity()).inflate(
-				R.layout.lunbotu, null);
-		ImageView image2 = (ImageView) view2.findViewById(R.id.item_image);
-		imageLoader.displayImage("http://img.my.csdn.net/uploads/201409/21/1411310257_1288.jpg", image2);
-		View view3 = LayoutInflater.from((MainActivity) getActivity()).inflate(
-				R.layout.lunbotu, null);
-		ImageView image3 = (ImageView) view3.findViewById(R.id.item_image);
-		imageLoader.displayImage("http://img.my.csdn.net/uploads/201409/21/1411310257_6731.jpg", image3);
-		images.add(view0);
-		images.add(view1);
-		images.add(view2);
-		images.add(view3);
-		Message message1 = new Message();
-		message1.setAvatar("http://img.my.csdn.net/uploads/201409/13/1410598242_8578.jpg");
-		message1.setTitle("美妆");
-		message1.setContent("特卖限时购");
-		Message message2 = new Message();
-		message2.setAvatar("http://img.my.csdn.net/uploads/201409/13/1410596120_3038.jpg");
-		message2.setTitle("团购");
-		message2.setContent("风衣4折起");
-		Message message3 = new Message();
-		message3.setAvatar("http://img.my.csdn.net/uploads/201409/13/1410597589_6918.jpg");
-		message3.setTitle("达人");
-		message3.setContent("把酷穿身上");
-		datas.add(message1);
-		datas.add(message2);
-		datas.add(message3);
-	}
-
-//	@Override
-//	public void onDestroy() {
-//		// TODO Auto-generated method stub
-//		super.onDestroy();
-//	}
-
+	
 	@Override
 	public void initView() {
-		mAdapterView = (XListView) contextView.findViewById(R.id.list);
-		topView = new TopImage(activity);
-		mAdapterView.addHeaderView(topView.getView());
-		getData();
-		topView.setView(images, datas);
-		mAdapterView.setPullLoadEnable(true);
-		mAdapterView.setXListViewListener(this);
-		mAdapter = new StaggeredAdapter(activity, mAdapterView);
-		mImageFetcher = new ImageFetcher(activity, 240);
-		mImageFetcher.setLoadingImage(R.drawable.empty_photo);
+		activity = (MainActivity) getActivity();
+		ivAdd = (ImageView) view.findViewById(R.id.iv_add);
+		etSearch = (EditText) view.findViewById(R.id.et_search);
+//		gridView = (GridView) view.findViewById(R.id.gridview);
+		horizontalListView = (HorizontalListView) 
+				view.findViewById(R.id.horizontallistview);
+		
+		horizontalListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Toast.makeText(activity, arg2+"", Toast.LENGTH_LONG).show();
+			}
+		});
+		ivAdd.setOnClickListener(this);
+		etSearch.setOnClickListener(this);
+		initViewPager();
+		horizontalListView.setAdapter(new BaseAdapter() {
+			
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+//				ImageView iv;
+//				if (convertView == null) {
+//					convertView = LayoutInflater.from(activity).inflate(
+//							R.layout.item_hlistview, null);
+//					iv = (ImageView) convertView.findViewById(R.id.iv);
+//					convertView.setTag(iv);
+//				}else {
+//					iv = (ImageView) convertView.getTag();
+//				}
+//				return iv;
+//				return list.get(position);
+				
+				View view = LayoutInflater.from(activity).inflate(
+						R.layout.item_hlistview, null);
+				return view;
+			}
+			
+			@Override
+			public int getCount() {
+				return url.length;
+			}
+
+			@Override
+			public Object getItem(int position) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public long getItemId(int position) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		});
+//		gridView.setAdapter(new BaseAdapter() {
+//			
+//			@Override
+//			public View getView(int position, View convertView, ViewGroup parent) {
+//				// TODO Auto-generated method stub
+//				ImageView imageView;  
+//	            if(convertView==null){  
+//	                imageView=new ImageView(activity);  
+//	                imageView.setLayoutParams(new GridView.LayoutParams(85, 85));  
+//	                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);  
+//	                imageView.setPadding(8, 8, 8, 8);  
+//	            }else{  
+//	                imageView = (ImageView) convertView;  
+//	            }  
+////	            imageView = list.get(position);  
+//	            imageView.setImageResource(R.drawable.ic_launcher);
+//	            return imageView;  
+//			}
+//			
+//			@Override
+//			public long getItemId(int position) {
+//				// TODO Auto-generated method stub
+//				return position;
+//			}
+//			
+//			@Override
+//			public Object getItem(int position) {
+//				// TODO Auto-generated method stub
+//				return list.get(position);
+//			}
+//			
+//			@Override
+//			public int getCount() {
+//				// TODO Auto-generated method stub
+//				return list.size() +6;
+//			}
+//		});
 	}
 	
-	
-	@Override
-	public void initListener() {
-		super.initListener();
-	}
+	private void initViewPager() {
+		vpTop = (ViewPager) view.findViewById(R.id.vp_top);
+		circlePageIndicator = (CirclePageIndicator) 
+				view.findViewById(R.id.circlepageindicator);
+		ImageView iv;
+		for (int i = 0; i < url.length; i++) {
+			//显示图片的配置  
+	        DisplayImageOptions options = new DisplayImageOptions.Builder()  
+//	                .showImageOnLoading(R.drawable.ic_launcher)  
+//	                .showImageOnFail(R.drawable.ic_launcher)  
+	                .cacheInMemory(true)  
+	                .cacheOnDisk(true)  
+	                .bitmapConfig(Bitmap.Config.RGB_565)  
+	                .build();  
+	        iv = new ImageView(activity);  
+	        iv.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Toast.makeText(activity, "您选择了第"+(which+1)+"张", Toast.LENGTH_LONG).show();
+				}
+			});
+	        ImageLoader.getInstance().displayImage(url[i], iv, options);  
+			list.add(iv);
+		}
+		vpTop.setAdapter(new PagerAdapter() {
+			
+			@Override
+			public boolean isViewFromObject(View arg0, Object arg1) {
+				return arg0 == arg1;
+			}
+			
+			@Override
+			public int getCount() {
+				return list.size();
+			}
+			
+			@Override
+			public Object instantiateItem(ViewGroup container, int position) {
+				ImageView iv = list.get(position);
+				iv.setScaleType(ScaleType.FIT_XY);// 基于控件大小填充图片
+				container.addView(iv);
+				return iv;
+			}
+			
+			@Override
+			public void destroyItem(ViewGroup container, int position, Object object) {
+				container.removeView((View) object);
+			}
+		});
+		
+		circlePageIndicator.setViewPager(vpTop);
+		circlePageIndicator.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int arg0) {
+				which = arg0;
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		// 自动轮播条显示
+		if (mHandler == null) {
+			mHandler = new Handler() {
+				public void handleMessage(android.os.Message msg) {
+					int currentItem = vpTop.getCurrentItem();
 
-	@Override
-	public void initData() {
-	}
+					if (currentItem < list.size() - 1) {
+						currentItem++;
+					} else {
+						currentItem = 0;
+					}
 
-	@Override
-	public void onPause() {
-		type = 2;
-		super.onPause();
-	}
+					vpTop.setCurrentItem(currentItem);// 切换到下一个页面
+					mHandler.sendEmptyMessageDelayed(0, 3000);// 继续延时3秒发消息,
+				};
+			};
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		mImageFetcher.setExitTasksEarly(false);
-		mAdapterView.setAdapter(mAdapter);
-		AddItemToContainer(currentPage, 2);
-	}
-
-	public void onDetach() {
-		super.onDetach();
-		try {
-			Field childFragmentManager = Fragment.class
-					.getDeclaredField("mChildFragmentManager");
-			childFragmentManager.setAccessible(true);
-			childFragmentManager.set(this, null);
-
-		} catch (NoSuchFieldException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
+			mHandler.sendEmptyMessageDelayed(0, 3000);// 延时3秒后发消息
 		}
 	}
-
+	
 	@Override
-	public void onRefresh() {
-		AddItemToContainer(++currentPage, 1);
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.iv_add:
+			Builder builder = new Builder(activity);
+			final String[] items = { "查找好友", "扫一扫"};
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Toast.makeText(activity, items[which], Toast.LENGTH_LONG).show();
+				}
+			});
+			AlertDialog alertDialog = builder.create();
+			Window win = alertDialog.getWindow();
+			LayoutParams params = new LayoutParams();
+			params.x = 80;//设置x坐标
+			params.y = 60;//设置y坐标
+			win.setAttributes(params);
+			alertDialog.show();
+			break;
 
-	}
-
-	@Override
-	public void onLoadMore() {
-		AddItemToContainer(++currentPage, 2);
-
+		case R.id.et_search:
+			startActivity(new Intent(activity,SearchActivity.class));
+		default:
+			break;
+		}
 	}
 
 }

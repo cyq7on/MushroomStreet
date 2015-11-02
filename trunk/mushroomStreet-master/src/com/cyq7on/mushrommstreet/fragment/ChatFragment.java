@@ -46,25 +46,25 @@ public class ChatFragment extends BasicFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		contextView = inflater.inflate(R.layout.fragment_chat, container,
+		view = inflater.inflate(R.layout.fragment_chat, container,
 				false);
 		
 		super.onCreateView(inflater, container, savedInstanceState);
 //		initActionBar();
 		resetData();
-		return contextView;
+		return view;
 	}
 	
 	/*public void initActionBar(){
 		activity.leftIcon.setVisibility(View.GONE);
-		activity.title.setText("æœ?¿‘è”ç³»äº?);
+		activity.title.setText("ï¿½?ï¿½ï¿½è”ç³»ï¿½?);
 		activity.title.setVisibility(View.VISIBLE);
 		activity.rightIcon.setVisibility(View.VISIBLE);
 	}*/
 	
 	@Override
 	public void initView() {
-		pullToRefreshListView = (PullToRefreshListView) contextView
+		pullToRefreshListView = (PullToRefreshListView) view
 				.findViewById(R.id.list_message);
 		messageLV = pullToRefreshListView.getRefreshableView();
 		adapter = new MessageListAdapter(activity);

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff" >
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content">
+        
+        <EditText 
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+	        android:id="@+id/et_search"
+	        android:layout_gravity="center_vertical"
+	        android:layout_width="0dp"
+	        android:layout_weight="1"
+	        android:layout_height="30dp"
+	        android:drawableLeft="@drawable/search_icon"
+	        android:drawablePadding="7dp"
+	        android:text="test"
+	        android:textCursorDrawable="@null"
+	        android:background="@drawable/index_search_bg"
+	        android:textColor="@android:color/darker_gray"/>
+        
+        <ImageView 
+            android:id="@+id/iv_add"
+            android:layout_width="20dp"
+    		android:layout_height="20dp"
+    		android:layout_gravity="center_vertical"
+    		android:src="@drawable/add_follow_icon"
+    		android:layout_marginLeft="13dp"
+    		android:layout_marginRight="13dp"/>
+    </LinearLayout>
+    
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content">
+        
+        <android.support.v4.view.ViewPager 
+            android:id="@+id/vp_top"
+            android:layout_width="match_parent"
+    		android:layout_height="150dp"/>
+
+	    <com.viewpagerindicator.CirclePageIndicator
+	        android:id="@+id/circlepageindicator"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBottom="@+id/vp_top"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginBottom="5dp"
+	        android:layout_marginLeft="10dp"
+	        android:paddingLeft="3dp"
+	        app:fillColor="#f00"
+	        app:pageColor="@android:color/darker_gray"
+	        app:radius="3dp"
+	        app:strokeWidth="0dp" />
+
+    </RelativeLayout>
+    
+<!--     <HorizontalScrollView  -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="wrap_content"> -->
+<!--         <FrameLayout  -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content"> -->
+<!--             <GridView -->
+<!-- 	            android:id="@+id/gridview" -->
+<!-- 	            android:layout_width="wrap_content" -->
+<!-- 	            android:layout_height="40dp" /> -->
+<!--         </FrameLayout> -->
+<!--     </HorizontalScrollView> -->
+
+	<com.cyq7on.mushrommstreet.view.MyScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:id="@+id/listview_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="180dip"
+                android:background="#ddd"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="5dip" >
+
+                <com.cyq7on.mushrommstreet.view.HorizontalListView
+                    android:id="@+id/horizontallistview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
+            </LinearLayout>
+
+    </com.cyq7on.mushrommstreet.view.MyScrollView>
+
+</LinearLayout>

@@ -18,20 +18,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.activity.MainActivity;
 import com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity;
-import com.cyq7on.mushrommstreet.view.HorizontalListView;
 import com.example.mushroomstreet.R;
+import com.meetme.android.horizontallistview.HorizontalListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -42,13 +40,15 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 	private ImageView ivAdd;
 	private EditText etSearch;
 	private ViewPager vpTop;
-	//轮播图和griveiw的数据源，这里为了方便二者用了同一个数据源
+	//显示图片的配置  
+    private DisplayImageOptions options;
 	private List<ImageView> list = new ArrayList<ImageView>();
 	private CirclePageIndicator circlePageIndicator;
 	private Handler mHandler;
 	private int which;//哪个图片被选中
-	private GridView gridView;
 	private HorizontalListView horizontalListView;
+	private int[] source = {R.drawable.ic_launcher,R.drawable.index_follow_icon
+			,R.drawable.index_my_icon};
 	//轮播图片地址
 	private String [] url = {
 			"https://img.alicdn.com/tps/TB1Z1siKXXXXXcvXVXXXXXXXXXX-400-200.jpg",
@@ -57,10 +57,27 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 			"https://img.alicdn.com/tps/TB1MsspKXXXXXcUXFXXXXXXXXXX-400-200.jpg",
 			"https://img.alicdn.com/bao/uploaded/i1/TB1OwwiKXXXXXaQXpXXSutbFXXX.jpg",
 			"https://img.alicdn.com/bao/uploaded/i1/TB1XzItKXXXXXbLXVXXSutbFXXX.jpg"};
+	//滑动图片地址
+	private String [] url1 = {
+			"https://img.alicdn.com/tps/TB1Z1siKXXXXXcvXVXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/tps/TB16nMPKXXXXXcQXVXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/tps/TB1hMIUKXXXXXakXVXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/tps/TB1MsspKXXXXXcUXFXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/tps/TB1Z1siKXXXXXcvXVXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/tps/TB16nMPKXXXXXcQXVXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/tps/TB1hMIUKXXXXXakXVXXXXXXXXXX-400-200.jpg",
+			"https://img.alicdn.com/tps/TB1MsspKXXXXXcUXFXXXXXXXXXX-400-200.jpg"};
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_shopping, container, false);
+		options = new DisplayImageOptions.Builder()  
+	//      .showImageOnLoading(R.drawable.ic_launcher)  
+	//      .showImageOnFail(R.drawable.ic_launcher)  
+	      .cacheInMemory(true)  
+	      .cacheOnDisk(true)  
+	      .bitmapConfig(Bitmap.Config.RGB_565)  
+	      .build();  
 		initView();
 		return view;
 	}
@@ -70,9 +87,55 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 		activity = (MainActivity) getActivity();
 		ivAdd = (ImageView) view.findViewById(R.id.iv_add);
 		etSearch = (EditText) view.findViewById(R.id.et_search);
-//		gridView = (GridView) view.findViewById(R.id.gridview);
+
+		ivAdd.setOnClickListener(this);
+		etSearch.setOnClickListener(this);
+		initViewPager();
+		initHorizontalListView();
+		
+	}
+	
+	private void initHorizontalListView() {
+		
 		horizontalListView = (HorizontalListView) 
-				view.findViewById(R.id.horizontallistview);
+				view.findViewById(R.id.hl_iv);
+		 horizontalListView.setAdapter(new BaseAdapter() {
+				
+				@Override
+				public View getView(int position, View convertView, ViewGroup parent) {
+					ImageView iv;
+					if (convertView == null) {
+						convertView = LayoutInflater.from(activity).inflate(
+								R.layout.item_hlistview, null);
+						iv = (ImageView) convertView.findViewById(R.id.iv);
+						convertView.setTag(iv);
+					}else {
+						iv = (ImageView) convertView.getTag();
+					}
+					ImageLoader.getInstance().displayImage(url1[position],
+					iv, options);
+					return convertView;
+				}
+				
+				@Override
+				public long getItemId(int position) {
+					// TODO Auto-generated method stub
+					return 0;
+				}
+				
+				@Override
+				public Object getItem(int position) {
+					// TODO Auto-generated method stub
+					return null;
+				}
+				
+				@Override
+				public int getCount() {
+					// TODO Auto-generated method stub
+					return url1.length;
+				}
+			});
+		 
 		
 		horizontalListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -82,84 +145,6 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 				Toast.makeText(activity, arg2+"", Toast.LENGTH_LONG).show();
 			}
 		});
-		ivAdd.setOnClickListener(this);
-		etSearch.setOnClickListener(this);
-		initViewPager();
-		horizontalListView.setAdapter(new BaseAdapter() {
-			
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-//				ImageView iv;
-//				if (convertView == null) {
-//					convertView = LayoutInflater.from(activity).inflate(
-//							R.layout.item_hlistview, null);
-//					iv = (ImageView) convertView.findViewById(R.id.iv);
-//					convertView.setTag(iv);
-//				}else {
-//					iv = (ImageView) convertView.getTag();
-//				}
-//				return iv;
-//				return list.get(position);
-				
-				View view = LayoutInflater.from(activity).inflate(
-						R.layout.item_hlistview, null);
-				return view;
-			}
-			
-			@Override
-			public int getCount() {
-				return url.length;
-			}
-
-			@Override
-			public Object getItem(int position) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public long getItemId(int position) {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-		});
-//		gridView.setAdapter(new BaseAdapter() {
-//			
-//			@Override
-//			public View getView(int position, View convertView, ViewGroup parent) {
-//				// TODO Auto-generated method stub
-//				ImageView imageView;  
-//	            if(convertView==null){  
-//	                imageView=new ImageView(activity);  
-//	                imageView.setLayoutParams(new GridView.LayoutParams(85, 85));  
-//	                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);  
-//	                imageView.setPadding(8, 8, 8, 8);  
-//	            }else{  
-//	                imageView = (ImageView) convertView;  
-//	            }  
-////	            imageView = list.get(position);  
-//	            imageView.setImageResource(R.drawable.ic_launcher);
-//	            return imageView;  
-//			}
-//			
-//			@Override
-//			public long getItemId(int position) {
-//				// TODO Auto-generated method stub
-//				return position;
-//			}
-//			
-//			@Override
-//			public Object getItem(int position) {
-//				// TODO Auto-generated method stub
-//				return list.get(position);
-//			}
-//			
-//			@Override
-//			public int getCount() {
-//				// TODO Auto-generated method stub
-//				return list.size() +6;
-//			}
-//		});
 	}
 	
 	private void initViewPager() {
@@ -168,14 +153,6 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 				view.findViewById(R.id.circlepageindicator);
 		ImageView iv;
 		for (int i = 0; i < url.length; i++) {
-			//显示图片的配置  
-	        DisplayImageOptions options = new DisplayImageOptions.Builder()  
-//	                .showImageOnLoading(R.drawable.ic_launcher)  
-//	                .showImageOnFail(R.drawable.ic_launcher)  
-	                .cacheInMemory(true)  
-	                .cacheOnDisk(true)  
-	                .bitmapConfig(Bitmap.Config.RGB_565)  
-	                .build();  
 	        iv = new ImageView(activity);  
 	        iv.setOnClickListener(new OnClickListener() {
 				
@@ -269,10 +246,10 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 			});
 			AlertDialog alertDialog = builder.create();
 			Window win = alertDialog.getWindow();
-			LayoutParams params = new LayoutParams();
-			params.x = 80;//设置x坐标
-			params.y = 60;//设置y坐标
-			win.setAttributes(params);
+//			LayoutParams params = new LayoutParams();
+//			params.x = 80;//设置x坐标
+//			params.y = 60;//设置y坐标
+//			win.setAttributes(params);
 			alertDialog.show();
 			break;
 

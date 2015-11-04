@@ -28,8 +28,8 @@ import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.activity.MainActivity;
 import com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity;
+import com.cyq7on.mushrommstreet.view.HorizontalListView;
 import com.example.mushroomstreet.R;
-import com.meetme.android.horizontallistview.HorizontalListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viewpagerindicator.CirclePageIndicator;

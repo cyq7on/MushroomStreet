@@ -2,9 +2,11 @@ package com.cyq7on.mushroomstreet;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.WindowManager;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
@@ -12,6 +14,16 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 public class AppConfig extends Application{
 	
 	public static WindowManager wm;
+	
+	//œ‘ æÕº∆¨µƒ≈‰÷√  
+    public static DisplayImageOptions options = 
+    		new DisplayImageOptions.Builder()  
+	//      .showImageOnLoading(R.drawable.ic_launcher)  
+	//      .showImageOnFail(R.drawable.ic_launcher)  
+	      .cacheInMemory(true)  
+	      .cacheOnDisk(true)  
+	      .bitmapConfig(Bitmap.Config.RGB_565)  
+	      .build();
 	
 	public static void initConfig(Context context){
 		initImageLoader(context);

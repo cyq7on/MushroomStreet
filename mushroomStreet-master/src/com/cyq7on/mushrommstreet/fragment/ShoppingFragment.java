@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.cyq7on.mushrommstreet.activity.MainActivity;
 import com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity;
 import com.cyq7on.mushrommstreet.view.HorizontalListView;
+import com.cyq7on.mushroomstreet.AppConfig;
 import com.example.mushroomstreet.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -40,8 +41,6 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 	private ImageView ivAdd;
 	private EditText etSearch;
 	private ViewPager vpTop;
-	//显示图片的配置  
-    private DisplayImageOptions options;
 	private List<ImageView> list = new ArrayList<ImageView>();
 	private CirclePageIndicator circlePageIndicator;
 	private Handler mHandler;
@@ -71,13 +70,7 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_shopping, container, false);
-		options = new DisplayImageOptions.Builder()  
-	//      .showImageOnLoading(R.drawable.ic_launcher)  
-	//      .showImageOnFail(R.drawable.ic_launcher)  
-	      .cacheInMemory(true)  
-	      .cacheOnDisk(true)  
-	      .bitmapConfig(Bitmap.Config.RGB_565)  
-	      .build();  
+		
 		initView();
 		return view;
 	}
@@ -87,7 +80,7 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 		activity = (MainActivity) getActivity();
 		ivAdd = (ImageView) view.findViewById(R.id.iv_add);
 		etSearch = (EditText) view.findViewById(R.id.et_search);
-
+		
 		ivAdd.setOnClickListener(this);
 		etSearch.setOnClickListener(this);
 		initViewPager();
@@ -113,7 +106,7 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 						iv = (ImageView) convertView.getTag();
 					}
 					ImageLoader.getInstance().displayImage(url1[position],
-					iv, options);
+					iv, AppConfig.options);
 					return convertView;
 				}
 				
@@ -161,7 +154,7 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener{
 					Toast.makeText(activity, "您选择了第"+(which+1)+"张", Toast.LENGTH_LONG).show();
 				}
 			});
-	        ImageLoader.getInstance().displayImage(url[i], iv, options);  
+	        ImageLoader.getInstance().displayImage(url[i], iv, AppConfig.options);  
 			list.add(iv);
 		}
 		vpTop.setAdapter(new PagerAdapter() {

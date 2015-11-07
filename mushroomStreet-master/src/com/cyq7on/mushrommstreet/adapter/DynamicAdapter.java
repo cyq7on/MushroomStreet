@@ -28,7 +28,6 @@ public class DynamicAdapter extends BaseAdapter {
 	private List<DynamicVo> list;
 	private Context mContext;
 
-
 	public DynamicAdapter(Context context, List<DynamicVo> list) {
 		this.list = list;
 		this.mInflater = (LayoutInflater) context
@@ -36,10 +35,9 @@ public class DynamicAdapter extends BaseAdapter {
 		this.mContext = context;
 	}
 
-
 	@Override
 	public int getCount() {
-		 return list.size();
+		return list.size();
 	}
 
 	@Override
@@ -58,26 +56,24 @@ public class DynamicAdapter extends BaseAdapter {
 		if (convertView == null) {
 			holder = new ViewHolder();
 
-			convertView = mInflater.inflate(
-					R.layout.mime_share_item, parent, false);
-			holder.ivUser = (ImageView) convertView
-					.findViewById(R.id.iv_user);
+			convertView = mInflater.inflate(R.layout.mime_share_item, parent,
+					false);
+			holder.ivUser = (ImageView) convertView.findViewById(R.id.iv_user);
 			holder.tvUserName = (TextView) convertView
 					.findViewById(R.id.username);
 			holder.tvDate = (TextView) convertView
 					.findViewById(R.id.contenttime);
-			holder.btnAttention = (Button) convertView.
-					findViewById(R.id.btn_attention);
+			holder.btnAttention = (Button) convertView
+					.findViewById(R.id.btn_attention);
 			holder.llContentImage = (LinearLayout) convertView
 					.findViewById(R.id.image_container);
-			holder.btnGoods = (Button) convertView.
-					findViewById(R.id.btn_goods);
+			holder.btnGoods = (Button) convertView.findViewById(R.id.btn_goods);
 			holder.ivDianzan = (ImageView) convertView
 					.findViewById(R.id.iv_dianzan);
 			holder.tvDianzanNum = (TextView) convertView
 					.findViewById(R.id.tv_dianzan);
-			holder.btnComment = (Button) convertView.
-					findViewById(R.id.btn_comment);
+			holder.btnComment = (Button) convertView
+					.findViewById(R.id.btn_comment);
 			holder.tvLookAll = (TextView) convertView
 					.findViewById(R.id.tv_comment_num);
 			holder.tvCommentPeople = (TextView) convertView
@@ -85,22 +81,24 @@ public class DynamicAdapter extends BaseAdapter {
 			holder.tvContent = (TextView) convertView
 					.findViewById(R.id.tv_comment);
 			convertView.setTag(holder);
-//			convertView.setId(position);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		int width = (int)DeviceInfo.getScreenWidth(mContext);// 屏幕宽度
+		int width = (int) DeviceInfo.getScreenWidth(mContext);// 屏幕宽度
+		ImageView image;
 		if (list.get(position).getContentImageurl().size() == 1) {
 			holder.llContentImage.removeAllViews();
-			ImageView image1 = new ImageView(mContext);
-			image1.setScaleType(ScaleType.FIT_XY);
-			int hight = (int) DeviceInfo.getScreenHight(mContext);// 屏幕高度
+			image = new ImageView(mContext);
+			image.setOnClickListener(new ImageOnClickListener(0));
+			image.setScaleType(ScaleType.FIT_XY);
+			int hight = (int) DeviceInfo.getScreenHeight(mContext);// 屏幕高度
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.MATCH_PARENT, hight / 4);
-			holder.llContentImage.addView(image1, params);
-			ImageLoader.getInstance().displayImage(list.get(position).getContentImageurl().get(0),
-					image1, AppConfig.options);
+			holder.llContentImage.addView(image, params);
+			ImageLoader.getInstance().displayImage(
+					list.get(position).getContentImageurl().get(0), image,
+					AppConfig.options);
 		} else if (list.get(position).getContentImageurl().size() == 2) {
 			holder.llContentImage.removeAllViews();
 
@@ -111,16 +109,18 @@ public class DynamicAdapter extends BaseAdapter {
 			for (int i = 0; i < list.get(position).getContentImageurl().size(); i++) {
 				params = new LinearLayout.LayoutParams(
 						(int) (imageLayWidth / 2), (int) (imageLayWidth / 2));
-				ImageView image2 = new ImageView(mContext);
-				image2.setScaleType(ScaleType.FIT_XY);
-				image2.setPadding(0, (int) (4 * density), (int) (4 * density),
+				image = new ImageView(mContext);
+				image.setOnClickListener(new ImageOnClickListener(i));
+				image.setScaleType(ScaleType.FIT_XY);
+				image.setPadding(0, (int) (4 * density), (int) (4 * density),
 						(int) (4 * density));
-				horizonLayout.addView(image2, params);
+				horizonLayout.addView(image, params);
 				ImageLoader.getInstance().displayImage(
-						list.get(position).getContentImageurl().get(i), image2, AppConfig.options);
+						list.get(position).getContentImageurl().get(i), image,
+						AppConfig.options);
 			}
 			holder.llContentImage.addView(horizonLayout);
-		} else if (list.get(position).getContentImageurl().size() > 2 
+		} else if (list.get(position).getContentImageurl().size() > 2
 				&& list.get(position).getContentImageurl().size() <= 9) {
 			holder.llContentImage.removeAllViews();
 
@@ -138,13 +138,16 @@ public class DynamicAdapter extends BaseAdapter {
 						params = new LinearLayout.LayoutParams(
 								(int) (imageLayWidth / 3),
 								(int) (imageLayWidth / 3));
-						ImageView image3 = new ImageView(mContext);
-						image3.setScaleType(ScaleType.FIT_XY);
-						image3.setPadding(0, (int) (2 * density),
+						image = new ImageView(mContext);
+						image.setOnClickListener(new ImageOnClickListener(i * 3
+								+ j));
+						image.setScaleType(ScaleType.FIT_XY);
+						image.setPadding(0, (int) (2 * density),
 								(int) (2 * density), (int) (2 * density));
-						horizonLayout.addView(image3, params);
+						horizonLayout.addView(image, params);
 						ImageLoader.getInstance().displayImage(
-								list.get(position).getContentImageurl().get(i * 3 + j),image3,
+								list.get(position).getContentImageurl()
+										.get(i * 3 + j), image,
 								AppConfig.options);
 					}
 					holder.llContentImage.addView(horizonLayout);
@@ -158,13 +161,16 @@ public class DynamicAdapter extends BaseAdapter {
 							params = new LinearLayout.LayoutParams(
 									(int) (imageLayWidth / 3),
 									(int) (imageLayWidth / 3));
-							ImageView image3 = new ImageView(mContext);
-							image3.setPadding(0, (int) (2 * density),
+							image = new ImageView(mContext);
+							image.setOnClickListener(new ImageOnClickListener(i * 3
+									+ j));
+							image.setPadding(0, (int) (2 * density),
 									(int) (2 * density), (int) (2 * density));
-							image3.setScaleType(ScaleType.FIT_XY);
-							horizonLayout.addView(image3, params);
+							image.setScaleType(ScaleType.FIT_XY);
+							horizonLayout.addView(image, params);
 							ImageLoader.getInstance().displayImage(
-									list.get(position).getContentImageurl().get(i * 3 + j), image3,
+									list.get(position).getContentImageurl()
+											.get(i * 3 + j), image,
 									AppConfig.options);
 						}
 						holder.llContentImage.addView(horizonLayout);
@@ -173,11 +179,14 @@ public class DynamicAdapter extends BaseAdapter {
 							params = new LinearLayout.LayoutParams(
 									(int) (imageLayWidth / 3),
 									(int) (imageLayWidth / 3));
-							ImageView image3 = new ImageView(mContext);
-							image3.setScaleType(ScaleType.FIT_XY);
-							horizonLayout.addView(image3, params);
+							image = new ImageView(mContext);
+							image.setOnClickListener(new ImageOnClickListener(i * 3
+									+ j));
+							image.setScaleType(ScaleType.FIT_XY);
+							horizonLayout.addView(image, params);
 							ImageLoader.getInstance().displayImage(
-									list.get(position).getContentImageurl().get(i * 3 + j), image3,
+									list.get(position).getContentImageurl()
+											.get(i * 3 + j), image,
 									AppConfig.options);
 						}
 						holder.llContentImage.addView(horizonLayout);
@@ -185,26 +194,26 @@ public class DynamicAdapter extends BaseAdapter {
 				}
 			}
 		}
-		
+
 		try {
-			ImageLoader.getInstance().displayImage(list.get(position).getUrl(), 
-					holder.ivUser, 
-					AppConfig.options);
-			
+			ImageLoader.getInstance().displayImage(list.get(position).getUrl(),
+					holder.ivUser, AppConfig.options);
+
 			holder.tvUserName.setText(list.get(position).getUserName());
 			holder.tvDate.setText(list.get(position).getDate());
 			holder.tvPlace.setText(list.get(position).getTvPlace());
 			holder.tvContent.setText(list.get(position).getTvContent());
-			holder.btnGoods.setText(list.get(position).getGoods()+"件相关商品");
+			holder.btnGoods.setText(list.get(position).getGoods() + "件相关商品");
 			holder.tvDianzanNum.setText(list.get(position).getDianzanNum());
-			holder.tvLookAll.setText("查看所有"+list.get(position).getComment()+"条评论");
-			holder.tvCommentPeople.setText(list.get(position).getCommentPeople());
+			holder.tvLookAll.setText("查看所有" + list.get(position).getComment()
+					+ "条评论");
+			holder.tvCommentPeople.setText(list.get(position)
+					.getCommentPeople());
 			holder.tvComment.setText(list.get(position).getContent());
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 
-		
 		holder.tvUserName.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -213,7 +222,7 @@ public class DynamicAdapter extends BaseAdapter {
 						Toast.LENGTH_LONG).show();
 			}
 		});
-		
+
 		holder.ivUser.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -222,44 +231,44 @@ public class DynamicAdapter extends BaseAdapter {
 						Toast.LENGTH_LONG).show();
 			}
 		});
-		
-		
+
 		holder.btnAttention.setOnClickListener(new OnClickListener() {
 			boolean isAttention = false;
+
 			@Override
 			public void onClick(View v) {
 				if (!isAttention) {
 					holder.btnAttention.setText("已关注");
-					holder.btnAttention.setTextColor(
-							android.graphics.Color.DKGRAY);
+					holder.btnAttention
+							.setTextColor(android.graphics.Color.DKGRAY);
 					isAttention = true;
 				} else {
 					holder.btnAttention.setText("+ 关注");
-					holder.btnAttention.setTextColor(
-							Color.parseColor("#000000"));
+					holder.btnAttention.setTextColor(Color
+							.parseColor("#000000"));
 					isAttention = false;
 				}
 			}
 		});
-		
-		holder.ivDianzan.
-		setBackgroundResource(R.drawable.like_icon_grey);
+
+		holder.ivDianzan.setBackgroundResource(R.drawable.like_icon_grey);
 		holder.ivDianzan.setOnClickListener(new OnClickListener() {
 			boolean b = false;
+
 			@Override
 			public void onClick(View v) {
 				if (!b) {
-					holder.ivDianzan.
-					setBackgroundResource(R.drawable.like_icon_red);
+					holder.ivDianzan
+							.setBackgroundResource(R.drawable.like_icon_red);
 					b = true;
 				} else {
-					holder.ivDianzan.
-					setBackgroundResource(R.drawable.like_icon_grey);
+					holder.ivDianzan
+							.setBackgroundResource(R.drawable.like_icon_grey);
 					b = false;
 				}
 			}
 		});
-		
+
 		holder.btnGoods.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -268,52 +277,68 @@ public class DynamicAdapter extends BaseAdapter {
 						Toast.LENGTH_LONG).show();
 			}
 		});
-		
+
 		holder.btnComment.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(mContext, "评论" + list.get(position).getUserName(),
+				Toast.makeText(mContext,
+						"评论" + list.get(position).getUserName(),
 						Toast.LENGTH_LONG).show();
 			}
 		});
-		
+
 		holder.tvLookAll.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(mContext, "查看所有评论",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(mContext, "查看所有评论", Toast.LENGTH_LONG).show();
 			}
 		});
-		
+
 		holder.tvCommentPeople.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(mContext, "我是:"+list.get(position).
-						getCommentPeople(),
+				Toast.makeText(mContext,
+						"我是:" + list.get(position).getCommentPeople(),
 						Toast.LENGTH_LONG).show();
 			}
 		});
-		
+
 		return convertView;
 	}
 
+	private class ImageOnClickListener implements OnClickListener {
+
+		private int index;
+
+		public ImageOnClickListener(int index) {
+			this.index = index;
+		}
+
+		@Override
+		public void onClick(View v) {
+			Toast.makeText(mContext, "第" + index + "张", Toast.LENGTH_LONG)
+					.show();
+		}
+
+	}
+
 	private class ViewHolder {
-		public ImageView ivUser;//用戶头像
-		public TextView tvUserName;//用户名
-		public TextView tvDate;//动态时间
-		public TextView tvPlace;//动态地址
-		public Button btnAttention;//关注按钮
-		public TextView tvContent;//动态内容
-		public LinearLayout llContentImage;//承载动态里图片的线性布局
-		public Button btnGoods;//相关商品
-		public ImageView ivDianzan;//点赞图标
-		public TextView tvDianzanNum;//点赞数量
-		public Button btnComment;//评论按钮
-		public TextView tvLookAll;//查看所有评论
-		public TextView tvCommentPeople;//评论人
-		public TextView tvComment;//评论内容
+		public ImageView ivUser;// 用戶头像
+		public TextView tvUserName;// 用户名
+		public TextView tvDate;// 动态时间
+		public TextView tvPlace;// 动态地址
+		public Button btnAttention;// 关注按钮
+		public TextView tvContent;// 动态内容
+		public LinearLayout llContentImage;// 承载动态里图片的线性布局
+		public Button btnGoods;// 相关商品
+		public ImageView ivDianzan;// 点赞图标
+		public TextView tvDianzanNum;// 点赞数量
+		public Button btnComment;// 评论按钮
+		public TextView tvLookAll;// 查看所有评论
+		public TextView tvCommentPeople;// 评论人
+		public TextView tvComment;// 评论内容
 	}
 }

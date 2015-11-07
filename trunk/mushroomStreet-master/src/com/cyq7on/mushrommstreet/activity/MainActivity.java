@@ -1,13 +1,18 @@
 package com.cyq7on.mushrommstreet.activity;
 
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.cyq7on.mushrommstreet.fragment.BasicFragment;
@@ -16,6 +21,7 @@ import com.cyq7on.mushrommstreet.fragment.ChatFragment;
 import com.cyq7on.mushrommstreet.fragment.MineFragment;
 import com.cyq7on.mushrommstreet.fragment.PhotoFragment;
 import com.cyq7on.mushrommstreet.fragment.ShoppingFragment;
+import com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity;
 import com.cyq7on.mushrommstreet.utils.PreferenceUtils;
 import com.cyq7on.mushroomstreet.AppConfig;
 import com.example.mushroomstreet.R;
@@ -203,6 +209,34 @@ public class MainActivity extends BaseActivity implements
 			break;
 		}
 		transaction.commit();
+	}
+	
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.iv_add:
+			Builder builder = new Builder(this);
+			final String[] items = { "查找好友", "扫一扫" };
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Toast.makeText(MainActivity.this, items[which], Toast.LENGTH_LONG)
+							.show();
+				}
+			});
+			AlertDialog alertDialog = builder.create();
+			Window win = alertDialog.getWindow();
+			// LayoutParams params = new LayoutParams();
+			// params.x = 80;//设置x坐标
+			// params.y = 60;//设置y坐标
+			// win.setAttributes(params);
+			alertDialog.show();
+			
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }

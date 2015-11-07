@@ -8,76 +8,103 @@
     android:background="#fff" >
     
     <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content">
+	        
+	        <EditText 
+	            android:layout_marginLeft="15dp"
+	            android:layout_marginTop="7dp"
+	            android:layout_marginBottom="7dp"
+		        android:id="@+id/et_search"
+		        android:layout_gravity="center_vertical"
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="30dp"
+		        android:drawableLeft="@drawable/search_icon"
+		        android:drawablePadding="7dp"
+		        android:text="test"
+		        android:textCursorDrawable="@null"
+		        android:background="@drawable/index_search_bg"
+		        android:textColor="@android:color/darker_gray"/>
+	        
+	        <ImageView
+	            android:id="@+id/iv_add"
+	            android:layout_width="20dp"
+	    		android:layout_height="20dp"
+	    		android:layout_gravity="center_vertical"
+	    		android:src="@drawable/add_follow_icon"
+	    		android:onClick="onClick"
+	    		android:layout_marginLeft="13dp"
+	    		android:layout_marginRight="13dp"/>
+	    </LinearLayout>
+    
+    
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pull_refresh_scrollview"
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrMode="both"
+        android:fillViewport="true"  >
         
-        <EditText 
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-	        android:id="@+id/et_search"
-	        android:layout_gravity="center_vertical"
-	        android:layout_width="0dp"
-	        android:layout_weight="1"
-	        android:layout_height="30dp"
-	        android:drawableLeft="@drawable/search_icon"
-	        android:drawablePadding="7dp"
-	        android:text="test"
-	        android:textCursorDrawable="@null"
-	        android:background="@drawable/index_search_bg"
-	        android:textColor="@android:color/darker_gray"/>
-        
-        <ImageView 
-            android:id="@+id/iv_add"
-            android:layout_width="20dp"
-    		android:layout_height="20dp"
-    		android:layout_gravity="center_vertical"
-    		android:src="@drawable/add_follow_icon"
-    		android:layout_marginLeft="13dp"
-    		android:layout_marginRight="13dp"/>
-    </LinearLayout>
-    
-    <RelativeLayout 
-        android:layout_width="wrap_content"
-    	android:layout_height="wrap_content">
-        
-        <android.support.v4.view.ViewPager 
-            android:id="@+id/vp_top"
-            android:layout_width="match_parent"
-    		android:layout_height="150dp"/>
-
-	    <com.viewpagerindicator.CirclePageIndicator
-	        android:id="@+id/circlepageindicator"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignBottom="@+id/vp_top"
-	        android:layout_alignParentLeft="true"
-	        android:layout_marginBottom="5dp"
-	        android:layout_marginLeft="10dp"
-	        android:paddingLeft="3dp"
-	        app:fillColor="#f00"
-	        app:pageColor="@android:color/darker_gray"
-	        app:radius="3dp"
-	        app:strokeWidth="0dp" />
-
-    </RelativeLayout>
-    
-    <com.cyq7on.mushrommstreet.view.HorizontalListView
-            android:id="@+id/hl_iv"
-            android:layout_width="match_parent"
-            android:layout_height="100dp" 
-            android:layout_marginTop="13dp"
-            android:layout_marginBottom="13dp"/>
-    
-    <com.cyq7on.mushrommstreet.view.XListView
-         android:id="@+id/xlistview"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:cacheColorHint="#00000000"
-         android:dividerHeight="5dp"
-         android:headerDividersEnabled="false"
-         android:footerDividersEnabled="false"
-         android:background="#fcfcfc"
-         android:scrollbars="none" />
+           <LinearLayout 
+	            android:layout_width="match_parent"
+		    	android:layout_height="match_parent"
+		    	android:orientation="vertical">
+               
+			    
+			    <RelativeLayout 
+			        android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content">
+			        
+			        <android.support.v4.view.ViewPager 
+			            android:id="@+id/vp_top"
+			            android:layout_width="match_parent"
+			    		android:layout_height="150dp"/>
+			
+				    <com.viewpagerindicator.CirclePageIndicator
+				        android:id="@+id/circlepageindicator"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_alignBottom="@+id/vp_top"
+				        android:layout_alignParentLeft="true"
+				        android:layout_marginBottom="5dp"
+				        android:layout_marginLeft="10dp"
+				        android:paddingLeft="3dp"
+				        app:fillColor="#f00"
+				        app:pageColor="@android:color/darker_gray"
+				        app:radius="3dp"
+				        app:strokeWidth="0dp" />
+			
+			    </RelativeLayout>
+			    
+			    <com.cyq7on.mushrommstreet.view.HorizontalListView
+			            android:id="@+id/hl_iv"
+			            android:layout_width="match_parent"
+			            android:layout_height="100dp" 
+			            android:layout_marginTop="13dp"
+			            android:layout_marginBottom="13dp"/>
+			    
+			    <ListView  
+			         android:id="@+id/listview"
+			         android:layout_width="match_parent"
+			         android:layout_height="wrap_content"
+			         android:layout_marginBottom="15dp"
+			         android:dividerHeight="5dp"/>
+			    
+	<!-- 		    <com.cyq7on.mushrommstreet.view.XListView -->
+	<!-- 		         android:id="@+id/xlistview" -->
+	<!-- 		         android:layout_width="match_parent" -->
+	<!-- 		         android:layout_height="match_parent" -->
+	<!-- 		         android:cacheColorHint="#00000000" -->
+	<!-- 		         android:dividerHeight="5dp" -->
+	<!-- 		         android:headerDividersEnabled="false" -->
+	<!-- 		         android:footerDividersEnabled="false" -->
+	<!-- 		         android:background="#fcfcfc" -->
+	<!-- 		         android:scrollbars="none" /> -->
+           </LinearLayout>
+            
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
     
 </LinearLayout>

@@ -95,7 +95,7 @@ public class DeviceInfo
         return dm.widthPixels;
     }
     
-    public static float getScreenHight(Context context)
+    public static float getScreenHeight(Context context)
     {
         DisplayMetrics dm = new DisplayMetrics();
         dm = context.getApplicationContext().getResources().getDisplayMetrics();

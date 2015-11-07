@@ -125,6 +125,14 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 		mLoadingAnimationStyle = animStyle;
 		init(context, null);
 	}
+	
+	public boolean isHeaderShown() {  
+	    return getHeaderLayout().isShown();  
+	}  
+	  
+	public boolean isFooterShown() {  
+	    return getFooterLayout().isShown();  
+	}  
 
 	@Override
 	public void addView(View child, int index, ViewGroup.LayoutParams params) {

@@ -1,8 +1,7 @@
 package com.cyq7on.mushrommstreet.fragment;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.Intent;
@@ -12,8 +11,10 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -23,33 +24,30 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.activity.MainActivity;
 import com.cyq7on.mushrommstreet.adapter.DynamicAdapter;
 import com.cyq7on.mushrommstreet.bean.DynamicVo;
+import com.cyq7on.mushrommstreet.bean.ShoppingTab;
 import com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity;
 import com.cyq7on.mushrommstreet.utils.DeviceInfo;
 import com.cyq7on.mushrommstreet.view.HorizontalListView;
-import com.cyq7on.mushrommstreet.view.XListView;
-import com.cyq7on.mushrommstreet.view.XListView.IXListViewListener;
 import com.cyq7on.mushroomstreet.AppConfig;
 import com.example.mushroomstreet.R;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class ShoppingFragment extends BasicFragment implements
-		IXListViewListener, OnClickListener {
+public class ShoppingFragment extends BasicFragment implements OnClickListener {
 
 	private ImageView ivAdd;
 	private EditText etSearch;
-	private ViewPager vpTop,vpBottom;
-	private List<ImageView> list = new ArrayList<ImageView>();
+	private ViewPager vpTop, vpBottom;
+	private List<ImageView> list = new ArrayList<ImageView>();// 轮播图片数据源
+	private List<ShoppingTab> tabList = new ArrayList<ShoppingTab>();
 	private CirclePageIndicator circlePageIndicator;
 	private TabPageIndicator tabPageIndicator;
 	private Handler mHandler;
@@ -57,9 +55,8 @@ public class ShoppingFragment extends BasicFragment implements
 	private HorizontalListView horizontalListView;
 	private int[] source = { R.drawable.ic_launcher,
 			R.drawable.index_follow_icon, R.drawable.index_my_icon };
-	private XListView xListview;//动态listview
-	private ListView listView;
-	private DynamicAdapter adapter;//动态适配器
+	private ListView listView;// 动态listview
+	private DynamicAdapter adapter;// 动态适配器
 	private List<DynamicVo> listDynamic = new ArrayList<DynamicVo>();
 	private PullToRefreshScrollView pullRefreshScrollView;
 	// 轮播图片地址
@@ -80,180 +77,108 @@ public class ShoppingFragment extends BasicFragment implements
 			"https://img.alicdn.com/tps/TB16nMPKXXXXXcQXVXXXXXXXXXX-400-200.jpg",
 			"https://img.alicdn.com/tps/TB1hMIUKXXXXXakXVXXXXXXXXXX-400-200.jpg",
 			"https://img.alicdn.com/tps/TB1MsspKXXXXXcUXFXXXXXXXXXX-400-200.jpg" };
-	
-	//viewpager页签数据
-	private String[] tabData = {"关注","热门","私搭","晒货","男票",
-			"关注1","热门1","私搭1","晒货1","男票1"};
+
+	// viewpager页签数据
+	private String[] tabData = { "关注", "热门", "私搭", "晒货", "男票", "星榜", "妆呗",
+			"潮报", "萌萌", "脸赞" ,"好吃","旅行"};
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		activity = (MainActivity) getActivity();
 		view = inflater.inflate(R.layout.fragment_shopping, container, false);
-		initData();
 		initView();
 		return view;
 	}
 
-	@Override
-	public void initData() {
-		for (int i = 0; i < 4; i++) {
-			// 这里为了简便就添加了部分信息
-			DynamicVo data = new DynamicVo();
-			data.setUserName("花千骨" + i);
-			data.setUrl("http://www.qq1234."
-					+ "org/uploads/allimg/150706/8_150706145211_9.jpg");
-			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
-			data.setDate(sdf.format(new Date()));
-			data.setTvPlace("成都" + i);
-			List<String> urlList = new ArrayList<String>();
-			for (int j = 0; j <= i; j++) {
-				urlList.add(url[j % url.length]);
-			}
-			data.setContentImageurl(urlList);
-			listDynamic.add(data);
-		}
-		
-	}
+
 
 	@Override
 	public void initView() {
-//		ivAdd = (ImageView) view.findViewById(R.id.iv_add);
+		// ivAdd = (ImageView) view.findViewById(R.id.iv_add);
 		etSearch = (EditText) view.findViewById(R.id.et_search);
-//		ivAdd.setOnClickListener(this);
+		// ivAdd.setOnClickListener(this);
 		etSearch.setOnClickListener(this);
-		
+		initPullRefreshScrollView();
 		initViewPager();
 		initHorizontalListView();
-		initXListView();
-		initPullRefreshScrollView();
+		// initListView();
 	}
-	
+
 	private void initPullRefreshScrollView() {
-		
-		pullRefreshScrollView = (PullToRefreshScrollView) 
-				view.findViewById(R.id.pull_refresh_scrollview); 
-		pullRefreshScrollView.setOnRefreshListener(
-				new OnRefreshListener<ScrollView>() {
 
-			@Override
-			public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-				if (pullRefreshScrollView.isHeaderShown()) {
-					listDynamic.clear();
-					SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
-					for (int i = 0; i < 4; i++) {
-						// 这里为了简便就添加了部分信息
-						DynamicVo data = new DynamicVo();
-						data.setUserName("花千骨" + i + "下拉刷新");
-						data.setUrl("http://www.qq1234."
-								+ "org/uploads/allimg/150706/8_150706145211_9.jpg");
-						data.setDate(sdf.format(new Date()));
-						data.setTvPlace("成都" + i);
-						List<String> urlList = new ArrayList<String>();
-						for (int j = 0; j <= i; j++) {
-							urlList.add(url[j % url.length]);
-						}
-						data.setContentImageurl(urlList);
-						listDynamic.add(data);
-					}
-					adapter.notifyDataSetChanged();
-				}else {
-					for (int i = 0; i < 4; i++) {
-						// 这里为了简便就添加了部分信息
-						DynamicVo data = new DynamicVo();
-						data.setUserName("花千骨" + i + "加载更多");
-						data.setUrl("http://www.qq1234."
-								+ "org/uploads/allimg/150706/8_150706145211_9.jpg");
-						SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
-						data.setDate(sdf.format(new Date()));
-						data.setTvPlace("成都" + i);
-						List<String> urlList = new ArrayList<String>();
-						for (int j = 0; j <= i; j++) {
-							urlList.add(url[j % url.length]);
-						}
-						data.setContentImageurl(urlList);
-						listDynamic.add(data);
-					}
-					adapter.notifyDataSetChanged();
-					setListViewHeight(listView);
-				}
-				pullRefreshScrollView.onRefreshComplete();
-			}
-		});
-		
+		pullRefreshScrollView = (PullToRefreshScrollView) view
+				.findViewById(R.id.pull_refresh_scrollview);
+		// pullRefreshScrollView.setOnRefreshListener(
+		// new OnRefreshListener<ScrollView>() {
+		//
+		// @Override
+		// public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+		// if (pullRefreshScrollView.isHeaderShown()) {
+		// listDynamic.clear();
+		// SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
+		// for (int i = 0; i < 4; i++) {
+		// // 这里为了简便就添加了部分信息
+		// DynamicVo data = new DynamicVo();
+		// data.setUserName("花千骨" + i + "下拉刷新");
+		// data.setUrl("http://www.qq1234."
+		// + "org/uploads/allimg/150706/8_150706145211_9.jpg");
+		// data.setDate(sdf.format(new Date()));
+		// data.setTvPlace("成都" + i);
+		// List<String> urlList = new ArrayList<String>();
+		// for (int j = 0; j <= i; j++) {
+		// urlList.add(url[j % url.length]);
+		// }
+		// data.setContentImageurl(urlList);
+		// listDynamic.add(data);
+		// }
+		// adapter.notifyDataSetChanged();
+		// }else {
+		// for (int i = 0; i < 4; i++) {
+		// // 这里为了简便就添加了部分信息
+		// DynamicVo data = new DynamicVo();
+		// data.setUserName("花千骨" + i + "加载更多");
+		// data.setUrl("http://www.qq1234."
+		// + "org/uploads/allimg/150706/8_150706145211_9.jpg");
+		// SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
+		// data.setDate(sdf.format(new Date()));
+		// data.setTvPlace("成都" + i);
+		// List<String> urlList = new ArrayList<String>();
+		// for (int j = 0; j <= i; j++) {
+		// urlList.add(url[j % url.length]);
+		// }
+		// data.setContentImageurl(urlList);
+		// listDynamic.add(data);
+		// }
+		// adapter.notifyDataSetChanged();
+		// setListViewHeight(listView);
+		// }
+		// pullRefreshScrollView.onRefreshComplete();
+		// }
+		// });
+
 	}
 
-	private void initXListView() {
+	private void initListView() {
 		listView = (ListView) view.findViewById(R.id.listview);
-//		xListview = (XListView) view.findViewById(R.id.xlistview);
-//		xListview.addHeaderView(header);
-//		xListview.setPullLoadEnable(true);
-//		xListview.setXListViewListener(this);
-//		xListview.setRefreshTime(new Date().toLocaleString());
 		adapter = new DynamicAdapter(activity, listDynamic);
-//		xListview.setAdapter(adapter);
 		listView.setAdapter(adapter);
 		setListViewHeight(listView);
-//		xListview.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-//					long arg3) {
-//				Toast.makeText(activity, arg2 + "", Toast.LENGTH_LONG).show();
-//			}
-//		});
-	}
+		listView.setOnItemClickListener(new OnItemClickListener() {
 
-	// 下拉刷新
-	@Override
-	public void onRefresh() {
-		listDynamic.clear();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
-		xListview.setRefreshTime(sdf.format(new Date()));
-		for (int i = 0; i < 4; i++) {
-			// 这里为了简便就添加了部分信息
-			DynamicVo data = new DynamicVo();
-			data.setUserName("花千骨" + i + "下拉刷新");
-			data.setUrl("http://www.qq1234."
-					+ "org/uploads/allimg/150706/8_150706145211_9.jpg");
-			data.setDate(sdf.format(new Date()));
-			data.setTvPlace("成都" + i);
-			List<String> urlList = new ArrayList<String>();
-			for (int j = 0; j <= i; j++) {
-				urlList.add(url[j % url.length]);
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Toast.makeText(activity, arg2 + "", Toast.LENGTH_LONG).show();
 			}
-			data.setContentImageurl(urlList);
-			listDynamic.add(data);
-		}
-		adapter.notifyDataSetChanged();
-		xListview.stopRefresh();
-	}
+		});
 
-	// 上拉加载更多
-	@Override
-	public void onLoadMore() {
-		for (int i = 0; i < 4; i++) {
-			// 这里为了简便就添加了部分信息
-			DynamicVo data = new DynamicVo();
-			data.setUserName("花千骨" + i + "加载更多");
-			data.setUrl("http://www.qq1234."
-					+ "org/uploads/allimg/150706/8_150706145211_9.jpg");
-			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
-			data.setDate(sdf.format(new Date()));
-			data.setTvPlace("成都" + i);
-			List<String> urlList = new ArrayList<String>();
-			for (int j = 0; j <= i; j++) {
-				urlList.add(url[j % url.length]);
-			}
-			data.setContentImageurl(urlList);
-			listDynamic.add(data);
-		}
-		adapter.notifyDataSetChanged();
-		xListview.stopRefresh();
 	}
 
 	private void initHorizontalListView() {
 
 		horizontalListView = (HorizontalListView) view.findViewById(R.id.hl_iv);
+		horizontalListView.setOnTouchListener(new TouchListener());
 		horizontalListView.setAdapter(new BaseAdapter() {
 
 			@Override
@@ -297,12 +222,15 @@ public class ShoppingFragment extends BasicFragment implements
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Toast.makeText(activity, arg2 + "", Toast.LENGTH_LONG).show();
+				pullRefreshScrollView
+						.setMode(com.handmark.pulltorefresh.library.PullToRefreshBase.Mode.PULL_FROM_START);
 			}
 		});
 	}
 
 	private void initViewPager() {
 		vpTop = (ViewPager) view.findViewById(R.id.vp_top);
+		vpTop.setOnTouchListener(new TouchListener());
 		circlePageIndicator = (CirclePageIndicator) view
 				.findViewById(R.id.circlepageindicator);
 		ImageView iv;
@@ -386,59 +314,147 @@ public class ShoppingFragment extends BasicFragment implements
 
 			mHandler.sendEmptyMessageDelayed(0, 3000);// 延时3秒后发消息
 		}
+
+		// 底部viewpager
+		for (int i = 0; i < tabData.length; i++) {
+			ShoppingTab tab = new ShoppingTab(activity,Arrays.asList(url),
+					pullRefreshScrollView);
+//			ShoppingTab tab = new ShoppingTab(activity,getData("test"));
+			tab.initData(tabData[0]);//初始化第一个视图的数据
+			tabList.add(tab);
+		}
+		vpBottom = (ViewPager) view.findViewById(R.id.vp_bottom);
+		vpBottom.setAdapter(new PagerAdapter() {
+
+			/**
+			 * 重写此方法,返回页面标题,用于viewpagerIndicator的页签显示
+			 */
+			@Override
+			public CharSequence getPageTitle(int position) {
+				return tabData[position];
+			}
+
+			@Override
+			public boolean isViewFromObject(View arg0, Object arg1) {
+				// TODO Auto-generated method stub
+				return arg0 == arg1;
+			}
+
+			@Override
+			public int getCount() {
+				// TODO Auto-generated method stub
+				return tabData.length;
+			}
+
+			@Override
+			public Object instantiateItem(ViewGroup container, int position) {
+				ShoppingTab tab = tabList.get(position);
+				View view = tab.getView();
+				container.addView(view);
+//				tab.initData(tabData[position]);
+				return view;
+			}
+
+			@Override
+			public void destroyItem(ViewGroup container, int position,
+					Object object) {
+				container.removeView((View) object);
+			}
+		});
+		tabPageIndicator = (TabPageIndicator) view
+				.findViewById(R.id.tabpageindicator);
+		tabPageIndicator.setViewPager(vpBottom);
+		tabPageIndicator.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int arg0) {
+				ShoppingTab tab = tabList.get(arg0);
+				tab.initData(tabData[arg0]);
+				
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
+	}
+
+	/**
+	 * 重新计算ListView的高度，解决ScrollView和ListView两个View都有滚动的效果，在嵌套使用时起冲突的问题
+	 * 
+	 * @param listView
+	 */
+	public void setListViewHeight(ListView listView) {
+
+		// 获取ListView对应的Adapter
+
+		Adapter listAdapter = listView.getAdapter();
+
+		if (listAdapter == null) {
+			return;
+		}
+		int totalHeight = 0;
+		for (int i = 0, len = listAdapter.getCount(); i < len; i++) { // listAdapter.getCount()返回数据项的数目
+			View listItem = listAdapter.getView(i, null, listView);
+			listItem.measure(0, 0); // 计算子项View 的宽高
+			totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
+			float height = DeviceInfo.getScreenHeight(activity);
+			totalHeight += height / 20; // 这里为了解决listview最后一项显示不全的问题
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight
+				+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
 	}
 	
-	/**  
-     * 重新计算ListView的高度，解决ScrollView和ListView两个View都有滚动的效果，在嵌套使用时起冲突的问题  
-     * @param listView  
-     */  
-    public void setListViewHeight(ListView listView) {    
-            
-        // 获取ListView对应的Adapter    
-        
-        Adapter listAdapter = listView.getAdapter();    
-        
-        if (listAdapter == null) {    
-            return;    
-        }    
-        int totalHeight = 0;    
-        for (int i = 0, len = listAdapter.getCount(); i < len; i++) { // listAdapter.getCount()返回数据项的数目    
-            View listItem = listAdapter.getView(i, null, listView);    
-            listItem.measure(0, 0); // 计算子项View 的宽高    
-            totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度    
-            float height = DeviceInfo.getScreenHeight(activity);
-            totalHeight += height / 20; //这里为了解决listview最后一项显示不全的问题
-        }    
-        
-        ViewGroup.LayoutParams params = listView.getLayoutParams();    
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));    
-        listView.setLayoutParams(params);    
-    }    
+	private class TouchListener implements OnTouchListener {
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				pullRefreshScrollView.setMode(Mode.PULL_FROM_START);
+			}
+//			if (event.getAction() == MotionEvent.ACTION_UP) {
+//				pullRefreshScrollView.setMode(Mode.DISABLED);
+//			}
+			return false;
+		}
+	}
+	
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		//放在这里进行点击响应会有bug，故将其放到了MainActivity
-//		case R.id.iv_add:
-//			Builder builder = new Builder(activity);
-//			final String[] items = { "查找好友", "扫一扫" };
-//			builder.setItems(items, new DialogInterface.OnClickListener() {
-//
-//				@Override
-//				public void onClick(DialogInterface dialog, int which) {
-//					Toast.makeText(activity, items[which], Toast.LENGTH_LONG)
-//							.show();
-//				}
-//			});
-//			AlertDialog alertDialog = builder.create();
-//			Window win = alertDialog.getWindow();
-//			// LayoutParams params = new LayoutParams();
-//			// params.x = 80;//设置x坐标
-//			// params.y = 60;//设置y坐标
-//			// win.setAttributes(params);
-//			alertDialog.show();
-//			
-//			break;
+		// 放在这里进行点击响应会有bug，故将其放到了MainActivity
+		// case R.id.iv_add:
+		// Builder builder = new Builder(activity);
+		// final String[] items = { "查找好友", "扫一扫" };
+		// builder.setItems(items, new DialogInterface.OnClickListener() {
+		//
+		// @Override
+		// public void onClick(DialogInterface dialog, int which) {
+		// Toast.makeText(activity, items[which], Toast.LENGTH_LONG)
+		// .show();
+		// }
+		// });
+		// AlertDialog alertDialog = builder.create();
+		// Window win = alertDialog.getWindow();
+		// // LayoutParams params = new LayoutParams();
+		// // params.x = 80;//设置x坐标
+		// // params.y = 60;//设置y坐标
+		// // win.setAttributes(params);
+		// alertDialog.show();
+		//
+		// break;
 
 		case R.id.et_search:
 			startActivity(new Intent(activity, SearchActivity.class));

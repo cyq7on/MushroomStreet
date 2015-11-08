@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         ptr:ptrAnimationStyle="flip"
-        ptr:ptrMode="both"
+        ptr:ptrMode="pullFromStart"
         android:fillViewport="true"  >
         
            <LinearLayout 
@@ -86,6 +86,17 @@
 			            android:layout_marginTop="13dp"
 			            android:layout_marginBottom="13dp"/>
 			    
+			    <com.viewpagerindicator.TabPageIndicator
+		            android:id="@+id/tabpageindicator"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"/>
+			    
+			    <android.support.v4.view.ViewPager 
+		            android:id="@+id/vp_bottom"
+		            android:layout_width="match_parent"
+		    		android:layout_height="0dp"
+		    		android:layout_weight="1.0"/>
+			    
 			    <ListView  
 			         android:id="@+id/listview"
 			         android:layout_width="match_parent"
@@ -93,16 +104,6 @@
 			         android:layout_marginBottom="15dp"
 			         android:dividerHeight="5dp"/>
 			    
-	<!-- 		    <com.cyq7on.mushrommstreet.view.XListView -->
-	<!-- 		         android:id="@+id/xlistview" -->
-	<!-- 		         android:layout_width="match_parent" -->
-	<!-- 		         android:layout_height="match_parent" -->
-	<!-- 		         android:cacheColorHint="#00000000" -->
-	<!-- 		         android:dividerHeight="5dp" -->
-	<!-- 		         android:headerDividersEnabled="false" -->
-	<!-- 		         android:footerDividersEnabled="false" -->
-	<!-- 		         android:background="#fcfcfc" -->
-	<!-- 		         android:scrollbars="none" /> -->
            </LinearLayout>
             
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>

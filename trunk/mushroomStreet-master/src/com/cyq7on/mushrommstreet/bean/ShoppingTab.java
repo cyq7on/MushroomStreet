@@ -57,6 +57,9 @@ public class ShoppingTab {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
+				if (pullRefreshScrollView == null) {
+					return false;
+				}
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					pullRefreshScrollView.setMode(Mode.DISABLED);
 				}

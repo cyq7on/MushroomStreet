@@ -319,11 +319,13 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener {
 		for (int i = 0; i < tabData.length; i++) {
 			ShoppingTab tab = new ShoppingTab(activity,Arrays.asList(url),
 					pullRefreshScrollView);
+//			ShoppingTab tab = new ShoppingTab(activity,Arrays.asList(url),
+//					null);
 //			ShoppingTab tab = new ShoppingTab(activity,getData("test"));
 			tab.initData(tabData[0]);//初始化第一个视图的数据
 			tabList.add(tab);
 		}
-		vpBottom = (ViewPager) view.findViewById(R.id.vp_bottom);
+		vpBottom = (ViewPager) view.findViewById(R.id.id_stickynavlayout_viewpager);
 		vpBottom.setAdapter(new PagerAdapter() {
 
 			/**
@@ -362,7 +364,7 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener {
 			}
 		});
 		tabPageIndicator = (TabPageIndicator) view
-				.findViewById(R.id.tabpageindicator);
+				.findViewById(R.id.id_stickynavlayout_indicator);
 		tabPageIndicator.setViewPager(vpBottom);
 		tabPageIndicator.setOnPageChangeListener(new OnPageChangeListener() {
 			

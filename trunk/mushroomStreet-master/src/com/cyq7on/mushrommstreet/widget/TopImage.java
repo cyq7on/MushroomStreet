@@ -5,8 +5,6 @@ package com.cyq7on.mushrommstreet.widget;
  * @time 2014 9.9
  * */
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;

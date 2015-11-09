@@ -1,111 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:widget="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#fff" >
-    
-    <LinearLayout 
-	        android:layout_width="match_parent"
-	    	android:layout_height="wrap_content">
-	        
-	        <EditText 
-	            android:layout_marginLeft="15dp"
-	            android:layout_marginTop="7dp"
-	            android:layout_marginBottom="7dp"
-		        android:id="@+id/et_search"
-		        android:layout_gravity="center_vertical"
-		        android:layout_width="0dp"
-		        android:layout_weight="1"
-		        android:layout_height="30dp"
-		        android:drawableLeft="@drawable/search_icon"
-		        android:drawablePadding="7dp"
-		        android:text="test"
-		        android:textCursorDrawable="@null"
-		        android:background="@drawable/index_search_bg"
-		        android:textColor="@android:color/darker_gray"/>
-	        
-	        <ImageView
-	            android:id="@+id/iv_add"
-	            android:layout_width="20dp"
-	    		android:layout_height="20dp"
-	    		android:layout_gravity="center_vertical"
-	    		android:src="@drawable/add_follow_icon"
-	    		android:onClick="onClick"
-	    		android:layout_marginLeft="13dp"
-	    		android:layout_marginRight="13dp"/>
-	    </LinearLayout>
-    
-    
+    android:background="#fff"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_weight="1"
+            android:background="@drawable/index_search_bg"
+            android:drawableLeft="@drawable/search_icon"
+            android:drawablePadding="7dp"
+            android:text="test"
+            android:textColor="@android:color/darker_gray"
+            android:textCursorDrawable="@null" />
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:onClick="onClick"
+            android:src="@drawable/add_follow_icon" />
+    </LinearLayout>
+
     <com.handmark.pulltorefresh.library.PullToRefreshScrollView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/pull_refresh_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
         ptr:ptrAnimationStyle="flip"
-        ptr:ptrMode="pullFromStart"
-        android:fillViewport="true"  >
-        
-           <LinearLayout 
-	            android:layout_width="match_parent"
-		    	android:layout_height="match_parent"
-		    	android:orientation="vertical">
-               
-			    
-			    <RelativeLayout 
-			        android:layout_width="wrap_content"
-			    	android:layout_height="wrap_content">
-			        
-			        <android.support.v4.view.ViewPager 
-			            android:id="@+id/vp_top"
-			            android:layout_width="match_parent"
-			    		android:layout_height="150dp"/>
-			
-				    <com.viewpagerindicator.CirclePageIndicator
-				        android:id="@+id/circlepageindicator"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				        android:layout_alignBottom="@+id/vp_top"
-				        android:layout_alignParentLeft="true"
-				        android:layout_marginBottom="5dp"
-				        android:layout_marginLeft="10dp"
-				        android:paddingLeft="3dp"
-				        app:fillColor="#f00"
-				        app:pageColor="@android:color/darker_gray"
-				        app:radius="3dp"
-				        app:strokeWidth="0dp" />
-			
-			    </RelativeLayout>
-			    
-			    <com.cyq7on.mushrommstreet.view.HorizontalListView
-			            android:id="@+id/hl_iv"
-			            android:layout_width="match_parent"
-			            android:layout_height="100dp" 
-			            android:layout_marginTop="13dp"
-			            android:layout_marginBottom="13dp"/>
-			    
-			    <com.viewpagerindicator.TabPageIndicator
-		            android:id="@+id/tabpageindicator"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"/>
-			    
-			    <android.support.v4.view.ViewPager 
-		            android:id="@+id/vp_bottom"
-		            android:layout_width="match_parent"
-		    		android:layout_height="0dp"
-		    		android:layout_weight="1.0"/>
-			    
-			    <ListView  
-			         android:id="@+id/listview"
-			         android:layout_width="match_parent"
-			         android:layout_height="wrap_content"
-			         android:layout_marginBottom="15dp"
-			         android:dividerHeight="5dp"/>
-			    
-           </LinearLayout>
-            
+        ptr:ptrMode="pullFromStart" >
+
+<!--         <com.zhy.view.StickyNavLayout -->
+<!--             xmlns:tools="http://schemas.android.com/tools" -->
+<!--             android:layout_width="match_parent" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:orientation="vertical" > -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+<!--                 <LinearLayout -->
+<!--                     android:id="@id/id_stickynavlayout_topview" -->
+<!--                     android:layout_width="match_parent" -->
+<!--                     android:layout_height="wrap_content" > -->
+
+                    <RelativeLayout
+                        android:id="@id/id_stickynavlayout_topview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/vp_top"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp" />
+
+                        <com.viewpagerindicator.CirclePageIndicator
+                            android:id="@+id/circlepageindicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/vp_top"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:paddingLeft="3dp"
+                            app:fillColor="#f00"
+                            app:pageColor="@android:color/darker_gray"
+                            app:radius="3dp"
+                            app:strokeWidth="0dp" />
+                        
+                        <com.cyq7on.mushrommstreet.view.HorizontalListView
+                        android:id="@+id/hl_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="13dp" 
+                        android:layout_below="@id/circlepageindicator"/>
+                    </RelativeLayout>
+
+<!--                     <com.cyq7on.mushrommstreet.view.HorizontalListView -->
+<!--                         android:id="@+id/hl_iv" -->
+<!--                         android:layout_width="match_parent" -->
+<!--                         android:layout_height="80dp" -->
+<!--                         android:layout_marginBottom="13dp" -->
+<!--                         android:layout_marginTop="13dp" /> -->
+<!--                 </LinearLayout> -->
+
+                <com.viewpagerindicator.TabPageIndicator
+                    android:id="@id/id_stickynavlayout_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@id/id_stickynavlayout_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1.0" />
+
+            </LinearLayout>
+<!--         </com.zhy.view.StickyNavLayout> -->
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
-    
+
 </LinearLayout>

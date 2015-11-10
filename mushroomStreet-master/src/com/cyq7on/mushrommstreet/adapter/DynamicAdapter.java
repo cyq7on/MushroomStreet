@@ -16,10 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.bean.DynamicVo;
 import com.cyq7on.mushrommstreet.utils.DeviceInfo;
 import com.cyq7on.mushroomstreet.AppConfig;
-import com.example.mushroomstreet.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class DynamicAdapter extends BaseAdapter {

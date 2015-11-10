@@ -1,13 +1,6 @@
 
 package com.cyq7on.mushrommstreet.waterfall;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
-import android.os.Environment;
-import android.util.Log;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +15,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.example.mushroomstreet.BuildConfig;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.util.Log;
+
+import com.cyq7on.mushrommstreet.BuildConfig;
 
 
 public class DiskLruCache {

@@ -17,10 +17,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.adapter.MessageListAdapter;
 import com.cyq7on.mushrommstreet.bean.Message;
 import com.cyq7on.mushrommstreet.common.UIHelp;
-import com.example.mushroomstreet.R;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;

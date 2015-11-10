@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-import com.example.mushroomstreet.R;
+import com.cyq7on.mushrommstreet.R;
 
 
 

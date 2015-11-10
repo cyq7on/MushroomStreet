@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.view.TitleBar;
-import com.example.mushroomstreet.R;
 
 
 public class RegisterActivity extends BaseActivity {

@@ -17,13 +17,13 @@
 package com.cyq7on.mushrommstreet.waterfall;
 
 
-import com.example.mushroomstreet.BuildConfig;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import com.cyq7on.mushrommstreet.BuildConfig;
 
 /**
  * A simple subclass of {@link ImageWorker} that resizes images from resources

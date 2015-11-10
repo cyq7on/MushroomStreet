@@ -11,10 +11,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -26,6 +25,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.activity.MainActivity;
 import com.cyq7on.mushrommstreet.adapter.DynamicAdapter;
 import com.cyq7on.mushrommstreet.bean.DynamicVo;
@@ -33,15 +33,16 @@ import com.cyq7on.mushrommstreet.bean.ShoppingTab;
 import com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity;
 import com.cyq7on.mushrommstreet.utils.DeviceInfo;
 import com.cyq7on.mushrommstreet.view.HorizontalListView;
+import com.cyq7on.mushrommstreet.view.StickyScrollView;
+import com.cyq7on.mushrommstreet.view.StickyScrollView.OnScrollListener;
 import com.cyq7on.mushroomstreet.AppConfig;
-import com.example.mushroomstreet.R;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+import com.handmark.pulltorefresh.library.PullToRefreshLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class ShoppingFragment extends BasicFragment implements OnClickListener {
+public class ShoppingFragment extends BasicFragment implements 
+OnClickListener {
 
 	private ImageView ivAdd;
 	private EditText etSearch;
@@ -49,16 +50,16 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener {
 	private List<ImageView> list = new ArrayList<ImageView>();// 轮播图片数据源
 	private List<ShoppingTab> tabList = new ArrayList<ShoppingTab>();
 	private CirclePageIndicator circlePageIndicator;
-	private TabPageIndicator tabPageIndicator;
+	private TabPageIndicator tabPageIndicator,topIndicator;
 	private Handler mHandler;
 	private int which;// 哪个图片被选中
 	private HorizontalListView horizontalListView;
 	private int[] source = { R.drawable.ic_launcher,
 			R.drawable.index_follow_icon, R.drawable.index_my_icon };
-	private ListView listView;// 动态listview
 	private DynamicAdapter adapter;// 动态适配器
 	private List<DynamicVo> listDynamic = new ArrayList<DynamicVo>();
-	private PullToRefreshScrollView pullRefreshScrollView;
+	private PullToRefreshLayout pullToRefreshLayout;
+	private StickyScrollView stickyScrollView;
 	// 轮播图片地址
 	private String[] url = {
 			"https://img.alicdn.com/tps/TB1Z1siKXXXXXcvXVXXXXXXXXXX-400-200.jpg",
@@ -99,16 +100,28 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener {
 		etSearch = (EditText) view.findViewById(R.id.et_search);
 		// ivAdd.setOnClickListener(this);
 		etSearch.setOnClickListener(this);
-		initPullRefreshScrollView();
+		stickyScrollView = (StickyScrollView) view.findViewById(R.id.stickyscrollview);
+//		topIndicator = (TabPageIndicator) view.findViewById(R.id.top_tabpageindicator);
+		//当布局的状态或者控件的可见性发生改变回调的接口
+//		view.findViewById(R.id.ll_parent).getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+//			
+//			@Override
+//			public void onGlobalLayout() {
+//				//这一步很重要，使得上面的购买布局和下面的购买布局重合
+//				onScroll(stickyScrollView.getScrollY());
+//			}
+//		});
+		initPullToRefreshLayout();
 		initViewPager();
 		initHorizontalListView();
-		// initListView();
 	}
 
-	private void initPullRefreshScrollView() {
+	private void initPullToRefreshLayout() {
 
-		pullRefreshScrollView = (PullToRefreshScrollView) view
-				.findViewById(R.id.pull_refresh_scrollview);
+//		pullToRefreshLayout = (PullToRefreshLayout) view
+//				.findViewById(R.id.pulltorefreshlayout);
+//		//禁止刷新效果
+//		pullRefreshScrollView.setMode(Mode.DISABLED);
 		// pullRefreshScrollView.setOnRefreshListener(
 		// new OnRefreshListener<ScrollView>() {
 		//
@@ -159,26 +172,10 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener {
 
 	}
 
-	private void initListView() {
-		listView = (ListView) view.findViewById(R.id.listview);
-		adapter = new DynamicAdapter(activity, listDynamic);
-		listView.setAdapter(adapter);
-		setListViewHeight(listView);
-		listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				Toast.makeText(activity, arg2 + "", Toast.LENGTH_LONG).show();
-			}
-		});
-
-	}
 
 	private void initHorizontalListView() {
 
 		horizontalListView = (HorizontalListView) view.findViewById(R.id.hl_iv);
-		horizontalListView.setOnTouchListener(new TouchListener());
 		horizontalListView.setAdapter(new BaseAdapter() {
 
 			@Override
@@ -222,15 +219,15 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Toast.makeText(activity, arg2 + "", Toast.LENGTH_LONG).show();
-				pullRefreshScrollView
-						.setMode(com.handmark.pulltorefresh.library.PullToRefreshBase.Mode.PULL_FROM_START);
+//				pullRefreshScrollView
+//						.setMode(com.handmark.pulltorefresh.library.PullToRefreshBase.Mode.PULL_FROM_START);
 			}
 		});
 	}
 
 	private void initViewPager() {
 		vpTop = (ViewPager) view.findViewById(R.id.vp_top);
-		vpTop.setOnTouchListener(new TouchListener());
+		vpTop.setOffscreenPageLimit(1);
 		circlePageIndicator = (CirclePageIndicator) view
 				.findViewById(R.id.circlepageindicator);
 		ImageView iv;
@@ -318,7 +315,7 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener {
 		// 底部viewpager
 		for (int i = 0; i < tabData.length; i++) {
 			ShoppingTab tab = new ShoppingTab(activity,Arrays.asList(url),
-					pullRefreshScrollView);
+					pullToRefreshLayout);
 //			ShoppingTab tab = new ShoppingTab(activity,Arrays.asList(url),
 //					null);
 //			ShoppingTab tab = new ShoppingTab(activity,getData("test"));
@@ -326,6 +323,7 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener {
 			tabList.add(tab);
 		}
 		vpBottom = (ViewPager) view.findViewById(R.id.id_stickynavlayout_viewpager);
+		vpBottom.setOffscreenPageLimit(1);
 		vpBottom.setAdapter(new PagerAdapter() {
 
 			/**
@@ -363,6 +361,9 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener {
 				container.removeView((View) object);
 			}
 		});
+//		topIndicator = (TabPageIndicator) 
+//				view.findViewById(R.id.top_tabpageindicator);
+//		topIndicator.setViewPager(vpBottom);
 		tabPageIndicator = (TabPageIndicator) view
 				.findViewById(R.id.id_stickynavlayout_indicator);
 		tabPageIndicator.setViewPager(vpBottom);
@@ -419,18 +420,18 @@ public class ShoppingFragment extends BasicFragment implements OnClickListener {
 		listView.setLayoutParams(params);
 	}
 	
-	private class TouchListener implements OnTouchListener {
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				pullRefreshScrollView.setMode(Mode.PULL_FROM_START);
-			}
-//			if (event.getAction() == MotionEvent.ACTION_UP) {
-//				pullRefreshScrollView.setMode(Mode.DISABLED);
+//	private class TouchListener implements OnTouchListener {
+//		@Override
+//		public boolean onTouch(View v, MotionEvent event) {
+//			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//				pullRefreshScrollView.setMode(Mode.PULL_FROM_START);
 //			}
-			return false;
-		}
-	}
+////			if (event.getAction() == MotionEvent.ACTION_UP) {
+////				pullRefreshScrollView.setMode(Mode.DISABLED);
+////			}
+//			return false;
+//		}
+//	}
 	
 
 	@Override

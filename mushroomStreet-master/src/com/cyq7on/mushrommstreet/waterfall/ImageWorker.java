@@ -1,6 +1,8 @@
 
 package com.cyq7on.mushrommstreet.waterfall;
 
+import java.lang.ref.WeakReference;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -13,9 +15,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import java.lang.ref.WeakReference;
-
-import com.example.mushroomstreet.BuildConfig;
+import com.cyq7on.mushrommstreet.BuildConfig;
 
 
 /**

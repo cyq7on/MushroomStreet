@@ -16,14 +16,6 @@
 
 package com.cyq7on.mushrommstreet.waterfall;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.util.Log;
-import android.widget.Toast;
-
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -33,7 +25,14 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.example.mushroomstreet.BuildConfig;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.cyq7on.mushrommstreet.BuildConfig;
 
 
 public class ImageFetcher extends ImageResizer {

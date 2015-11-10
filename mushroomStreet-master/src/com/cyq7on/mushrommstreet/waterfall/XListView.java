@@ -1,11 +1,6 @@
 package com.cyq7on.mushrommstreet.waterfall;
 
 
-import com.cyq7on.mushrommstreet.waterfall.MultiColumnListView;
-import com.cyq7on.mushrommstreet.waterfall.PLA_AbsListView;
-import com.cyq7on.mushrommstreet.waterfall.PLA_AbsListView.OnScrollListener;
-import com.example.mushroomstreet.R;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -16,6 +11,9 @@ import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
+
+import com.cyq7on.mushrommstreet.R;
+import com.cyq7on.mushrommstreet.waterfall.PLA_AbsListView.OnScrollListener;
 
 public class XListView extends MultiColumnListView implements OnScrollListener {
 

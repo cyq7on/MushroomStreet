@@ -2,9 +2,9 @@ package com.cyq7on.mushrommstreet.activity;
 
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,19 +12,18 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.fragment.BasicFragment;
 import com.cyq7on.mushrommstreet.fragment.BuyFragment;
 import com.cyq7on.mushrommstreet.fragment.ChatFragment;
 import com.cyq7on.mushrommstreet.fragment.MineFragment;
 import com.cyq7on.mushrommstreet.fragment.PhotoFragment;
 import com.cyq7on.mushrommstreet.fragment.ShoppingFragment;
-import com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity;
 import com.cyq7on.mushrommstreet.utils.PreferenceUtils;
 import com.cyq7on.mushroomstreet.AppConfig;
-import com.example.mushroomstreet.R;
 
 
 /** 用于显示主页面 */

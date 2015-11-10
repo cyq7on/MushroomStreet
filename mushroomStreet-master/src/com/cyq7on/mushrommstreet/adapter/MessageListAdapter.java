@@ -7,9 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.bean.Message;
-import com.example.mushroomstreet.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MessageListAdapter extends BasicAdapter<Message> {
 	

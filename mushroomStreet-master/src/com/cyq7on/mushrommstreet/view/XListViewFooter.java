@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.mushroomstreet.R;
+import com.cyq7on.mushrommstreet.R;
 
 
 

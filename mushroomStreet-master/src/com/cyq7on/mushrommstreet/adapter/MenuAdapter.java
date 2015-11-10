@@ -1,14 +1,14 @@
 package com.cyq7on.mushrommstreet.adapter;
 
-import com.cyq7on.mushrommstreet.bean.Message;
-import com.example.mushroomstreet.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.cyq7on.mushrommstreet.R;
+import com.cyq7on.mushrommstreet.bean.Message;
 
 public class MenuAdapter extends BasicAdapter<Message> {
 

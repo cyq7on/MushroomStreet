@@ -3,9 +3,9 @@ package com.cyq7on.mushrommstreet.shoppingfragment.activity;
 
 import android.os.Bundle;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.activity.BaseActivity;
 import com.cyq7on.mushrommstreet.view.TitleBar;
-import com.example.mushroomstreet.R;
 
 
 public class SearchActivity extends BaseActivity {

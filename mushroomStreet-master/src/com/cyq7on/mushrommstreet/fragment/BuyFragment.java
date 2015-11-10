@@ -19,12 +19,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ListView;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.activity.MainActivity;
 import com.cyq7on.mushrommstreet.adapter.CatChildAdapter;
 import com.cyq7on.mushrommstreet.adapter.CatParentAdapter;
 import com.cyq7on.mushrommstreet.bean.Cat;
 import com.cyq7on.mushroomstreet.AppConfig;
-import com.example.mushroomstreet.R;
 
 public class BuyFragment extends BasicFragment {
 

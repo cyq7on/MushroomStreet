@@ -1,21 +1,21 @@
 package com.cyq7on.mushrommstreet.widget;
 
-import com.example.mushroomstreet.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.cyq7on.mushrommstreet.R;
 
 public class RoundImageView extends ImageView {
 	private int mBorderThickness = 0;

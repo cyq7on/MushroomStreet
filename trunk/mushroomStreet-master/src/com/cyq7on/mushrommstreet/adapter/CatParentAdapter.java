@@ -6,8 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.mushroomstreet.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.cyq7on.mushrommstreet.R;
 
 public class CatParentAdapter extends BasicAdapter<String>{
 	private int selectItem = -1;

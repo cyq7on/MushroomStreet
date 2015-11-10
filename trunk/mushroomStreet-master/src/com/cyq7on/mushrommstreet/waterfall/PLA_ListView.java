@@ -2,16 +2,10 @@ package com.cyq7on.mushrommstreet.waterfall;
 
 import java.util.ArrayList;
 
-import com.example.mushroomstreet.R;
-
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -23,6 +17,8 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.ListAdapter;
 import android.widget.WrapperListAdapter;
+
+import com.cyq7on.mushrommstreet.R;
 
 /*
  * Implementation Notes:

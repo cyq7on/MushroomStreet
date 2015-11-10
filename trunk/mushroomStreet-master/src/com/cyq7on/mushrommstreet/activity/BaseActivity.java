@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 
 import com.cyq7on.mushrommstreet.view.TitleBar;
-import com.example.mushroomstreet.R;
 
 
 /**项目activity的基类**/

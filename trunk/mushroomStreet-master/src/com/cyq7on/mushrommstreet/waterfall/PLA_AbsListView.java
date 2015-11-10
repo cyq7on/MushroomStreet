@@ -4,9 +4,6 @@ package com.cyq7on.mushrommstreet.waterfall;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.mushroomstreet.R;
-
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -29,6 +26,8 @@ import android.view.ViewTreeObserver;
 import android.widget.Adapter;
 import android.widget.ListAdapter;
 import android.widget.Scroller;
+
+import com.cyq7on.mushrommstreet.R;
 
 /**
  * Base class that can be used to implement virtualized lists of items. A list

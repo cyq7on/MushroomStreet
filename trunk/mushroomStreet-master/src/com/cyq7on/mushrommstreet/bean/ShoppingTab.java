@@ -6,18 +6,20 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.adapter.DynamicAdapter;
-import com.example.mushroomstreet.R;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshLayout.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public class ShoppingTab {
 	/**
@@ -28,22 +30,23 @@ public class ShoppingTab {
 	 * @date 2015-11-7 下午8:05:55
 	 * @version V1.0
 	 */
-	private ListView listView;
+	private PullToRefreshListView listView;
 	private DynamicAdapter adapter;
 	private View view;
 	private Context context;
 	private List<DynamicVo> list;
 	private List<String> tabList;
-	private PullToRefreshScrollView pullRefreshScrollView;
+	private PullToRefreshLayout pullToRefreshLayout;
 
 	public ShoppingTab(Context mContext, List<String> urlList,
-			PullToRefreshScrollView scrollView) {
+			PullToRefreshLayout pullToRefreshLayout) {
 		super();
 		context = mContext;
 		tabList = urlList;
-		pullRefreshScrollView = scrollView;
+		this.pullToRefreshLayout = pullToRefreshLayout;
 		view = View.inflate(context, R.layout.list_listview, null);
-		listView = (ListView) view.findViewById(R.id.listview);
+		listView = (PullToRefreshListView ) view.findViewById(R.id.listview);
+		listView.setMode(Mode.BOTH);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -53,26 +56,59 @@ public class ShoppingTab {
 						Toast.LENGTH_LONG).show();
 			}
 		});
-		listView.setOnTouchListener(new OnTouchListener() {
+		if (pullToRefreshLayout != null) {
+			pullToRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+				
+				@Override
+				public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+					ShoppingTab.this.pullToRefreshLayout.refreshFinish(0);
+				}
+				
+				@Override
+				public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+					ShoppingTab.this.pullToRefreshLayout.loadmoreFinish(0);
+				}
+			});
+		}
+		listView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 
+			//下拉刷新
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (pullRefreshScrollView == null) {
-					return false;
-				}
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					pullRefreshScrollView.setMode(Mode.DISABLED);
-				}
-//				if (event.getAction() == MotionEvent.ACTION_UP) {
-//					pullRefreshScrollView.setMode(Mode.PULL_FROM_START);
-//				}
-				return false;
+			public void onPullDownToRefresh(
+					PullToRefreshBase<ListView> refreshView) {
+//				listView.onRefreshComplete();
+				listView.postDelayed(new Runnable() {
+		            @Override
+		            public void run() {
+		            	listView.onRefreshComplete();
+		            }
+		        }, 1000);
+			}
+			//上拉加载更多
+			@Override
+			public void onPullUpToRefresh(
+					PullToRefreshBase<ListView> refreshView) {
+//				listView.onRefreshComplete();
+				listView.postDelayed(new Runnable() {
+		            @Override
+		            public void run() {
+		            	listView.onRefreshComplete();
+		            }
+		        }, 1000);
 			}
 		});
 	}
 
+	public void initData(String info) {
+		this.list = new ArrayList<DynamicVo>();
+		this.list.addAll(getData(info));
+		adapter = new DynamicAdapter(context, list);
+		listView.setAdapter(adapter);
+		
+	}
+	
 	// 请求服务器数据在此进行
-	public List<DynamicVo> initData(String info) {
+	private List<DynamicVo> getData(String info) {
 		ArrayList<DynamicVo> list = new ArrayList<DynamicVo>();
 		for (int i = 0; i < 4; i++) {
 			// 这里为了简便就添加了部分信息
@@ -91,23 +127,11 @@ public class ShoppingTab {
 			data.setContentImageurl(urlList);
 			list.add(data);
 		}
-		this.list = new ArrayList<DynamicVo>();
-		this.list.addAll(list);
-		adapter = new DynamicAdapter(context, list);
-		listView.setAdapter(adapter);
 		return list;
 	}
 
 	public View getView() {
 		return view;
-	}
-
-	public ListView getListView() {
-		return listView;
-	}
-
-	public void setListView(ListView listView) {
-		this.listView = listView;
 	}
 
 	public DynamicAdapter getAdapter() {

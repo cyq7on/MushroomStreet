@@ -8,9 +8,9 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.bean.Collocations;
 import com.cyq7on.mushrommstreet.common.DensityUtil;
-import com.example.mushroomstreet.R;
 
 public class CollocationAdapter extends BasicAdapter<Collocations>{
 	private LayoutParams layoutParams;

@@ -1,23 +1,19 @@
 package com.cyq7on.mushrommstreet.adapter;
 
-import java.util.List;
-
-import com.cyq7on.mushrommstreet.bean.Cat;
-import com.example.mushroomstreet.R;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
+
+import com.cyq7on.mushrommstreet.R;
+import com.cyq7on.mushrommstreet.bean.Cat;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 public class CatChildAdapter extends BasicAdapter<Cat>{
 	private DisplayImageOptions options;

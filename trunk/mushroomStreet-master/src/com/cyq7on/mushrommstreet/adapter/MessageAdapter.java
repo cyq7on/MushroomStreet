@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.bean.Message;
-import com.example.mushroomstreet.R;
 
 public class MessageAdapter extends BasicAdapter<Message>{
 	

@@ -8,15 +8,12 @@ package com.cyq7on.mushrommstreet.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ListView;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.adapter.MessageAdapter;
 import com.cyq7on.mushrommstreet.bean.Message;
-import com.example.mushroomstreet.R;
 
 public class MessageActivity extends BaseActivity {
 

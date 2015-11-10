@@ -5,12 +5,12 @@ package com.cyq7on.mushrommstreet.fragment;
  * @time 2014 9.14
  * */
 
-import com.example.mushroomstreet.R;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.cyq7on.mushrommstreet.R;
 
 public class MineFragment extends BasicFragment {
 

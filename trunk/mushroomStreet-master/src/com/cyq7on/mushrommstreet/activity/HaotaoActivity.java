@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.view.TitleBar;
-import com.example.mushroomstreet.R;
 
 
 public class HaotaoActivity extends BaseActivity {

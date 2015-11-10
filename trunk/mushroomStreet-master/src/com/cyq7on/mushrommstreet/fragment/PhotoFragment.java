@@ -3,15 +3,6 @@ package com.cyq7on.mushrommstreet.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cyq7on.mushrommstreet.adapter.CollocationAdapter;
-import com.cyq7on.mushrommstreet.bean.Collocation;
-import com.cyq7on.mushrommstreet.bean.Collocations;
-import com.cyq7on.mushroomstreet.AppConfig;
-import com.example.mushroomstreet.R;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateUtils;
@@ -19,6 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.cyq7on.mushrommstreet.R;
+import com.cyq7on.mushrommstreet.adapter.CollocationAdapter;
+import com.cyq7on.mushrommstreet.bean.Collocation;
+import com.cyq7on.mushrommstreet.bean.Collocations;
+import com.cyq7on.mushroomstreet.AppConfig;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public class PhotoFragment extends BasicFragment {
 	

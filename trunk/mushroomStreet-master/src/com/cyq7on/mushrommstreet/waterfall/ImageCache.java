@@ -16,6 +16,8 @@
 
 package com.cyq7on.mushrommstreet.waterfall;
 
+import java.io.File;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -23,10 +25,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 
-
-import java.io.File;
-
-import com.example.mushroomstreet.BuildConfig;
+import com.cyq7on.mushrommstreet.BuildConfig;
 
 
 public class ImageCache {

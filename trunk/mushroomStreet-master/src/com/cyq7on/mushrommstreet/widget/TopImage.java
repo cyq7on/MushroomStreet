@@ -14,10 +14,10 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.adapter.ImageSwitchAdapter;
 import com.cyq7on.mushrommstreet.adapter.MenuAdapter;
 import com.cyq7on.mushrommstreet.bean.Message;
-import com.example.mushroomstreet.R;
 import com.viewpagerindicator.CirclePageIndicator;
 /**用于显示轮播图和下面的菜单*/
 public class TopImage {

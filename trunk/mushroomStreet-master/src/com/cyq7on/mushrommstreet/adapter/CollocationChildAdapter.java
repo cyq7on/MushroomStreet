@@ -3,7 +3,6 @@ package com.cyq7on.mushrommstreet.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.bean.Collocation;
-import com.cyq7on.mushrommstreet.common.DensityUtil;
 import com.cyq7on.mushrommstreet.widget.RoundImageView;
-import com.example.mushroomstreet.R;
 
 public class CollocationChildAdapter extends BasicAdapter<Collocation>{
 	private LayoutParams layoutParams;

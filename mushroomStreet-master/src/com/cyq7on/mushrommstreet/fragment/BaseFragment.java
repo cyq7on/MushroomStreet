@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.cyq7on.mushrommstreet.activity.MainActivity;
 
-public class BasicFragment extends Fragment{
+public class BaseFragment extends Fragment{
 	
 	public View view;
 	protected MainActivity activity;

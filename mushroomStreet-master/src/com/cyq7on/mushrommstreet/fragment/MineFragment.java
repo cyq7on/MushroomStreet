@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.cyq7on.mushrommstreet.R;
 
-public class MineFragment extends BasicFragment {
+public class MineFragment extends BaseFragment {
 
 	private static MineFragment instance = new MineFragment();
 

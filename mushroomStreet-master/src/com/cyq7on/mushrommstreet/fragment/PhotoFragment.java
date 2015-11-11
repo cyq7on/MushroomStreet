@@ -20,7 +20,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-public class PhotoFragment extends BasicFragment {
+public class PhotoFragment extends BaseFragment {
 	
 	private PullToRefreshListView pullToRefresh;
 	private ListView collocationLV;

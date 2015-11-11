@@ -16,7 +16,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.R;
-import com.cyq7on.mushrommstreet.fragment.BasicFragment;
+import com.cyq7on.mushrommstreet.fragment.BaseFragment;
 import com.cyq7on.mushrommstreet.fragment.BuyFragment;
 import com.cyq7on.mushrommstreet.fragment.ChatFragment;
 import com.cyq7on.mushrommstreet.fragment.MineFragment;
@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity implements
 	 * */
 	private int whichFragment;
 	private int which;
-	private BasicFragment shoppinFragment,buyFragment,
+	private BaseFragment shoppinFragment,buyFragment,
 	photoFragment,chatFragment,mineFragment;
 	private RadioButton rbChat,rbMine;
 

@@ -1,0 +1,40 @@
+package com.cyq7on.mushrommstreet.activity;
+
+
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+
+import com.cyq7on.mushrommstreet.view.TitleBar;
+
+
+/**项目FragmentActivity的基类**/
+public class BaseFragmentActivity extends FragmentActivity {
+
+	public TitleBar titleBar;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		setContentView(R.layout.activity_base);
+//		initView();
+		initData();
+	}
+	public void initView() {
+//		titleBar = (TitleBar) findViewById(R.id.title_bar);
+		titleBar.setLeftButtonListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+	};
+	
+	public void initData() {
+		
+	};
+}

@@ -25,7 +25,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-public class ChatFragment extends BasicFragment implements
+public class ChatFragment extends BaseFragment implements
 		OnItemClickListener {
 
 	private PullToRefreshListView pullToRefreshListView;

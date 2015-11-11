@@ -26,7 +26,7 @@ import com.cyq7on.mushrommstreet.adapter.CatParentAdapter;
 import com.cyq7on.mushrommstreet.bean.Cat;
 import com.cyq7on.mushroomstreet.AppConfig;
 
-public class BuyFragment extends BasicFragment {
+public class BuyFragment extends BaseFragment {
 
 	private View contextView;
 	private CatParentAdapter parentAdapter;

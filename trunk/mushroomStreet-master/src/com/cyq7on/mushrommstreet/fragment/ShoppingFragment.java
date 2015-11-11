@@ -13,7 +13,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -27,6 +26,7 @@ import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.activity.MainActivity;
+import com.cyq7on.mushrommstreet.activity.ShoppingdetailActivity;
 import com.cyq7on.mushrommstreet.adapter.DynamicAdapter;
 import com.cyq7on.mushrommstreet.bean.DynamicVo;
 import com.cyq7on.mushrommstreet.bean.ShoppingTab;
@@ -34,14 +34,13 @@ import com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity;
 import com.cyq7on.mushrommstreet.utils.DeviceInfo;
 import com.cyq7on.mushrommstreet.view.HorizontalListView;
 import com.cyq7on.mushrommstreet.view.StickyScrollView;
-import com.cyq7on.mushrommstreet.view.StickyScrollView.OnScrollListener;
 import com.cyq7on.mushroomstreet.AppConfig;
 import com.handmark.pulltorefresh.library.PullToRefreshLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class ShoppingFragment extends BasicFragment implements 
+public class ShoppingFragment extends BaseFragment implements 
 OnClickListener {
 
 	private ImageView ivAdd;
@@ -218,7 +217,9 @@ OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Toast.makeText(activity, arg2 + "", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(activity,
+						ShoppingdetailActivity.class);
+				startActivity(intent);
 //				pullRefreshScrollView
 //						.setMode(com.handmark.pulltorefresh.library.PullToRefreshBase.Mode.PULL_FROM_START);
 			}
@@ -237,8 +238,9 @@ OnClickListener {
 
 				@Override
 				public void onClick(View v) {
-					Toast.makeText(activity, "您选择了第" + (which + 1) + "张",
-							Toast.LENGTH_LONG).show();
+					Intent intent = new Intent(activity,
+							ShoppingdetailActivity.class);
+					startActivity(intent);
 				}
 			});
 			ImageLoader.getInstance().displayImage(url[i], iv,

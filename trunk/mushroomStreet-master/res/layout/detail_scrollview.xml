@@ -14,7 +14,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_image"
             android:layout_width="match_parent"
-            android:layout_height="400dp" />
+            android:layout_height="500dp" />
 
         <TextView
             android:id="@+id/tv_index"
@@ -208,15 +208,15 @@
 
             <ImageView
                 android:id="@+id/iv_head"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/index_my_icon_s" />
 
             <TextView
                 android:id="@+id/tv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginLeft="10dp"
                 android:text="白子画"
                 android:textColor="#000"
                 android:textSize="14sp" />
@@ -274,12 +274,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp" 
-        android:gravity="center_vertical">
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical" >
 
         <ImageView
             android:id="@+id/iv_store"
-            android:layout_width="30dp"
+            android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/index_my_icon_s" />
 
@@ -287,31 +287,172 @@
             android:id="@+id/tv_storename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="淘淘淘"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/iv_store"
+            android:text="淘淘淘"
             android:textColor="#000"
             android:textSize="14sp" />
+
         <TextView
             android:id="@+id/tv_allsales"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="总销量：77777"
             android:layout_below="@id/tv_storename"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_store"
+            android:text="总销量：77777"
             android:textSize="12sp" />
+
         <TextView
             android:id="@+id/tv_collectcount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="收藏数：17777"
             android:layout_below="@id/tv_storename"
-            android:layout_toRightOf="@id/iv_store"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/tv_allsales"
+            android:text="收藏数：17777"
             android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignBottom="@id/tv_collectcount"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_btn_attention"
+            android:text="+ 收藏"
+            android:textColor="#000"
+            android:textSize="14sp" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="描述相符"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_match"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:text="4.8"
+            android:textColor="#f00"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="质量满意"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_satisfy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:text="4.7"
+            android:textColor="#f00"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="价格合理"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_rational"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:text="4.9"
+            android:textColor="#f00"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EBEBEB" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="全国包邮"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="7天无理由退货"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="72小时发货"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:gravity="center|left"
+        android:text="退货补运费"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/btn_enter"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_btn_attention"
+        android:drawableLeft="@drawable/icon_comment_shop"
+        android:drawablePadding="3dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="进入小店"
+        android:textColor="#000"
+        android:textSize="14sp" />
 
     <TextView
         android:layout_width="match_parent"

@@ -13,10 +13,13 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +52,7 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 	private TabPageIndicator tabPageIndicator;
 	private TBLayout mLayout;
 	private ScrollView mHeader;
-	private TextView mFooter;
+	private TextView tvIndex;
 	private LinearLayout mContent;
 	private int which;
 
@@ -105,13 +108,33 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		mLayout.setOnPullListener(this);
 		mLayout.setOnContentChangeListener(this);
 		mHeader = (ScrollView) findViewById(R.id.header);
-		// mFooter = (TextView) findViewById(R.id.footer);
 		mContent = (LinearLayout) mHeader.getChildAt(0);
 	}
 
 	private void initViewPager() {
 		// Í¼Æ¬»¬¶¯viewpager
+		tvIndex = (TextView) findViewById(R.id.tv_index);
+		tvIndex.setText(1 + "/" + urlList.size());
 		vpImage = (ViewPager) findViewById(R.id.vp_image);
+		vpImage.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int arg0) {
+				tvIndex.setText(arg0 + 1 + "/" + urlList.size());
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		vpImage.setAdapter(new PagerAdapter() {
 			@Override
 			public Object instantiateItem(ViewGroup container, int position) {
@@ -192,7 +215,9 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 
 	@Override
 	public boolean headerFootReached(MotionEvent event) {
+		System.out.println(tvIndex.getScrollY());
 		if (mHeader.getScrollY() + mHeader.getHeight() >= mContent.getHeight()) {
+			tabPageIndicator.setVisibility(View.VISIBLE);
 			return true;
 		}
 		return false;
@@ -209,6 +234,7 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		if (fragmentList.get(which).getGridView().getFirstVisiblePosition() == 0) {
 			View v = fragmentList.get(which).getGridView().getChildAt(0);
 			if (v != null && v.getTop() == 0) {
+				tabPageIndicator.setVisibility(View.GONE);
 				return true;
 			}
 

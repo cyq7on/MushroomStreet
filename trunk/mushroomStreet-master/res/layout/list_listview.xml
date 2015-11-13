@@ -12,7 +12,7 @@
          android:layout_height="wrap_content"
          android:layout_marginBottom="15dp"
          android:dividerHeight="5dp"
-         android:divider="#CFCFCF"
+         android:divider="#EBEBEB"
 		 android:scrollbars="none"/>
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.cyq7on.mushrommstreet.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,10 +15,9 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.R;
-import com.cyq7on.mushrommstreet.activity.ShoppingdetailActivity;
+import com.cyq7on.mushrommstreet.activity.GoodsdetailActivity;
 import com.cyq7on.mushrommstreet.bean.ShoppingDetailVo;
 import com.cyq7on.mushroomstreet.AppConfig;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -36,7 +36,9 @@ public class ShoppingDetailFragment extends Fragment{
 		initView();
 		return view;
 	}
-
+	public GridView getGridView() {
+		return gridView;
+	}
 	private void initView(){
 		gridView = (GridView) view.findViewById(R.id.gv);
 		gridView.setAdapter(new GridViewAdapter());
@@ -45,8 +47,9 @@ public class ShoppingDetailFragment extends Fragment{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Toast.makeText(getActivity(), arg2 + "",
-						Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(getActivity(),
+						GoodsdetailActivity.class);
+				startActivity(intent);
 			}
 		});
 	}

@@ -60,6 +60,9 @@ public class TitleBar extends FrameLayout {
 	public void setTitle(String title) {
 		tvTitle.setText(title);
 	}
+	public void setTitleColor(int color) {
+		tvTitle.setTextColor(color);
+	}
 
 	public void setLeftText(int leftTextId) {
 		btnBackc.setText(leftTextId);
@@ -102,6 +105,9 @@ public class TitleBar extends FrameLayout {
 	}
 	public void setImageTitleVisible(){
 		imageTitle.setVisibility(VISIBLE);
+	}
+	public void setImageTitleListener(View.OnClickListener listener) {
+		imageTitle.setOnClickListener(listener);
 	}
 	public void setLeftVisible(){
 		btnBackc.setVisibility(VISIBLE);

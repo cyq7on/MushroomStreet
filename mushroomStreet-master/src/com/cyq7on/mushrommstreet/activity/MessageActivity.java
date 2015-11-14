@@ -28,7 +28,7 @@ public class MessageActivity extends BaseActivity {
 //		initActionBar();
 		initView();
 //		initListener();
-		initData();
+//		initData();
 	}
 
 	

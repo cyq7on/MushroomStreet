@@ -37,5 +37,6 @@
             android:layout_height="400dp"
             android:layout_marginTop="50dp" />
     </com.cyq7on.mushrommstreet.view.TBLayout>
+    <include layout="@layout/item_shoppingbottom" />
 
 </LinearLayout>

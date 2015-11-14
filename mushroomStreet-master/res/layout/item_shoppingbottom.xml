@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#fff"
+    android:gravity="center" >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EBEBEB" />
+
+    <RadioGroup
+        android:id="@+id/rg_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/chat"
+            style="@style/tab_radio"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:textColor="@color/gray_text_dark"
+            android:drawableTop="@drawable/goods_detail_im_icon"
+            android:background="@null"
+            android:text="私聊"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/like"
+            style="@style/tab_radio"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/gray_text_dark"
+            android:drawableTop="@drawable/like_icon_grey"
+            android:background="@null"
+            android:text="喜欢"
+            android:textSize="13sp" />
+
+
+        <RadioButton
+            android:id="@+id/chart"
+            style="@style/tab_radio"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:textColor="#f00"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_radio_chart"
+            android:paddingBottom="4dp"
+            android:text="加入购物车"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/buynow"
+            style="@style/tab_radio"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:textColor="#fff"
+            android:layout_marginRight="10dp"
+            android:paddingBottom="4dp"
+            android:text="立即购买"
+            android:background="#f00"
+            android:textSize="13sp" />
+    </RadioGroup>
+
+</LinearLayout>

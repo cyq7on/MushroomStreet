@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,13 +14,14 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +57,9 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 	private TextView tvIndex;
 	private LinearLayout mContent;
 	private int which;
+	private Button btnCollect,btnEnter;
+	private RadioGroup rg;
+	private RadioButton rb;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +114,72 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		mLayout.setOnContentChangeListener(this);
 		mHeader = (ScrollView) findViewById(R.id.header);
 		mContent = (LinearLayout) mHeader.getChildAt(0);
+		btnCollect = (Button) findViewById(R.id.btn_collect);
+		btnCollect.setOnClickListener(new OnClickListener() {
+			boolean b = false;
+			@Override
+			public void onClick(View v) {
+				if (!b) {
+					btnCollect.setText("已收藏");
+					b = true;
+				}else {
+					btnCollect.setText("+ 收藏");
+					b = false;
+				}
+			}
+		});
+		btnEnter = (Button) findViewById(R.id.btn_enter);
+		btnEnter.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			}
+		});
+		rg = (RadioGroup) findViewById(R.id.rg_bottom);
+		rb = (RadioButton) findViewById(R.id.like);
+		//是否喜欢按钮
+		rb.setOnClickListener(new OnClickListener() {
+			boolean b = false;
+			@Override
+			public void onClick(View v) {
+				Drawable drawable;
+				if (!b) {
+					drawable = getResources().getDrawable(R.drawable.like_icon_red);
+					b = true;
+				}else {
+					drawable = getResources().getDrawable(R.drawable.like_icon_grey);
+					b = false;
+				}
+				drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), 
+						drawable.getIntrinsicHeight());
+				rb.setCompoundDrawablesWithIntrinsicBounds(null,
+						drawable, null, null);
+				
+			}
+		});
+		rg.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				switch (checkedId) {
+				case R.id.chat:
+					
+					break;
+				//喜欢按钮单独处理了
+//				case R.id.like:
+//					
+//					break;
+				case R.id.chart:
+					
+					break;
+				case R.id.buynow:
+					
+					break;
+
+				default:
+					break;
+				}
+			}
+		});
 	}
 
 	private void initViewPager() {

@@ -3,6 +3,8 @@ package com.cyq7on.mushrommstreet.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.R;
+import com.cyq7on.mushrommstreet.fragment.ImagAndWordDetailFragment;
 import com.cyq7on.mushrommstreet.fragment.ShoppingDetailFragment;
 import com.cyq7on.mushrommstreet.view.TBLayout;
 import com.cyq7on.mushrommstreet.view.TBLayout.OnPageChangedListener;
@@ -38,7 +41,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 /**
  * 
- * @Title: GoodsdetailActivity.java
+ * @Title: ImagAndWordDetailFragment.java
  * @Package com.cyq7on.mushrommstreet.activity
  * @Description: 商品详情页面
  * @author cyq7on
@@ -50,7 +53,8 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 	private ViewPager viewPager, vpImage;
 	private List<String> dataList = new ArrayList<String>();
 	private List<String> urlList = new ArrayList<String>();
-	private List<ShoppingDetailFragment> fragmentList = new ArrayList<ShoppingDetailFragment>();
+	private List<Fragment> fragmentList = 
+			new ArrayList<Fragment>();
 	private TabPageIndicator tabPageIndicator;
 	private TBLayout mLayout;
 	private ScrollView mHeader;
@@ -97,8 +101,17 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(GoodsdetailActivity.this, "分享",
-						Toast.LENGTH_LONG).show();
+				Builder builder = new Builder(GoodsdetailActivity.this);
+				final String[] items = { "消息", "分享" ,"举报"};
+				builder.setItems(items, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(GoodsdetailActivity.this, items[which], Toast.LENGTH_LONG)
+								.show();
+					}
+				});
+				builder.create().show();
 			}
 		});
 		dataList.add("图文详情");
@@ -233,11 +246,13 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 				return urlList.size();
 			}
 		});
-		ShoppingDetailFragment fragment;
-		for (int i = 0; i < dataList.size(); i++) {
-			fragment = new ShoppingDetailFragment();
-			fragmentList.add(fragment);
-		}
+		ImagAndWordDetailFragment imagAndWordDetailFragment = new 
+				ImagAndWordDetailFragment();
+		ShoppingDetailFragment shoppingDetailFragment = new ShoppingDetailFragment();
+		ShoppingDetailFragment shoppingDetailFragment1 = new ShoppingDetailFragment();
+		fragmentList.add(imagAndWordDetailFragment);
+		fragmentList.add(shoppingDetailFragment);
+		fragmentList.add(shoppingDetailFragment1);
 		viewPager = (ViewPager) findViewById(R.id.footer);
 		// viewPager.setOffscreenPageLimit(1);
 		viewPager.setAdapter(new FragmentPagerAdapter(
@@ -286,7 +301,6 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 
 	@Override
 	public boolean headerFootReached(MotionEvent event) {
-		System.out.println(tvIndex.getScrollY());
 		if (mHeader.getScrollY() + mHeader.getHeight() >= mContent.getHeight()) {
 			tabPageIndicator.setVisibility(View.VISIBLE);
 			return true;
@@ -302,13 +316,46 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		// return true;
 		// }
 		// }
-		if (fragmentList.get(which).getGridView().getFirstVisiblePosition() == 0) {
-			View v = fragmentList.get(which).getGridView().getChildAt(0);
-			if (v != null && v.getTop() == 0) {
-				tabPageIndicator.setVisibility(View.GONE);
-				return true;
-			}
+		switch (which) {
+		case 0:
+			ImagAndWordDetailFragment imagAndWordDetailFragment = 
+			(ImagAndWordDetailFragment) fragmentList.get(which);
+			if (imagAndWordDetailFragment.getListView().getFirstVisiblePosition() == 0) {
+				View v = imagAndWordDetailFragment.getListView().getChildAt(0);
+				if (v != null && v.getTop() == 0) {
+					tabPageIndicator.setVisibility(View.GONE);
+					return true;
+				}
 
+			}
+			break;
+		case 1:
+			ShoppingDetailFragment shoppingDetailFragment = 
+			(ShoppingDetailFragment) fragmentList.get(which);
+			if (shoppingDetailFragment.getGridView().getFirstVisiblePosition() == 0) {
+				View v = shoppingDetailFragment.getGridView().getChildAt(0);
+				if (v != null && v.getTop() == 0) {
+					tabPageIndicator.setVisibility(View.GONE);
+					return true;
+				}
+
+			}
+			break;
+		case 2:
+			ShoppingDetailFragment shoppingDetailFragment1 = 
+			(ShoppingDetailFragment) fragmentList.get(which);
+			if (shoppingDetailFragment1.getGridView().getFirstVisiblePosition() == 0) {
+				View v = shoppingDetailFragment1.getGridView().getChildAt(0);
+				if (v != null && v.getTop() == 0) {
+					tabPageIndicator.setVisibility(View.GONE);
+					return true;
+				}
+
+			}
+			break;
+
+		default:
+			break;
 		}
 		return false;
 	}

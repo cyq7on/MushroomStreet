@@ -1,40 +1,40 @@
 package com.cyq7on.mushrommstreet.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cyq7on.mushrommstreet.R;
-import com.cyq7on.mushroomstreet.AppConfig;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * 
-* @Title: ImagAndWordDetailFragment.java 
+* @Title: GoodsParamsFragment.java 
 * @Package com.cyq7on.mushrommstreet.fragment 
-* @Description: 商品详情-图文详情
+* @Description: 商品详情-商品参数
 * @author cyq7on  
-* @date 2015-11-14 下午3:57:41 
+* @date 2015-11-15 下午12:49:33 
 * @version V1.0
  */
-public class ImagAndWordDetailFragment extends Fragment{
+public class GoodsParamsFragment extends Fragment{
 	
 	private View view;
 	private ListView listView;
-	private List<String> urlList = new ArrayList<String>();
+	private Map<String, String> params = new HashMap<String, String>();
+	private Iterator<String> iterator;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.fragment_imagandworddetail, container, 
+		view = inflater.inflate(R.layout.fragment_goodsparams, container, 
 				false);
 		initData();
 		initView();
@@ -47,9 +47,11 @@ public class ImagAndWordDetailFragment extends Fragment{
 		listView = (ListView) view.findViewById(R.id.listview);
 		listView.setAdapter(new MyAdapter());
 		TextView header = new TextView(getActivity());
+		header.setTextColor(Color.parseColor("#7A7A7A"));
+		header.setBackgroundColor(Color.parseColor("#C9C9C9"));
 		header.setPadding(10, 10, 10, 10);
-		//图片上面的描述，由服务器获取
-		header.setText("颜色选择甜美清新的粉色，领子跟袖子拼接白色超好看，\n显肤色 小清新感觉扑面而来\n喜欢得不得了");
+		//参数上面的描述，由服务器获取
+		header.setText("宝贝为平铺测量，由于测量的差异，会有1-3cm误差，属于正常现象");
 		listView.addHeaderView(header);
 	}
 	private class MyAdapter extends BaseAdapter{
@@ -57,7 +59,7 @@ public class ImagAndWordDetailFragment extends Fragment{
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return urlList.size();
+			return params.size();
 		}
 
 		@Override
@@ -74,28 +76,40 @@ public class ImagAndWordDetailFragment extends Fragment{
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ImageView iv;
+			ViewHolder vh;
 			if (convertView == null) {
+				vh = new ViewHolder();
 				convertView = LayoutInflater.from(getActivity()).
-						inflate(R.layout.item_imageandword, null);
-				iv = (ImageView) convertView.findViewById(R.id.iv);
-				convertView.setTag(iv);
+						inflate(R.layout.item_goodsparams, null);
+				vh.key = (TextView) convertView.findViewById(R.id.tv_key);
+				vh.value = (TextView) convertView.findViewById(R.id.tv_value);
+				convertView.setTag(vh);
 			}else {
-				iv = (ImageView) convertView.getTag();
+				vh = (ViewHolder) convertView.getTag();
 			}
-			ImageLoader.getInstance().displayImage(urlList.get(position),
-					iv, AppConfig.options);
+			if (iterator.hasNext()) {
+				String key = iterator.next();
+				vh.key.setText(key);
+				vh.value.setText(params.get(key));
+			}
 			return convertView;
 		}
 		 
 	}
+	private class ViewHolder {
+		TextView key;
+		TextView value;
+	}
 	private void initData(){
 		//模拟服务器获取数据
-		int length = AppConfig.urlImage.length;
-		for (int i = 0; i < length / 2; i++) {
-			int k = (int) (Math.random() * length);
-			urlList.add(AppConfig.urlImage[k]);
-		}
+		params.put("尺码", "均码");
+		params.put("衣长", "77");
+		params.put("袖长", "51");
+		params.put("胸围", "65");
+		params.put("肩宽", "122");
+		params.put("领型", "连帽");
+		params.put("材质", "棉");
+		iterator = params.keySet().iterator();
 	}
 	
 }

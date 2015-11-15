@@ -45,7 +45,7 @@
 
 
         <RadioButton
-            android:id="@+id/chart"
+            android:id="@+id/cart"
             style="@style/tab_radio"
             android:layout_width="0dp"
             android:layout_height="36dp"

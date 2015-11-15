@@ -5,7 +5,9 @@ import java.util.List;
 
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,14 +15,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -32,7 +38,6 @@ import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.fragment.GoodsParamsFragment;
 import com.cyq7on.mushrommstreet.fragment.HotSaleRecommendFragment;
 import com.cyq7on.mushrommstreet.fragment.ImagAndWordDetailFragment;
-import com.cyq7on.mushrommstreet.fragment.ShoppingDetailFragment;
 import com.cyq7on.mushrommstreet.view.TBLayout;
 import com.cyq7on.mushrommstreet.view.TBLayout.OnPageChangedListener;
 import com.cyq7on.mushrommstreet.view.TBLayout.OnPullListener;
@@ -55,17 +60,16 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 	private ViewPager viewPager, vpImage;
 	private List<String> dataList = new ArrayList<String>();
 	private List<String> urlList = new ArrayList<String>();
-	private List<Fragment> fragmentList = 
-			new ArrayList<Fragment>();
+	private List<Fragment> fragmentList = new ArrayList<Fragment>();
 	private TabPageIndicator tabPageIndicator;
 	private TBLayout mLayout;
 	private ScrollView mHeader;
 	private TextView tvIndex;
 	private LinearLayout mContent;
 	private int which;
-	private Button btnCollect,btnEnter;
+	private Button btnCollect, btnEnter;
 	private RadioGroup rg;
-	private RadioButton rb;
+	private RadioButton rbLike, rbCart;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,13 +108,25 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 			@Override
 			public void onClick(View v) {
 				Builder builder = new Builder(GoodsdetailActivity.this);
-				final String[] items = { "消息", "分享" ,"举报"};
+				final String[] items = { "消息", "分享", "举报" };
 				builder.setItems(items, new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Toast.makeText(GoodsdetailActivity.this, items[which], Toast.LENGTH_LONG)
-								.show();
+						switch (which) {
+						case 0:
+							// Intent intent = new
+							// Intent(GoodsdetailActivity.this,
+							// MainActivity.class);
+							// intent.putExtra("info", "chat");
+							// startActivity(intent);
+							break;
+
+						default:
+							break;
+						}
+						Toast.makeText(GoodsdetailActivity.this, items[which],
+								Toast.LENGTH_LONG).show();
 					}
 				});
 				builder.create().show();
@@ -132,12 +148,13 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		btnCollect = (Button) findViewById(R.id.btn_collect);
 		btnCollect.setOnClickListener(new OnClickListener() {
 			boolean b = false;
+
 			@Override
 			public void onClick(View v) {
 				if (!b) {
 					btnCollect.setText("已收藏");
 					b = true;
-				}else {
+				} else {
 					btnCollect.setText("+ 收藏");
 					b = false;
 				}
@@ -150,44 +167,66 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 			}
 		});
 		rg = (RadioGroup) findViewById(R.id.rg_bottom);
-		rb = (RadioButton) findViewById(R.id.like);
-		//是否喜欢按钮
-		rb.setOnClickListener(new OnClickListener() {
+		rbLike = (RadioButton) findViewById(R.id.like);
+		rbCart = (RadioButton) findViewById(R.id.cart);
+		// 是否喜欢按钮
+		rbLike.setOnClickListener(new OnClickListener() {
 			boolean b = false;
+
 			@Override
 			public void onClick(View v) {
 				Drawable drawable;
 				if (!b) {
-					drawable = getResources().getDrawable(R.drawable.like_icon_red);
+					drawable = getResources().getDrawable(
+							R.drawable.like_icon_red);
 					b = true;
-				}else {
-					drawable = getResources().getDrawable(R.drawable.like_icon_grey);
+				} else {
+					drawable = getResources().getDrawable(
+							R.drawable.like_icon_grey);
 					b = false;
 				}
-				drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), 
+				drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
 						drawable.getIntrinsicHeight());
-				rb.setCompoundDrawablesWithIntrinsicBounds(null,
-						drawable, null, null);
-				
+				rbLike.setCompoundDrawablesWithIntrinsicBounds(null, drawable,
+						null, null);
+			}
+		});
+
+		// 加入购物车按钮
+		rbCart.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Drawable drawable;
+				View view = LayoutInflater.from(GoodsdetailActivity.this)
+						.inflate(R.layout.popwindow_cart, null);
+				View parent = LayoutInflater.from(GoodsdetailActivity.this)
+						.inflate(R.layout.activity_goodsdetail, null);
+				PopupWindow popupWindow = new PopupWindow(view,
+						LayoutParams.MATCH_PARENT,
+						LayoutParams.WRAP_CONTENT);
+				// 设置popwindow的动画效果
+				popupWindow
+						.setAnimationStyle(R.style.mypopwindow_anim_style);
+				popupWindow.setBackgroundDrawable(new ColorDrawable(
+						Color.TRANSPARENT));
+				popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+				popupWindow.setFocusable(true);
+				popupWindow.setOutsideTouchable(true);
+				popupWindow.update();
 			}
 		});
 		rg.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
 				case R.id.chat:
-					
+
 					break;
-				//喜欢按钮单独处理了
-//				case R.id.like:
-//					
-//					break;
-				case R.id.chart:
-					
-					break;
+				
 				case R.id.buynow:
-					
+
 					break;
 
 				default:
@@ -203,22 +242,22 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		tvIndex.setText(1 + "/" + urlList.size());
 		vpImage = (ViewPager) findViewById(R.id.vp_image);
 		vpImage.setOnPageChangeListener(new OnPageChangeListener() {
-			
+
 			@Override
 			public void onPageSelected(int arg0) {
 				tvIndex.setText(arg0 + 1 + "/" + urlList.size());
 			}
-			
+
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		vpImage.setAdapter(new PagerAdapter() {
@@ -248,8 +287,7 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 				return urlList.size();
 			}
 		});
-		ImagAndWordDetailFragment imagAndWordDetailFragment = new 
-				ImagAndWordDetailFragment();
+		ImagAndWordDetailFragment imagAndWordDetailFragment = new ImagAndWordDetailFragment();
 		GoodsParamsFragment goodsParamsFragment = new GoodsParamsFragment();
 		HotSaleRecommendFragment hotSaleRecommendFragment = new HotSaleRecommendFragment();
 		fragmentList.add(imagAndWordDetailFragment);
@@ -320,9 +358,10 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		// }
 		switch (which) {
 		case 0:
-			ImagAndWordDetailFragment imagAndWordDetailFragment = 
-			(ImagAndWordDetailFragment) fragmentList.get(which);
-			if (imagAndWordDetailFragment.getListView().getFirstVisiblePosition() == 0) {
+			ImagAndWordDetailFragment imagAndWordDetailFragment = (ImagAndWordDetailFragment) fragmentList
+					.get(which);
+			if (imagAndWordDetailFragment.getListView()
+					.getFirstVisiblePosition() == 0) {
 				View v = imagAndWordDetailFragment.getListView().getChildAt(0);
 				if (v != null && v.getTop() == 0) {
 					tabPageIndicator.setVisibility(View.GONE);
@@ -332,8 +371,8 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 			}
 			break;
 		case 1:
-			GoodsParamsFragment goodsParamsFragment = 
-			(GoodsParamsFragment) fragmentList.get(which);
+			GoodsParamsFragment goodsParamsFragment = (GoodsParamsFragment) fragmentList
+					.get(which);
 			if (goodsParamsFragment.getListView().getFirstVisiblePosition() == 0) {
 				View v = goodsParamsFragment.getListView().getChildAt(0);
 				if (v != null && v.getTop() == 0) {
@@ -344,9 +383,10 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 			}
 			break;
 		case 2:
-			HotSaleRecommendFragment hotSaleRecommendFragment = 
-			(HotSaleRecommendFragment) fragmentList.get(which);
-			if (hotSaleRecommendFragment.getGridView().getFirstVisiblePosition() == 0) {
+			HotSaleRecommendFragment hotSaleRecommendFragment = (HotSaleRecommendFragment) fragmentList
+					.get(which);
+			if (hotSaleRecommendFragment.getGridView()
+					.getFirstVisiblePosition() == 0) {
 				View v = hotSaleRecommendFragment.getGridView().getChildAt(0);
 				if (v != null && v.getTop() == 0) {
 					tabPageIndicator.setVisibility(View.GONE);

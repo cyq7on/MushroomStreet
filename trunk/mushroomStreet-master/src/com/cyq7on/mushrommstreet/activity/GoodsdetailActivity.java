@@ -29,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.R;
+import com.cyq7on.mushrommstreet.fragment.GoodsParamsFragment;
+import com.cyq7on.mushrommstreet.fragment.HotSaleRecommendFragment;
 import com.cyq7on.mushrommstreet.fragment.ImagAndWordDetailFragment;
 import com.cyq7on.mushrommstreet.fragment.ShoppingDetailFragment;
 import com.cyq7on.mushrommstreet.view.TBLayout;
@@ -248,11 +250,11 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		});
 		ImagAndWordDetailFragment imagAndWordDetailFragment = new 
 				ImagAndWordDetailFragment();
-		ShoppingDetailFragment shoppingDetailFragment = new ShoppingDetailFragment();
-		ShoppingDetailFragment shoppingDetailFragment1 = new ShoppingDetailFragment();
+		GoodsParamsFragment goodsParamsFragment = new GoodsParamsFragment();
+		HotSaleRecommendFragment hotSaleRecommendFragment = new HotSaleRecommendFragment();
 		fragmentList.add(imagAndWordDetailFragment);
-		fragmentList.add(shoppingDetailFragment);
-		fragmentList.add(shoppingDetailFragment1);
+		fragmentList.add(goodsParamsFragment);
+		fragmentList.add(hotSaleRecommendFragment);
 		viewPager = (ViewPager) findViewById(R.id.footer);
 		// viewPager.setOffscreenPageLimit(1);
 		viewPager.setAdapter(new FragmentPagerAdapter(
@@ -330,10 +332,10 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 			}
 			break;
 		case 1:
-			ShoppingDetailFragment shoppingDetailFragment = 
-			(ShoppingDetailFragment) fragmentList.get(which);
-			if (shoppingDetailFragment.getGridView().getFirstVisiblePosition() == 0) {
-				View v = shoppingDetailFragment.getGridView().getChildAt(0);
+			GoodsParamsFragment goodsParamsFragment = 
+			(GoodsParamsFragment) fragmentList.get(which);
+			if (goodsParamsFragment.getListView().getFirstVisiblePosition() == 0) {
+				View v = goodsParamsFragment.getListView().getChildAt(0);
 				if (v != null && v.getTop() == 0) {
 					tabPageIndicator.setVisibility(View.GONE);
 					return true;
@@ -342,10 +344,10 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 			}
 			break;
 		case 2:
-			ShoppingDetailFragment shoppingDetailFragment1 = 
-			(ShoppingDetailFragment) fragmentList.get(which);
-			if (shoppingDetailFragment1.getGridView().getFirstVisiblePosition() == 0) {
-				View v = shoppingDetailFragment1.getGridView().getChildAt(0);
+			HotSaleRecommendFragment hotSaleRecommendFragment = 
+			(HotSaleRecommendFragment) fragmentList.get(which);
+			if (hotSaleRecommendFragment.getGridView().getFirstVisiblePosition() == 0) {
+				View v = hotSaleRecommendFragment.getGridView().getChildAt(0);
 				if (v != null && v.getTop() == 0) {
 					tabPageIndicator.setVisibility(View.GONE);
 					return true;

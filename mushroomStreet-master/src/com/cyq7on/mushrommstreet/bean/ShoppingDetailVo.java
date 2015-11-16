@@ -3,7 +3,7 @@ package com.cyq7on.mushrommstreet.bean;
 /**   
  * @Title: ShoppingDetailVo.java 
  * @Package com.cyq7on.mushrommstreet.bean 
- * @Description: 购物详情页的数据类 
+ * @Description: 购物详情页的数据类  拓展到购物车数据类
  * @author cyq7on  
  * @date 2015-11-11 下午9:26:55 
  * @version V1.0   
@@ -13,6 +13,10 @@ public class ShoppingDetailVo {
 	private String name;
 	private String priceNow;
 	private String priceOld;
+	//以下是购物车里特有的成员
+	private String color;
+	private String size;
+	private String storeName;
 	
 	public ShoppingDetailVo(String imageUrl, String name, String priceNow,
 			String priceOld) {
@@ -22,6 +26,51 @@ public class ShoppingDetailVo {
 		this.priceNow = priceNow;
 		this.priceOld = priceOld;
 	}
+	
+	
+	public ShoppingDetailVo(String imageUrl, String name, String priceNow,
+			String priceOld, String color, String size,String storeName) {
+		super();
+		this.imageUrl = imageUrl;
+		this.name = name;
+		this.priceNow = priceNow;
+		this.priceOld = priceOld;
+		this.color = color;
+		this.size = size;
+		this.storeName = storeName;
+	}
+
+
+	public String getColor() {
+		return color;
+	}
+
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+
+	public String getSize() {
+		return size;
+	}
+
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+
+	public String getStoreName() {
+		return storeName;
+	}
+
+
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
+	}
+
+
 	public String getImageUrl() {
 		return imageUrl;
 	}

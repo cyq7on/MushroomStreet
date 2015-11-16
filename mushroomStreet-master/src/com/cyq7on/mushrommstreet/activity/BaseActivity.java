@@ -21,7 +21,7 @@ public class BaseActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 //		setContentView(R.layout.activity_base);
 //		initView();
-		initData();
+//		initData();
 	}
 	public void initView() {
 //		titleBar = (TitleBar) findViewById(R.id.title_bar);

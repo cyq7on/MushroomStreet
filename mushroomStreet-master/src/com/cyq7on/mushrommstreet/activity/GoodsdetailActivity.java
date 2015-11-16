@@ -38,6 +38,7 @@ import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.fragment.GoodsParamsFragment;
 import com.cyq7on.mushrommstreet.fragment.HotSaleRecommendFragment;
 import com.cyq7on.mushrommstreet.fragment.ImagAndWordDetailFragment;
+import com.cyq7on.mushrommstreet.view.MyPopupWindow;
 import com.cyq7on.mushrommstreet.view.TBLayout;
 import com.cyq7on.mushrommstreet.view.TBLayout.OnPageChangedListener;
 import com.cyq7on.mushrommstreet.view.TBLayout.OnPullListener;
@@ -69,13 +70,21 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 	private int which;
 	private Button btnCollect, btnEnter;
 	private RadioGroup rg;
-	private RadioButton rbLike, rbCart;
+	private RadioButton rbLike, rbCart,rbBuyNow;
+	private MyPopupWindow popupWindow;
+	private List<String> colorList = new ArrayList<String>();
+	private List<String> sizeList = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_goodsdetail);
 		initData();
+		colorList.add("红色");
+		colorList.add("白色");
+		for (int i = 0; i < 7; i++) {
+			sizeList.add(i + 36 + "");
+		}
 		initView();
 	}
 
@@ -99,8 +108,8 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(GoodsdetailActivity.this, "购物车",
-						Toast.LENGTH_LONG).show();
+				startActivity(new Intent(GoodsdetailActivity.this,
+						CartActivity.class));
 			}
 		});
 		titleBar.setRightButtonListener(new OnClickListener() {
@@ -137,6 +146,7 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		dataList.add("热卖推荐");
 		initTbLayout();
 		initViewPager();
+		popupWindow = new MyPopupWindow(this,colorList,sizeList);
 	}
 
 	private void initTbLayout() {
@@ -169,6 +179,7 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		rg = (RadioGroup) findViewById(R.id.rg_bottom);
 		rbLike = (RadioButton) findViewById(R.id.like);
 		rbCart = (RadioButton) findViewById(R.id.cart);
+		rbBuyNow = (RadioButton) findViewById(R.id.buynow);
 		// 是否喜欢按钮
 		rbLike.setOnClickListener(new OnClickListener() {
 			boolean b = false;
@@ -197,23 +208,15 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-				Drawable drawable;
-				View view = LayoutInflater.from(GoodsdetailActivity.this)
-						.inflate(R.layout.popwindow_cart, null);
-				View parent = LayoutInflater.from(GoodsdetailActivity.this)
-						.inflate(R.layout.activity_goodsdetail, null);
-				PopupWindow popupWindow = new PopupWindow(view,
-						LayoutParams.MATCH_PARENT,
-						LayoutParams.WRAP_CONTENT);
-				// 设置popwindow的动画效果
-				popupWindow
-						.setAnimationStyle(R.style.mypopwindow_anim_style);
-				popupWindow.setBackgroundDrawable(new ColorDrawable(
-						Color.TRANSPARENT));
-				popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-				popupWindow.setFocusable(true);
-				popupWindow.setOutsideTouchable(true);
-				popupWindow.update();
+				popupWindow.showAsDropDown(v);
+			}
+		});
+		// 立即购买按钮
+		rbBuyNow.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				popupWindow.showAsDropDown(v);
 			}
 		});
 		rg.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -222,10 +225,6 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
 				case R.id.chat:
-
-					break;
-				
-				case R.id.buynow:
 
 					break;
 

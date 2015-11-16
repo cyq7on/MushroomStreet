@@ -46,8 +46,13 @@
         </activity>
         
         <activity
+            android:name="com.cyq7on.mushrommstreet.activity.CartActivity">
+        </activity>
+        
+        <activity
             android:name="com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity"
             />
+        
         <activity
             android:name=".activity.ShoppingdetailActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"

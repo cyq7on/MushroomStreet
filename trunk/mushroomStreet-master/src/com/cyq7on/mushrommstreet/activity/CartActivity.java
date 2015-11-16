@@ -1,79 +1,225 @@
 package com.cyq7on.mushrommstreet.activity;
 
+import java.util.ArrayList;
+import java.util.List;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.R;
-import com.cyq7on.mushrommstreet.utils.PreferenceUtils;
+import com.cyq7on.mushrommstreet.bean.ShoppingDetailVo;
 import com.cyq7on.mushrommstreet.view.TitleBar;
-
+import com.cyq7on.mushroomstreet.AppConfig;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class CartActivity extends BaseActivity {
+	private ListView listView;
+	private List<ShoppingDetailVo> dataList = 
+			new ArrayList<ShoppingDetailVo>();
+	private CartAdapter cartAdapter;
+	private CheckBox cbSelectAll;
+	private TextView tvAllPrice,tvSave;
 
-	private EditText etAccount;
-	private EditText etPsw;
-	private Button btnLogin;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_cart_empty);
+		// setContentView(R.layout.activity_cart_empty);
+		setContentView(R.layout.activity_cart);
+		listView = (ListView) findViewById(R.id.listview);
+		initData();
 		initView();
 	}
+
+	public void initData() {
+		// Ê®°ÊãüÊúçÂä°Âô®Ëé∑ÂèñÊï∞ÊçÆ
+		ShoppingDetailVo vo;
+		int length = (int) (AppConfig.urlImage.length * Math.random());
+		if (length == 0) {
+			length = 8;
+		}
+		for (int i = 0; i < length / 2; i++) {
+			int k = (int) (Math.random() * length);
+			vo = new ShoppingDetailVo(AppConfig.urlImage[k], "Ê∞îË¥®Êó∂Â∞öÁæäÊØõÂ§ñÂ•ó" + k, k
+					* 100 + "", k * 150 + "" ,"Ëìù",k + "","Ê†ºÂ≠êÈì∫" + i);
+			dataList.add(vo);
+		}
+	}
+
+	private class CartAdapter extends BaseAdapter {
+		private CheckBox cb;
+		
+		public CheckBox getCheckBox() {
+			return cb;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return dataList.size();
+		}
+
+		@Override
+		public Object getItem(int arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			final ViewHolder vh;
+			if (convertView == null) {
+				vh = new ViewHolder();
+				convertView = LayoutInflater.from(CartActivity.this)
+						.inflate(R.layout.item_cart, null);
+				vh.iv = (ImageView) convertView.findViewById(R.id.iv);
+				vh.tvName = (TextView) convertView.
+						findViewById(R.id.tv_name);
+				vh.tvColor = (TextView) convertView.
+						findViewById(R.id.tv_color);
+				vh.tvSize = (TextView) convertView.
+						findViewById(R.id.tv_size);
+				vh.tvPriceOld = (TextView) convertView.
+						findViewById(R.id.tv_price_old);
+				vh.tvPirceNow = (TextView) convertView.
+						findViewById(R.id.tv_price_now);
+				vh.tvCount = (TextView) convertView.
+						findViewById(R.id.tv_count);
+				vh.cb = (CheckBox) convertView.
+						findViewById(R.id.cb_select);
+				cb = vh.cb;
+				vh.btnSub = (Button) convertView.
+						findViewById(R.id.btn_sub);
+				vh.btnPlus = (Button) convertView.
+						findViewById(R.id.btn_plus);
+				vh.btnDelete = (Button) convertView.
+						findViewById(R.id.btn_delete);
+				vh.btnStore = (Button) convertView.
+						findViewById(R.id.btn_store);
+				convertView.setTag(vh);
+			} else {
+				vh = (ViewHolder) convertView.getTag();
+			}
+			if (dataList != null && dataList.size() > 0) {
+				ShoppingDetailVo vo = dataList.get(position);
+				ImageLoader.getInstance().displayImage(vo.getImageUrl(), 
+						vh.iv, AppConfig.options);
+				vh.tvName.setText(vo.getName());
+				vh.tvColor.setText("È¢úËâ≤Ôºö" + vo.getColor());
+				vh.tvSize.setText("Â∞∫Á†ÅÔºö" + vo.getSize());
+				vh.tvPriceOld.setText("¬•" + vo.getPriceOld());
+				vh.tvPirceNow.setText("¬•" + vo.getPriceNow());
+				vh.tvCount.setText("1");
+				vh.btnSub.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						int count = Integer.parseInt(vh.
+								tvCount.getText().toString());
+						if (count > 1) {
+							count --;
+							vh.tvCount.setText(count + "");
+						}
+					}
+				});
+				vh.btnPlus.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						int count = Integer.parseInt(vh.
+								tvCount.getText().toString());
+						count ++;
+						vh.tvCount.setText(count + "");
+					}
+				});
+				vh.btnDelete.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						dataList.remove(position);
+						cartAdapter.notifyDataSetChanged();
+					}
+				});
+				vh.btnStore.setText(vo.getStoreName());
+				vh.btnStore.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						
+					}
+				});
+			}
+			
+			return convertView;
+		}
+	}
+	
+	private class ViewHolder implements OnClickListener{
+		ImageView iv;
+		TextView tvName;
+		TextView tvColor;
+		TextView tvSize;
+		TextView tvPriceOld;
+		TextView tvPirceNow;
+		TextView tvCount;
+		CheckBox cb;
+		Button btnSub;
+		Button btnPlus;
+		Button btnDelete;
+		Button btnStore;
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+
 	@Override
 	public void initView() {
 		titleBar = (TitleBar) findViewById(R.id.title_bar);
-		titleBar.setTitle("π∫ŒÔ≥µ");
-		titleBar.setRightButtonListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(CartActivity.this,RegisterActivity.class));
-				finish();
-			}
-		});
-		
+		cbSelectAll = (CheckBox) findViewById(R.id.cb_selectall);
+		tvAllPrice = (TextView) findViewById(R.id.tv_allprice);
+		tvSave = (TextView) findViewById(R.id.tv_save);
+		titleBar.setTitle("Ë¥≠Áâ©ËΩ¶("+ dataList.size() + ")");
+		cartAdapter = new CartAdapter();
+		listView.setAdapter(cartAdapter);
 	}
-	
+
 	public void onClick(View v) {
 		switch (v.getId()) {
-		//µ«¬º
-		case R.id.btn_login:
-			String accout = etAccount.getText().toString();
-			String psw = etPsw.getText().toString();
-			//’À∫≈√‹¬Î’˝»∑
-			if (accout.equals("1") && psw.equals("1")) {
-				PreferenceUtils.setBoolean(this, "isLogin", true);
-				//¥Ê¥¢’À∫≈√‹¬Î
-				PreferenceUtils.setString(this, "accout", accout);
-				PreferenceUtils.setString(this, "psw", psw);
-				finish();
+		case R.id.cb_selectall:
+			CheckBox cb;
+			View view;
+			if (cbSelectAll.isChecked()) {
+				for (int i = 0; i < dataList.size(); i++) {
+					view = listView.getChildAt(i);
+					cb = (CheckBox) view.findViewById(R.id.cb_select);
+					cb.setChecked(false);
+				}
 			}else {
-				Toast.makeText(this, "”√ªß√˚ªÚ√‹¬Î¥ÌŒÛ\n«Î÷ÿ–¬ ‰»Î", Toast.LENGTH_LONG).show();
+				for (int i = 0; i < dataList.size(); i++) {
+					view = listView.getChildAt(i);
+					cb = (CheckBox) view.findViewById(R.id.cb_select);
+					cb.setChecked(true);
+				}
 			}
 			break;
-		case R.id.btn_global:
-			Toast.makeText(this, "»´«Ú ÷ª˙µ«¬º", Toast.LENGTH_LONG).show();
-			break;
-		case R.id.btn_forgetpsw:
-			Toast.makeText(this, "Õ¸º«√‹¬Î", Toast.LENGTH_LONG).show();
-			break;
-		case R.id.btn_setting:
-			Toast.makeText(this, "…Ë÷√", Toast.LENGTH_LONG).show();
-			break;
-		case R.id.tv_qq:
-			Toast.makeText(this, "QQµ«¬º", Toast.LENGTH_LONG).show();
-			break;
-		case R.id.tv_wechat:
-			Toast.makeText(this, "Œ¢–≈µ«¬º", Toast.LENGTH_LONG).show();
-			break;
-		case R.id.tv_sina:
-			Toast.makeText(this, "–¬¿Àµ«¬º", Toast.LENGTH_LONG).show();
+		case R.id.btn_cal:
 			break;
 		default:
 			break;

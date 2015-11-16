@@ -1,0 +1,7 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textColor="#000"
+    android:background="@drawable/shape_btn_attention"
+    android:padding="5dp"/>

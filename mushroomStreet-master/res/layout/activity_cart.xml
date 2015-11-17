@@ -19,6 +19,11 @@
         android:divider="#EBEBEB" 
         android:dividerHeight="10dp"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EBEBEB" />
+    
     <RelativeLayout
         android:id="@+id/rl"
         android:layout_width="match_parent"

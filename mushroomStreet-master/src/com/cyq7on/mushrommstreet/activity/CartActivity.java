@@ -1,12 +1,10 @@
 package com.cyq7on.mushrommstreet.activity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import android.R.integer;
 import android.os.Bundle;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,31 +46,21 @@ public class CartActivity extends BaseActivity {
 	}
 
 	public void initData() {
-		// 模拟服务器获取数据
-		ShoppingDetailVo vo;
-		int length = (int) (AppConfig.urlImage.length * Math.random());
-		if (length == 0) {
-			length = 8;
-		}
-		for (int i = 0; i < length / 2; i++) {
-			int k = (int) (Math.random() * length);
-			vo = new ShoppingDetailVo(AppConfig.urlImage[k], "气质时尚羊毛外套" + k, k
-					* 100 + "", k * 150 + "" ,"蓝",k + "","格子铺" + i);
-			dataList.add(vo);
-		}
+		// 获取购物车商品
+		dataList.addAll(AppConfig.goodsList);
 	}
 
 	private class CartAdapter extends BaseAdapter {
-		private Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		private SparseIntArray array = new SparseIntArray();
 		
 		public CartAdapter() {
 			for (int i = 0; i < dataList.size(); i++) {
-				map.put(i, 1);
+				array.put(i, 1);
 			}
 		}
 		
-		public Map<Integer, Integer> getMap() {
-			return map;
+		public SparseIntArray getSparseArray() {
+			return array;
 		}
 
 		@Override
@@ -156,18 +144,13 @@ public class CartActivity extends BaseActivity {
 						if (count > 1) {
 							count --;
 							vh.tvCount.setText(count + "");
-							map.put(position, count);
+							array.put(position, count);
 							if (vh.cb.isChecked()) {
 								String info = tvAllPrice.getText().
 										toString().substring(4);
 								float price = Float.parseFloat(
 										dataList.get(position).getPriceNow());
 								float allPrice = Float.parseFloat(info);
-//								if (count == 2) {
-//									allPrice = 1 * price;
-//								} else {
-//									allPrice = Float.parseFloat(info);
-//								}
 								tvAllPrice.setText("总价：￥" + (allPrice - price));
 								info = tvSave.getText().toString().
 										substring(6);
@@ -190,7 +173,7 @@ public class CartActivity extends BaseActivity {
 								tvCount.getText().toString());
 						count ++;
 						vh.tvCount.setText(count + "");
-						map.put(position, count);
+						array.put(position, count);
 						if (vh.cb.isChecked()) {
 							String info = tvAllPrice.getText().
 									toString().substring(4);
@@ -281,17 +264,18 @@ public class CartActivity extends BaseActivity {
 			float allPrice = 0;
 			float save = 0;
 			int count;
-			Map<Integer, Integer> map;
+			SparseIntArray array;
 			float sub;
 			if (cbSelectAll.isChecked()) {
 				for (int i = 0; i < dataList.size(); i++) {
 					item = (LinearLayout) listView.getChildAt(i);
-					rl = (RelativeLayout) item.getChildAt(2);
-					cb = (CheckBox) rl.getChildAt(0);
-					cb.setChecked(true);
-					map = cartAdapter.getMap();
-					System.out.println(map);
-					count = map.get(i);
+					if (item != null) {
+						rl = (RelativeLayout) item.getChildAt(2);
+						cb = (CheckBox) rl.getChildAt(0);
+						cb.setChecked(true);					
+					}
+					array = cartAdapter.getSparseArray();
+					count = array.get(i);
 					allPrice += count * (Float.parseFloat(
 							dataList.get(i).getPriceNow()));
 					sub = Float.parseFloat(dataList.get(i).getPriceOld()) - 
@@ -304,9 +288,11 @@ public class CartActivity extends BaseActivity {
 			}else {
 				for (int i = 0; i < dataList.size(); i++) {
 					item = (LinearLayout) listView.getChildAt(i);
-					rl = (RelativeLayout) item.getChildAt(2);
-					cb = (CheckBox) rl.getChildAt(0);
-					cb.setChecked(false);
+					if (item != null) {
+						rl = (RelativeLayout) item.getChildAt(2);
+						cb = (CheckBox) rl.getChildAt(0);
+						cb.setChecked(false);					
+					}
 				}
 				tvAllPrice.setText("总价：￥" + 0.00);
 				tvSave.setText("共为您节省￥" + 0.00);

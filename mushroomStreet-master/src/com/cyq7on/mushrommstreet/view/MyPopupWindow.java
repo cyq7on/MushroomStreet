@@ -128,6 +128,11 @@ public class MyPopupWindow implements OnDismissListener, OnClickListener{
 		popupWindow.update();
 	}
 	
+	public String[] getInfo() {
+		String[] info = {color,size,tvCount.getText().toString()};
+		return info;
+	}
+	
 	// 当popWindow消失时响应
 	@Override
 	public void onDismiss() {

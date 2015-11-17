@@ -1,8 +1,11 @@
 package com.cyq7on.mushrommstreet.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import android.R.integer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +14,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.bean.ShoppingDetailVo;
@@ -29,6 +35,7 @@ public class CartActivity extends BaseActivity {
 	private CartAdapter cartAdapter;
 	private CheckBox cbSelectAll;
 	private TextView tvAllPrice,tvSave;
+	private Button btnCal;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +63,16 @@ public class CartActivity extends BaseActivity {
 	}
 
 	private class CartAdapter extends BaseAdapter {
-		private CheckBox cb;
+		private Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		
-		public CheckBox getCheckBox() {
-			return cb;
+		public CartAdapter() {
+			for (int i = 0; i < dataList.size(); i++) {
+				map.put(i, 1);
+			}
+		}
+		
+		public Map<Integer, Integer> getMap() {
+			return map;
 		}
 
 		@Override
@@ -102,7 +115,6 @@ public class CartActivity extends BaseActivity {
 						findViewById(R.id.tv_count);
 				vh.cb = (CheckBox) convertView.
 						findViewById(R.id.cb_select);
-				cb = vh.cb;
 				vh.btnSub = (Button) convertView.
 						findViewById(R.id.btn_sub);
 				vh.btnPlus = (Button) convertView.
@@ -119,6 +131,16 @@ public class CartActivity extends BaseActivity {
 				ShoppingDetailVo vo = dataList.get(position);
 				ImageLoader.getInstance().displayImage(vo.getImageUrl(), 
 						vh.iv, AppConfig.options);
+				vh.cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						String info = btnCal.getText().toString();
+//						int count = info.substring(4, info.length() - 2);
+						System.out.println(info.substring(4, info.length() - 2));
+					}
+				});
 				vh.tvName.setText(vo.getName());
 				vh.tvColor.setText("颜色：" + vo.getColor());
 				vh.tvSize.setText("尺码：" + vo.getSize());
@@ -134,6 +156,29 @@ public class CartActivity extends BaseActivity {
 						if (count > 1) {
 							count --;
 							vh.tvCount.setText(count + "");
+							map.put(position, count);
+							if (vh.cb.isChecked()) {
+								String info = tvAllPrice.getText().
+										toString().substring(4);
+								float price = Float.parseFloat(
+										dataList.get(position).getPriceNow());
+								float allPrice = Float.parseFloat(info);
+//								if (count == 2) {
+//									allPrice = 1 * price;
+//								} else {
+//									allPrice = Float.parseFloat(info);
+//								}
+								tvAllPrice.setText("总价：￥" + (allPrice - price));
+								info = tvSave.getText().toString().
+										substring(6);
+								float save = Float.parseFloat(info);
+								float sub = Float.parseFloat(
+										dataList.get(position).getPriceOld()) -
+										Float.parseFloat(
+										dataList.get(position).getPriceNow());
+								tvSave.setText("共为您节省￥" + (save - sub));
+							}
+							
 						}
 					}
 				});
@@ -145,6 +190,32 @@ public class CartActivity extends BaseActivity {
 								tvCount.getText().toString());
 						count ++;
 						vh.tvCount.setText(count + "");
+						map.put(position, count);
+						if (vh.cb.isChecked()) {
+							String info = tvAllPrice.getText().
+									toString().substring(4);
+							float price = Float.parseFloat(
+									dataList.get(position).getPriceNow());
+							float allPrice = Float.parseFloat(info);
+							if (allPrice == 0) {
+								tvAllPrice.setText("总价：￥" + count * price);
+							}else {
+								tvAllPrice.setText("总价：￥" + (allPrice + price));
+							}
+							info = tvSave.getText().toString().
+									substring(6);
+							float save = Float.parseFloat(info);
+							float sub = Float.parseFloat(
+									dataList.get(position).getPriceOld()) -
+									Float.parseFloat(
+									dataList.get(position).getPriceNow());
+							if (save == 0) {
+								tvSave.setText("共为您节省￥" + sub * count);
+							}else {
+								tvSave.setText("共为您节省￥" + (save + sub));
+							}
+						}
+						
 					}
 				});
 				vh.btnDelete.setOnClickListener(new OnClickListener() {
@@ -195,6 +266,7 @@ public class CartActivity extends BaseActivity {
 		cbSelectAll = (CheckBox) findViewById(R.id.cb_selectall);
 		tvAllPrice = (TextView) findViewById(R.id.tv_allprice);
 		tvSave = (TextView) findViewById(R.id.tv_save);
+		btnCal = (Button) findViewById(R.id.btn_cal);
 		titleBar.setTitle("购物车("+ dataList.size() + ")");
 		cartAdapter = new CartAdapter();
 		listView.setAdapter(cartAdapter);
@@ -204,19 +276,41 @@ public class CartActivity extends BaseActivity {
 		switch (v.getId()) {
 		case R.id.cb_selectall:
 			CheckBox cb;
-			View view;
+			LinearLayout item;
+			RelativeLayout rl;
+			float allPrice = 0;
+			float save = 0;
+			int count;
+			Map<Integer, Integer> map;
+			float sub;
 			if (cbSelectAll.isChecked()) {
 				for (int i = 0; i < dataList.size(); i++) {
-					view = listView.getChildAt(i);
-					cb = (CheckBox) view.findViewById(R.id.cb_select);
-					cb.setChecked(false);
+					item = (LinearLayout) listView.getChildAt(i);
+					rl = (RelativeLayout) item.getChildAt(2);
+					cb = (CheckBox) rl.getChildAt(0);
+					cb.setChecked(true);
+					map = cartAdapter.getMap();
+					System.out.println(map);
+					count = map.get(i);
+					allPrice += count * (Float.parseFloat(
+							dataList.get(i).getPriceNow()));
+					sub = Float.parseFloat(dataList.get(i).getPriceOld()) - 
+							Float.parseFloat(dataList.get(i).getPriceNow());
+					save += count * sub;
 				}
+				tvAllPrice.setText("总价：￥" + allPrice);
+				tvSave.setText("共为您节省￥" + save);
+				btnCal.setText("去结算(" + dataList.size() + ")");
 			}else {
 				for (int i = 0; i < dataList.size(); i++) {
-					view = listView.getChildAt(i);
-					cb = (CheckBox) view.findViewById(R.id.cb_select);
-					cb.setChecked(true);
+					item = (LinearLayout) listView.getChildAt(i);
+					rl = (RelativeLayout) item.getChildAt(2);
+					cb = (CheckBox) rl.getChildAt(0);
+					cb.setChecked(false);
 				}
+				tvAllPrice.setText("总价：￥" + 0.00);
+				tvSave.setText("共为您节省￥" + 0.00);
+				btnCal.setText("去结算(0)");
 			}
 			break;
 		case R.id.btn_cal:

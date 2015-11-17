@@ -17,6 +17,7 @@ public class ShoppingDetailVo {
 	private String color;
 	private String size;
 	private String storeName;
+	private int count;
 	
 	public ShoppingDetailVo(String imageUrl, String name, String priceNow,
 			String priceOld) {
@@ -29,15 +30,24 @@ public class ShoppingDetailVo {
 	
 	
 	public ShoppingDetailVo(String imageUrl, String name, String priceNow,
-			String priceOld, String color, String size,String storeName) {
+			String priceOld, String storeName) {
 		super();
 		this.imageUrl = imageUrl;
 		this.name = name;
 		this.priceNow = priceNow;
 		this.priceOld = priceOld;
-		this.color = color;
-		this.size = size;
 		this.storeName = storeName;
+	}
+
+	
+
+	public int getCount() {
+		return count;
+	}
+
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 

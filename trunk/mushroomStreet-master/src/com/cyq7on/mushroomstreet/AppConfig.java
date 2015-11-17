@@ -1,10 +1,14 @@
 package com.cyq7on.mushroomstreet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.WindowManager;
 
+import com.cyq7on.mushrommstreet.bean.ShoppingDetailVo;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -12,6 +16,10 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 public class AppConfig extends Application{
+	
+	//装入购物车的商品
+	public static List<ShoppingDetailVo> goodsList =
+			new ArrayList<ShoppingDetailVo>();
 	
 	public static WindowManager wm;
 	//一些图片url

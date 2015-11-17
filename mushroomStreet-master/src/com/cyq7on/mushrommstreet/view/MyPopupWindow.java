@@ -3,6 +3,7 @@ package com.cyq7on.mushrommstreet.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.integer;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.R;
+import com.cyq7on.mushrommstreet.bean.ShoppingDetailVo;
+import com.cyq7on.mushroomstreet.AppConfig;
 
 public class MyPopupWindow implements OnDismissListener, OnClickListener{
 	/**   
@@ -42,12 +45,13 @@ public class MyPopupWindow implements OnDismissListener, OnClickListener{
 	//选择的商品参数
 	private String color = "";
 	private String size = "";
-	
+	private ShoppingDetailVo vo;
 	public MyPopupWindow(Context context,List<String> mColorList,
-			List<String> mSizeList) {
+			List<String> mSizeList,ShoppingDetailVo vo) {
 		View view = LayoutInflater.from(context).
 				inflate(R.layout.popupwindow_cart, null);
 		this.context = context;
+		this.vo = vo;
 		colorList = mColorList;
 		sizeList = mSizeList;
 		gvColor = (GridView) view.findViewById(R.id.gv_color);
@@ -128,15 +132,9 @@ public class MyPopupWindow implements OnDismissListener, OnClickListener{
 		popupWindow.update();
 	}
 	
-	public String[] getInfo() {
-		String[] info = {color,size,tvCount.getText().toString()};
-		return info;
-	}
-	
 	// 当popWindow消失时响应
 	@Override
 	public void onDismiss() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -158,6 +156,10 @@ public class MyPopupWindow implements OnDismissListener, OnClickListener{
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
+			vo.setColor(color);
+			vo.setSize(size);
+			vo.setCount(count);
+			AppConfig.goodsList.add(vo);
 			popupWindow.dismiss();
 			break;
 		case R.id.btn_sub:

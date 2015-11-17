@@ -38,7 +38,12 @@ public class CartActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.activity_cart_empty);
+		if (AppConfig.goodsList.size() == 0) {
+			setContentView(R.layout.activity_cart_empty);
+			titleBar = (TitleBar) findViewById(R.id.title_bar);
+			titleBar.setTitle("购物车");
+			return;
+		}
 		setContentView(R.layout.activity_cart);
 		listView = (ListView) findViewById(R.id.listview);
 		initData();
@@ -49,14 +54,20 @@ public class CartActivity extends BaseActivity {
 		// 获取购物车商品
 		dataList.addAll(AppConfig.goodsList);
 	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		AppConfig.goodsList.clear();
+		AppConfig.goodsList.addAll(dataList);
+	}
 
 	private class CartAdapter extends BaseAdapter {
 		private SparseIntArray array = new SparseIntArray();
 		
 		public CartAdapter() {
 			for (int i = 0; i < dataList.size(); i++) {
-				array.put(i, 1);
-			}
+				array.put(i, dataList.get(i).getCount());
+			}System.out.println(array);
 		}
 		
 		public SparseIntArray getSparseArray() {
@@ -125,8 +136,40 @@ public class CartActivity extends BaseActivity {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						String info = btnCal.getText().toString();
-//						int count = info.substring(4, info.length() - 2);
-						System.out.println(info.substring(4, info.length() - 2));
+						int count = Integer.parseInt(
+								info.substring(4, info.length() - 1));
+						info = tvAllPrice.getText().
+								toString().substring(4);
+						float price = Float.parseFloat(
+								dataList.get(position).getPriceNow());
+						float allPrice = Float.parseFloat(info);
+						if (isChecked) {
+							count ++;
+							btnCal.setText("去结算(" + count + ")");
+							tvAllPrice.setText("总价：￥" + (allPrice + 
+									count * price));
+							info = tvSave.getText().toString().
+									substring(6);
+							float save = Float.parseFloat(info);
+							float sub = Float.parseFloat(
+									dataList.get(position).getPriceOld()) -
+									Float.parseFloat(
+									dataList.get(position).getPriceNow());
+							tvSave.setText("共为您节省￥" + (save + count * sub));
+						} else {
+							count --;
+							btnCal.setText("去结算(" + count  + ")");
+							tvAllPrice.setText("总价：￥" + (allPrice - 
+									count * price));
+							info = tvSave.getText().toString().
+									substring(6);
+							float save = Float.parseFloat(info);
+							float sub = Float.parseFloat(
+									dataList.get(position).getPriceOld()) -
+									Float.parseFloat(
+									dataList.get(position).getPriceNow());
+							tvSave.setText("共为您节省￥" + (save - count * sub));
+						}
 					}
 				});
 				vh.tvName.setText(vo.getName());
@@ -134,7 +177,7 @@ public class CartActivity extends BaseActivity {
 				vh.tvSize.setText("尺码：" + vo.getSize());
 				vh.tvPriceOld.setText("¥" + vo.getPriceOld());
 				vh.tvPirceNow.setText("¥" + vo.getPriceNow());
-				vh.tvCount.setText("1");
+				vh.tvCount.setText(array.get(position) + "");
 				vh.btnSub.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -207,6 +250,13 @@ public class CartActivity extends BaseActivity {
 					public void onClick(View v) {
 						dataList.remove(position);
 						cartAdapter.notifyDataSetChanged();
+						String info = btnCal.getText().toString();
+						int count = Integer.parseInt(
+								info.substring(4, info.length() - 1));
+						if (count >= 1) {
+							btnCal.setText("去结算(" + (count - 1) + ")");
+						}
+						titleBar.setTitle("购物车("+ dataList.size() + ")");
 					}
 				});
 				vh.btnStore.setText(vo.getStoreName());

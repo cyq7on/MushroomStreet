@@ -22,7 +22,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -54,7 +53,7 @@ import com.viewpagerindicator.TabPageIndicator;
  * @version V1.0
  */
 public class GoodsdetailActivity extends BaseFragmentActivity implements
-		OnPullListener, OnPageChangedListener, OnDismissListener {
+		OnPullListener, OnPageChangedListener {
 	private ViewPager viewPager, vpImage;
 	private List<String> dataList = new ArrayList<String>();
 	private List<String> urlList = new ArrayList<String>();
@@ -71,6 +70,7 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 	private MyPopupWindow popupWindow;
 	private List<String> colorList = new ArrayList<String>();
 	private List<String> sizeList = new ArrayList<String>();
+	private ShoppingDetailVo vo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +92,10 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		for (int i = 0; i < len; i++) {
 			urlList.add(AppConfig.urlImage[i]);
 		}
+		// 待选中的商品
+		vo = new ShoppingDetailVo(AppConfig.urlImage[len],
+				"气质时尚羊毛外套" + len, len * 100 + "", 
+				len * 150 + "", "格子铺" + len);
 	}
 
 	public void initView() {
@@ -143,7 +147,7 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		dataList.add("热卖推荐");
 		initTbLayout();
 		initViewPager();
-		popupWindow = new MyPopupWindow(this, colorList, sizeList);
+		popupWindow = new MyPopupWindow(this, colorList, sizeList,vo);
 		popupWindow.onDismiss();
 	}
 
@@ -403,15 +407,6 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 	public void onPageChanged(int stub) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void onDismiss() {
-		int len = (int) (Math.random() * 8);
-		// 待选中的商品
-		ShoppingDetailVo vo = new ShoppingDetailVo(AppConfig.urlImage[len],
-				"气质时尚羊毛外套" + len, len * 100 + "", len * 150 + "", "格子铺");
-		AppConfig.goodsList.add(vo);
 	}
 
 }

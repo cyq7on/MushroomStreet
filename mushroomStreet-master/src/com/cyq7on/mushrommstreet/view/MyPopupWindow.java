@@ -159,6 +159,10 @@ public class MyPopupWindow implements OnDismissListener, OnClickListener{
 			vo.setColor(color);
 			vo.setSize(size);
 			vo.setCount(count);
+			int k = (int) (Math.random() * 7);
+			vo.setFreight(k + "");
+			int price = Integer.parseInt(vo.getPriceNow());
+			vo.setPriceAll(count * price + "");
 			AppConfig.goodsList.add(vo);
 			popupWindow.dismiss();
 			break;

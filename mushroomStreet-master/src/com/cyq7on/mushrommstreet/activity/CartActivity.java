@@ -76,7 +76,7 @@ public class CartActivity extends BaseActivity {
 		public CartAdapter() {
 			for (int i = 0; i < dataList.size(); i++) {
 				array.put(i, dataList.get(i).getCount());
-			}System.out.println(array);
+			}
 		}
 		
 		public SparseIntArray getSparseArray() {
@@ -186,7 +186,7 @@ public class CartActivity extends BaseActivity {
 				vh.tvSize.setText("尺码：" + vo.getSize());
 				vh.tvPriceOld.setText("¥" + vo.getPriceOld());
 				vh.tvPirceNow.setText("¥" + vo.getPriceNow());
-				vh.tvCount.setText(array.get(position) + "");
+				vh.tvCount.setText(vo.getCount() + "");
 				vh.btnSub.setOnClickListener(new OnClickListener() {
 					
 					@Override

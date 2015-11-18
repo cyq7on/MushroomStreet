@@ -18,7 +18,9 @@ public class ShoppingDetailVo {
 	private String size;
 	private String storeName;
 	private int count;
-	
+	//确认订单特有
+	private String freight;
+	private String priceAll;
 	public ShoppingDetailVo(String imageUrl, String name, String priceNow,
 			String priceOld) {
 		super();
@@ -40,6 +42,26 @@ public class ShoppingDetailVo {
 	}
 
 	
+
+	public String getFreight() {
+		return freight;
+	}
+
+
+	public void setFreight(String freight) {
+		this.freight = freight;
+	}
+
+
+	public String getPriceAll() {
+		return priceAll;
+	}
+
+
+	public void setPriceAll(String priceAll) {
+		this.priceAll = priceAll;
+	}
+
 
 	public int getCount() {
 		return count;

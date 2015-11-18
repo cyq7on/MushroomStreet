@@ -162,7 +162,7 @@ public class MyPopupWindow implements OnDismissListener, OnClickListener{
 			int k = (int) (Math.random() * 7);
 			vo.setFreight(k + "");
 			int price = Integer.parseInt(vo.getPriceNow());
-			vo.setPriceAll(count * price + "");
+			vo.setPriceAll(count * price);
 			AppConfig.goodsList.add(vo);
 			popupWindow.dismiss();
 			break;

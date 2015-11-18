@@ -50,7 +50,8 @@
         </activity>
         
          <activity
-            android:name="com.cyq7on.mushrommstreet.activity.ConfirmOrderActivity">
+            android:name="com.cyq7on.mushrommstreet.activity.ConfirmOrderActivity"
+        	android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         
         <activity

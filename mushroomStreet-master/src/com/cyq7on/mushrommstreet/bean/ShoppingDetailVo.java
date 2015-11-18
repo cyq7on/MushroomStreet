@@ -20,7 +20,7 @@ public class ShoppingDetailVo {
 	private int count;
 	//确认订单特有
 	private String freight;
-	private String priceAll;
+	private float priceAll;
 	public ShoppingDetailVo(String imageUrl, String name, String priceNow,
 			String priceOld) {
 		super();
@@ -53,12 +53,12 @@ public class ShoppingDetailVo {
 	}
 
 
-	public String getPriceAll() {
+	public float getPriceAll() {
 		return priceAll;
 	}
 
 
-	public void setPriceAll(String priceAll) {
+	public void setPriceAll(float priceAll) {
 		this.priceAll = priceAll;
 	}
 

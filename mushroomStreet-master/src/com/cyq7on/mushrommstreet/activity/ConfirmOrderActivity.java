@@ -35,6 +35,7 @@ public class ConfirmOrderActivity extends BaseActivity {
 	private List<ShoppingDetailVo> dataList = new ArrayList<ShoppingDetailVo>();
 	private Orderdapter oederAdapter;
 	private TextView tvAllPrice;
+	private float priceAll = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +48,22 @@ public class ConfirmOrderActivity extends BaseActivity {
 	public void initData() {
 		// 获取购物车商品
 		dataList.addAll(AppConfig.goodsList);
+		for (int i = 0; i < dataList.size(); i++) {
+			priceAll += dataList.get(i).getPriceAll();
+		}
+	}
+	
+	@Override
+	public void initView() {
+		titleBar = (TitleBar) findViewById(R.id.title_bar);
+		tvAllPrice = (TextView) findViewById(R.id.tv_allprice);
+		listView = (ListView) findViewById(R.id.listview);
+		tvAllPrice.setText("合计：￥" + priceAll);
+		titleBar.setTitle("确认订单");
+		oederAdapter = new Orderdapter();
+		listView.setAdapter(oederAdapter);
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		AppConfig.goodsList.clear();
-		AppConfig.goodsList.addAll(dataList);
-	}
 
 	private class Orderdapter extends BaseAdapter {
 
@@ -118,7 +127,7 @@ public class ConfirmOrderActivity extends BaseActivity {
 				if ("0".equals(vo.getFreight())) {
 					vh.tvFreight.setText("全国包邮");
 				} else {
-					vh.tvFreight.setText(vo.getFreight());
+					vh.tvFreight.setText("¥" + vo.getFreight());
 				}
 				vh.tvPirceAll.setText("¥" + vo.getPriceAll());
 				vh.tvCount.setText(vo.getCount() + "");
@@ -198,15 +207,6 @@ public class ConfirmOrderActivity extends BaseActivity {
 		}
 	}
 
-	@Override
-	public void initView() {
-		titleBar = (TitleBar) findViewById(R.id.title_bar);
-		tvAllPrice = (TextView) findViewById(R.id.tv_allprice);
-		listView = (ListView) findViewById(R.id.listview);
-		titleBar.setTitle("确认订单");
-		oederAdapter = new Orderdapter();
-		listView.setAdapter(oederAdapter);
-	}
 
 	public void onClick(View v) {
 		switch (v.getId()) {

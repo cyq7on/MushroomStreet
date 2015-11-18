@@ -3,7 +3,6 @@ package com.cyq7on.mushrommstreet.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
@@ -28,35 +27,27 @@ import com.cyq7on.mushroomstreet.AppConfig;
 import com.nostra13.universalimageloader.core.ImageLoader;
 /**
  * 
-* @Title: CartActivity.java 
+* @Title: ConfirmOrderActivity.java 
 * @Package com.cyq7on.mushrommstreet.activity 
-* @Description: 购物车页面
+* @Description: 确认订单页面
 * @author cyq7on  
-* @date 2015-11-16 下午3:38:26 
+* @date 2015-11-18 下午3:38:55 
 * @version V1.0
  */
-public class CartActivity extends BaseActivity {
+public class ConfirmOrderActivity extends BaseActivity {
 	private ListView listView;
 	private List<ShoppingDetailVo> dataList = 
 			new ArrayList<ShoppingDetailVo>();
 	private CartAdapter cartAdapter;
-	private CheckBox cbSelectAll;
 	private TextView tvAllPrice,tvSave;
 	private Button btnCal;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (AppConfig.goodsList.size() == 0) {
-			setContentView(R.layout.activity_cart_empty);
-			titleBar = (TitleBar) findViewById(R.id.title_bar);
-			titleBar.setTitle("购物车");
-			return;
-		}
-		setContentView(R.layout.activity_cart);
-		listView = (ListView) findViewById(R.id.listview);
-		initData();
-		initView();
+		setContentView(R.layout.activity_confirmorder);
+//		initData();
+//		initView();
 	}
 
 	public void initData() {
@@ -106,7 +97,7 @@ public class CartActivity extends BaseActivity {
 			final ViewHolder vh;
 			if (convertView == null) {
 				vh = new ViewHolder();
-				convertView = LayoutInflater.from(CartActivity.this)
+				convertView = LayoutInflater.from(ConfirmOrderActivity.this)
 						.inflate(R.layout.item_cart, null);
 				vh.iv = (ImageView) convertView.findViewById(R.id.iv);
 				vh.tvName = (TextView) convertView.
@@ -305,62 +296,17 @@ public class CartActivity extends BaseActivity {
 	@Override
 	public void initView() {
 		titleBar = (TitleBar) findViewById(R.id.title_bar);
-		cbSelectAll = (CheckBox) findViewById(R.id.cb_selectall);
 		tvAllPrice = (TextView) findViewById(R.id.tv_allprice);
 		tvSave = (TextView) findViewById(R.id.tv_save);
 		btnCal = (Button) findViewById(R.id.btn_cal);
-		titleBar.setTitle("购物车("+ dataList.size() + ")");
+		titleBar.setTitle("确认订单");
 		cartAdapter = new CartAdapter();
 		listView.setAdapter(cartAdapter);
 	}
 
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.cb_selectall:
-			CheckBox cb;
-			LinearLayout item;
-			RelativeLayout rl;
-			float allPrice = 0;
-			float save = 0;
-			int count;
-			SparseIntArray array;
-			float sub;
-			if (cbSelectAll.isChecked()) {
-				for (int i = 0; i < dataList.size(); i++) {
-					item = (LinearLayout) listView.getChildAt(i);
-					if (item != null) {
-						rl = (RelativeLayout) item.getChildAt(2);
-						cb = (CheckBox) rl.getChildAt(0);
-						cb.setChecked(true);					
-					}
-					array = cartAdapter.getSparseArray();
-					count = array.get(i);
-					allPrice += count * (Float.parseFloat(
-							dataList.get(i).getPriceNow()));
-					sub = Float.parseFloat(dataList.get(i).getPriceOld()) - 
-							Float.parseFloat(dataList.get(i).getPriceNow());
-					save += count * sub;
-				}
-				tvAllPrice.setText("总价：￥" + allPrice);
-				tvSave.setText("共为您节省￥" + save);
-				btnCal.setText("去结算(" + dataList.size() + ")");
-			}else {
-				for (int i = 0; i < dataList.size(); i++) {
-					item = (LinearLayout) listView.getChildAt(i);
-					if (item != null) {
-						rl = (RelativeLayout) item.getChildAt(2);
-						cb = (CheckBox) rl.getChildAt(0);
-						cb.setChecked(false);					
-					}
-				}
-				tvAllPrice.setText("总价：￥" + 0.00);
-				tvSave.setText("共为您节省￥" + 0.00);
-				btnCal.setText("去结算(0)");
-			}
-			break;
-		case R.id.btn_cal:
-			Intent intent = new Intent(this,ConfirmOrderActivity.class);
-			startActivity(intent);
+		case R.id.btn_ordernow:
 			break;
 		default:
 			break;

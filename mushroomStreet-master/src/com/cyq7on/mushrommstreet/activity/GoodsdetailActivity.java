@@ -210,7 +210,7 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-				popupWindow.showAsDropDown(v);
+				popupWindow.showAsDropDown(v,false);
 			}
 		});
 		// Á¢¼´¹ºÂò°´Å¥
@@ -218,7 +218,7 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 
 			@Override
 			public void onClick(View v) {
-				popupWindow.showAsDropDown(v);
+				popupWindow.showAsDropDown(v,true);
 			}
 		});
 		rg.setOnCheckedChangeListener(new OnCheckedChangeListener() {

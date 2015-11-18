@@ -3,8 +3,8 @@ package com.cyq7on.mushrommstreet.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.integer;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.R;
+import com.cyq7on.mushrommstreet.activity.CheckstandActivity;
 import com.cyq7on.mushrommstreet.bean.ShoppingDetailVo;
 import com.cyq7on.mushroomstreet.AppConfig;
 
@@ -46,6 +47,7 @@ public class MyPopupWindow implements OnDismissListener, OnClickListener{
 	private String color = "";
 	private String size = "";
 	private ShoppingDetailVo vo;
+	private boolean isBuyNow = false;
 	public MyPopupWindow(Context context,List<String> mColorList,
 			List<String> mSizeList,ShoppingDetailVo vo) {
 		View view = LayoutInflater.from(context).
@@ -125,17 +127,22 @@ public class MyPopupWindow implements OnDismissListener, OnClickListener{
 	}
 	
 	/**弹窗显示的位置*/  
-	public void showAsDropDown(View parent){
+	public void showAsDropDown(View parent,boolean isBuyNow){
 		popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
 		popupWindow.setFocusable(true);
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.update();
+		this.isBuyNow = isBuyNow;
 	}
 	
 	// 当popWindow消失时响应
 	@Override
 	public void onDismiss() {
-		
+		if (isBuyNow && color.length() > 0) {
+			Intent intent = new Intent(context,CheckstandActivity.class);
+			intent.putExtra("allPrice", vo.getPriceAll() + "");
+			context.startActivity(intent);
+		}
 	}
 	
 	/**消除弹窗*/

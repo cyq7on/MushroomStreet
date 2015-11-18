@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cyq7on.mushrommstreet.R;
 import com.cyq7on.mushrommstreet.bean.ShoppingDetailVo;
@@ -360,6 +361,12 @@ public class CartActivity extends BaseActivity {
 			}
 			break;
 		case R.id.btn_cal:
+			String info = btnCal.getText().toString();
+			if (info.substring(4, info.length() - 1).equals("0")) {
+				Toast.makeText(this, "您还没有选择商品",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 			Intent intent = new Intent(this,ConfirmOrderActivity.class);
 			startActivity(intent);
 			break;

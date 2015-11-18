@@ -63,6 +63,18 @@ public class CartActivity extends BaseActivity {
 		// 获取购物车商品
 		dataList.addAll(AppConfig.goodsList);
 	}
+	
+	@Override
+	public void initView() {
+		titleBar = (TitleBar) findViewById(R.id.title_bar);
+		cbSelectAll = (CheckBox) findViewById(R.id.cb_selectall);
+		tvAllPrice = (TextView) findViewById(R.id.tv_allprice);
+		tvSave = (TextView) findViewById(R.id.tv_save);
+		btnCal = (Button) findViewById(R.id.btn_cal);
+		titleBar.setTitle("购物车("+ dataList.size() + ")");
+		cartAdapter = new CartAdapter();
+		listView.setAdapter(cartAdapter);
+	}
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -302,17 +314,6 @@ public class CartActivity extends BaseActivity {
 		}
 	}
 
-	@Override
-	public void initView() {
-		titleBar = (TitleBar) findViewById(R.id.title_bar);
-		cbSelectAll = (CheckBox) findViewById(R.id.cb_selectall);
-		tvAllPrice = (TextView) findViewById(R.id.tv_allprice);
-		tvSave = (TextView) findViewById(R.id.tv_save);
-		btnCal = (Button) findViewById(R.id.btn_cal);
-		titleBar.setTitle("购物车("+ dataList.size() + ")");
-		cartAdapter = new CartAdapter();
-		listView.setAdapter(cartAdapter);
-	}
 
 	public void onClick(View v) {
 		switch (v.getId()) {

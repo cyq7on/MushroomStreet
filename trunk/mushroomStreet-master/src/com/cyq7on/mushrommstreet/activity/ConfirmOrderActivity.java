@@ -3,6 +3,7 @@ package com.cyq7on.mushrommstreet.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -211,6 +212,11 @@ public class ConfirmOrderActivity extends BaseActivity {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_ordernow:
+			Intent intent = new Intent(this,CheckstandActivity.class);
+			String info = tvAllPrice.getText().toString()
+					.substring(4);
+			intent.putExtra("allPrice", info);
+			startActivity(intent);
 			break;
 		default:
 			break;

@@ -164,15 +164,15 @@
 
         <Button
             android:id="@+id/btn_sure"
-            android:layout_width="65dp"
-            android:layout_height="28dp"
+            android:layout_width="66dp"
+            android:layout_height="32dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:background="#f00"
             android:gravity="center"
             android:text="确定"
             android:textColor="#fff"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
 </LinearLayout>

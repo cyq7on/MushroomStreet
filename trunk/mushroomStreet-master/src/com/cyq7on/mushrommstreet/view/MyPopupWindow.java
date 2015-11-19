@@ -138,11 +138,7 @@ public class MyPopupWindow implements OnDismissListener, OnClickListener{
 	// 当popWindow消失时响应
 	@Override
 	public void onDismiss() {
-		if (isBuyNow && color.length() > 0) {
-			Intent intent = new Intent(context,CheckstandActivity.class);
-			intent.putExtra("allPrice", vo.getPriceAll() + "");
-			context.startActivity(intent);
-		}
+		
 	}
 	
 	/**消除弹窗*/
@@ -170,6 +166,15 @@ public class MyPopupWindow implements OnDismissListener, OnClickListener{
 			vo.setFreight(k + "");
 			int price = Integer.parseInt(vo.getPriceNow());
 			vo.setPriceAll(count * price);
+			//立即购买
+			if (isBuyNow) {
+				Intent intent = new Intent(context,CheckstandActivity.class);
+				intent.putExtra("allPrice", vo.getPriceAll() + "");
+				context.startActivity(intent);
+				popupWindow.dismiss();
+				return;
+			}
+			//加入购物车
 			AppConfig.goodsList.add(vo);
 			popupWindow.dismiss();
 			break;

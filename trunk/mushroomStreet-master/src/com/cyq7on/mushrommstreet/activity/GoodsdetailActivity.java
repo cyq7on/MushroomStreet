@@ -90,7 +90,8 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 		// 模拟请求服务器
 		int len = (int) (Math.random() * AppConfig.urlImage.length);
 		for (int i = 0; i < len; i++) {
-			urlList.add(AppConfig.urlImage[i]);
+			int k = (int) (Math.random() * len);
+			urlList.add(AppConfig.urlImage[k]);
 		}
 		// 待选中的商品
 		vo = new ShoppingDetailVo(AppConfig.urlImage[len],

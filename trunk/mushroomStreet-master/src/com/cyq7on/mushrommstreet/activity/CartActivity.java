@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,11 +86,17 @@ public class CartActivity extends BaseActivity {
 
 	private class CartAdapter extends BaseAdapter {
 		private SparseIntArray array = new SparseIntArray();
+		private SparseArray<Boolean> cbArray = new SparseArray<Boolean>();
 		
 		public CartAdapter() {
 			for (int i = 0; i < dataList.size(); i++) {
 				array.put(i, dataList.get(i).getCount());
+				cbArray.put(i, false);
 			}
+		}
+		
+		public void setBoolean(int positon,boolean isChecked) {
+			cbArray.put(positon, isChecked);
 		}
 		
 		public SparseIntArray getSparseArray() {
@@ -157,6 +164,7 @@ public class CartActivity extends BaseActivity {
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
+						cbArray.put(position, isChecked);
 						String info = btnCal.getText().toString();
 						int count = Integer.parseInt(
 								info.substring(4, info.length() - 1));
@@ -200,6 +208,7 @@ public class CartActivity extends BaseActivity {
 				vh.tvPriceOld.setText("¥" + vo.getPriceOld());
 				vh.tvPirceNow.setText("¥" + vo.getPriceNow());
 				vh.tvCount.setText(vo.getCount() + "");
+				vh.cb.setChecked(cbArray.get(position));
 				vh.btnSub.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -325,17 +334,17 @@ public class CartActivity extends BaseActivity {
 			float allPrice = 0;
 			float save = 0;
 			int count;
-			SparseIntArray array;
+			SparseIntArray array = cartAdapter.getSparseArray();
 			float sub;
 			if (cbSelectAll.isChecked()) {
 				for (int i = 0; i < dataList.size(); i++) {
+					cartAdapter.setBoolean(i, cbSelectAll.isChecked());
 					item = (LinearLayout) listView.getChildAt(i);
 					if (item != null) {
 						rl = (RelativeLayout) item.getChildAt(2);
 						cb = (CheckBox) rl.getChildAt(0);
 						cb.setChecked(true);					
 					}
-					array = cartAdapter.getSparseArray();
 					count = array.get(i);
 					allPrice += count * (Float.parseFloat(
 							dataList.get(i).getPriceNow()));
@@ -348,6 +357,7 @@ public class CartActivity extends BaseActivity {
 				btnCal.setText("去结算(" + dataList.size() + ")");
 			}else {
 				for (int i = 0; i < dataList.size(); i++) {
+					cartAdapter.setBoolean(i, cbSelectAll.isChecked());
 					item = (LinearLayout) listView.getChildAt(i);
 					if (item != null) {
 						rl = (RelativeLayout) item.getChildAt(2);

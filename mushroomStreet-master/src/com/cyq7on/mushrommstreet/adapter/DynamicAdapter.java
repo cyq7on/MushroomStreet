@@ -22,6 +22,15 @@ import com.cyq7on.mushrommstreet.utils.DeviceInfo;
 import com.cyq7on.mushroomstreet.AppConfig;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+/**
+ * 
+* @Title: DynamicAdapter.java 
+* @Package com.cyq7on.mushrommstreet.adapter 
+* @Description: Ê×Ò³Î¢²©¶¯Ì¬ÊÊÅäÆ÷
+* @author cyq7on  
+* @date 2015-11-2 ÏÂÎç5:13:02 
+* @version V1.0
+ */
 public class DynamicAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;

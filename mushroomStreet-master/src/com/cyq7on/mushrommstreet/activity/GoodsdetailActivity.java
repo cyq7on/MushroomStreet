@@ -101,7 +101,8 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 
 	public void initView() {
 		titleBar = (TitleBar) findViewById(R.id.title_bar);
-		titleBar.setTitle("商品详情");
+//		titleBar.setTitle("商品详情");
+		titleBar.setTitle("mogujie.com");
 		titleBar.setTitleColor(Color.RED);
 		titleBar.setRihtBackground(R.drawable.detail_more);
 		titleBar.setImageTitleBackground(R.drawable.shop_cart);
@@ -228,6 +229,9 @@ public class GoodsdetailActivity extends BaseFragmentActivity implements
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
 				case R.id.chat:
+
+					break;
+				case R.id.enter_store:
 
 					break;
 

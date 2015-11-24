@@ -25,14 +25,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * 
- * @Title: ConfirmOrderActivity.java
- * @Package com.cyq7on.mushrommstreet.activity
- * @Description: 确认订单页面
- * @author cyq7on
- * @date 2015-11-18 下午3:38:55
- * @version V1.0
+* @Title: EditAddresActivity.java 
+* @Package com.cyq7on.mushrommstreet.activity 
+* @Description: 编辑地址页面
+* @author cyq7on  
+* @date 2015-11-24 下午9:42:16 
+* @version V1.0
  */
-public class ConfirmOrderActivity extends BaseActivity {
+public class EditAddresActivity extends BaseActivity {
 	private ListView listView;
 	private List<ShoppingDetailVo> dataList = new ArrayList<ShoppingDetailVo>();
 	private Orderdapter oederAdapter;
@@ -66,13 +66,20 @@ public class ConfirmOrderActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ConfirmOrderActivity.this,
-						ShoppingAddresActivity.class);
-				startActivityForResult(intent, 0);
+				
 			}
 		});
 		tvAllPrice.setText("合计：￥" + priceAll);
-		titleBar.setTitle("确认订单");
+		titleBar.setTitle("编辑地址");
+		titleBar.setRightText("完成");
+		titleBar.setRightVisible();
+		titleBar.setRightButtonListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
 		oederAdapter = new Orderdapter();
 		listView.setAdapter(oederAdapter);
 	}
@@ -104,7 +111,7 @@ public class ConfirmOrderActivity extends BaseActivity {
 			final ViewHolder vh;
 			if (convertView == null) {
 				vh = new ViewHolder();
-				convertView = LayoutInflater.from(ConfirmOrderActivity.this)
+				convertView = LayoutInflater.from(EditAddresActivity.this)
 						.inflate(R.layout.item_confirmorder, null);
 				vh.iv = (ImageView) convertView.findViewById(R.id.iv);
 				vh.tvName = (TextView) convertView.findViewById(R.id.tv_name);

@@ -9,39 +9,39 @@
         android:id="@+id/title_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <RelativeLayout 
+
+    <RelativeLayout
         android:id="@+id/rl_info"
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_marginLeft="10dp"
-    	android:layout_marginRight="10dp"
-    	android:paddingTop="10dp"
-    	android:paddingBottom="10dp">
-    	
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
+
         <TextView
             android:id="@+id/tv_consignee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="收货人:白子画  18388888888"
-            android:textColor="#000"
-            />
+            android:textColor="#000" />
+
         <TextView
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_below="@id/tv_consignee"
-            android:text="四川省成都市龙泉驿区"
-            />
-        <ImageView 
+            android:layout_marginTop="5dp"
+            android:text="四川省成都市龙泉驿区" />
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/goto_icon"
-            />
+            android:src="@drawable/goto_icon" />
     </RelativeLayout>
-    
+
     <View
         android:layout_width="match_parent"
         android:layout_height="15dp"
@@ -50,17 +50,26 @@
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_weight="1"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:divider="#EBEBEB" 
-        android:dividerHeight="10dp"/>
+        android:layout_weight="1"
+        android:divider="#EBEBEB"
+        android:dividerHeight="10dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#EBEBEB" />
-    
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:text="不要相信任何人通过QQ、短信等发送的所谓“退款链接”"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -68,17 +77,15 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp" >
 
-
         <TextView
             android:id="@+id/tv_allprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
             android:text="总价：￥00.00"
             android:textColor="#f00"
             android:textSize="20sp" />
-
 
         <Button
             android:id="@+id/btn_ordernow"
@@ -89,8 +96,8 @@
             android:layout_marginRight="10dp"
             android:background="#f00"
             android:gravity="center"
-            android:text="立即下单"
             android:onClick="onClick"
+            android:text="立即下单"
             android:textColor="#fff"
             android:textSize="12sp" />
     </RelativeLayout>

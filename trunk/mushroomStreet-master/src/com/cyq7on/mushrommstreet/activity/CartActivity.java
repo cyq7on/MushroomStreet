@@ -5,7 +5,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +53,14 @@ public class CartActivity extends BaseActivity {
 			setContentView(R.layout.activity_cart_empty);
 			titleBar = (TitleBar) findViewById(R.id.title_bar);
 			titleBar.setTitle("购物车");
+			Button btnGo = (Button) findViewById(R.id.btn_go);
+			btnGo.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					
+				}
+			});
 			return;
 		}
 		setContentView(R.layout.activity_cart);
@@ -86,7 +94,7 @@ public class CartActivity extends BaseActivity {
 
 	private class CartAdapter extends BaseAdapter {
 		private SparseIntArray array = new SparseIntArray();
-		private SparseArray<Boolean> cbArray = new SparseArray<Boolean>();
+		private SparseBooleanArray cbArray = new SparseBooleanArray();
 		
 		public CartAdapter() {
 			for (int i = 0; i < dataList.size(); i++) {

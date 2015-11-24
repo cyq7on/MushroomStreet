@@ -23,7 +23,7 @@
             style="@style/tab_radio"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:textColor="@color/gray_text_dark"
             android:drawableTop="@drawable/goods_detail_im_icon"
             android:background="@null"
@@ -35,12 +35,23 @@
             style="@style/tab_radio"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp"
+            android:layout_weight="0.8"
             android:textColor="@color/gray_text_dark"
             android:drawableTop="@drawable/like_icon_grey"
             android:background="@null"
             android:text="喜欢"
+            android:textSize="13sp" />
+        
+        <RadioButton
+            android:id="@+id/enter_store"
+            style="@style/tab_radio"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8"
+            android:textColor="@color/gray_text_dark"
+            android:drawableTop="@drawable/shop"
+            android:background="@null"
+            android:text="小店"
             android:textSize="13sp" />
 
 

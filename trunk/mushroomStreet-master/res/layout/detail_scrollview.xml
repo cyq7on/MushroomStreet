@@ -438,21 +438,55 @@
         android:gravity="center|left"
         android:text="退货补运费"
         android:textSize="12sp" />
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp">
+        <LinearLayout 
+            android:layout_width="0dp"
+            android:layout_weight="1"
+        	android:layout_height="wrap_content"
+        	android:gravity="center|right"
+            >
+            <Button
+		        android:id="@+id/btn_allgoods"
+		        android:layout_width="wrap_content"
+		        android:layout_height="33dp"
+		        android:background="@drawable/shape_btn_attention"
+		        android:drawablePadding="3dp"
+		        android:gravity="center"
+		        android:padding="5dp"
+		        android:text="全部商品(77)"
+		        android:textColor="#000"
+		        android:textSize="14sp" 
+		        android:layout_marginRight="10dp"/>
+        </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="0dp"
+            android:layout_weight="1"
+        	android:layout_height="wrap_content"
+            >
+            <Button
+		        android:id="@+id/btn_enter"
+		        android:layout_width="wrap_content"
+		        android:layout_height="33dp"
+		        android:layout_gravity="right"
+		        android:background="@drawable/shape_btn_attention"
+		        android:drawableLeft="@drawable/icon_comment_shop"
+		        android:drawablePadding="3dp"
+		        android:gravity="center"
+		        android:padding="5dp"
+		        android:layout_marginLeft="10dp"
+		        android:text="进入小店"
+		        android:textColor="#000"
+		        android:textSize="14sp" />
+        </LinearLayout>
+        
+    </LinearLayout >
 
-    <Button
-        android:id="@+id/btn_enter"
-        android:layout_width="wrap_content"
-        android:layout_height="33dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_btn_attention"
-        android:drawableLeft="@drawable/icon_comment_shop"
-        android:drawablePadding="3dp"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="进入小店"
-        android:textColor="#000"
-        android:textSize="14sp" />
 
     <TextView
         android:layout_width="match_parent"

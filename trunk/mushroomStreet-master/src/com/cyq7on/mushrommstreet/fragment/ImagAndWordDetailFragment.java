@@ -46,11 +46,15 @@ public class ImagAndWordDetailFragment extends Fragment{
 	private void initView(){
 		listView = (ListView) view.findViewById(R.id.listview);
 		listView.setAdapter(new MyAdapter());
-		TextView header = new TextView(getActivity());
-		header.setPadding(10, 10, 10, 10);
+		TextView header1 = new TextView(getActivity());
+		header1.setPadding(10, 10, 10, 10);
 		//图片上面的描述，由服务器获取
-		header.setText("颜色选择甜美清新的粉色，领子跟袖子拼接白色超好看，\n显肤色 小清新感觉扑面而来\n喜欢得不得了");
-		listView.addHeaderView(header);
+		header1.setText("颜色选择甜美清新的粉色，领子跟袖子拼接白色超好看，\n显肤色 小清新感觉扑面而来\n喜欢得不得了");
+		TextView header2 = new TextView(getActivity());
+		header2.setPadding(10, 10, 10, 10);
+		header2.setText("穿衣效果");
+		listView.addHeaderView(header1);
+		listView.addHeaderView(header2);
 	}
 	private class MyAdapter extends BaseAdapter{
 

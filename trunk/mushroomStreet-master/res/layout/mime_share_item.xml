@@ -6,16 +6,16 @@
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_marginLeft="10dip"
-        android:layout_width="wrap_content"
-       	android:layout_height="wrap_content"
-       	android:drawableLeft="@drawable/action_fav_icon"
-       	android:textColor="@android:color/darker_gray"
-       	android:text="蘑菇街官方 喜欢了"
-       	android:textSize="13sp"
-       	android:gravity="center_vertical"
-       	android:drawablePadding="5dp"/>
+<!--     <TextView -->
+<!--         android:layout_marginLeft="10dip" -->
+<!--         android:layout_width="wrap_content" -->
+<!--        	android:layout_height="wrap_content" -->
+<!--        	android:drawableLeft="@drawable/action_fav_icon" -->
+<!--        	android:textColor="@android:color/darker_gray" -->
+<!--        	android:text="蘑菇街官方 喜欢了" -->
+<!--        	android:textSize="13sp" -->
+<!--        	android:gravity="center_vertical" -->
+<!--        	android:drawablePadding="5dp"/> -->
    <RelativeLayout         
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"

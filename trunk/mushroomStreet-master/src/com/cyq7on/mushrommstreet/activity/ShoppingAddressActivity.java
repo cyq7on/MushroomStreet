@@ -25,14 +25,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * 
-* @Title: ShoppingAddresActivity.java 
+* @Title: ShoppingAddressActivity.java 
 * @Package com.cyq7on.mushrommstreet.activity 
 * @Description: 管理收获地址页面
 * @author cyq7on  
 * @date 2015-11-24 下午9:39:02 
 * @version V1.0
  */
-public class ShoppingAddresActivity extends BaseActivity {
+public class ShoppingAddressActivity extends BaseActivity {
 	private ListView listView;
 	private List<ShoppingDetailVo> dataList = new ArrayList<ShoppingDetailVo>();
 	private Orderdapter oederAdapter;
@@ -77,7 +77,7 @@ public class ShoppingAddresActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ShoppingAddresActivity.this,
+				Intent intent = new Intent(ShoppingAddressActivity.this,
 						EditAddresActivity.class);
 				startActivityForResult(intent, 1);
 			}
@@ -113,7 +113,7 @@ public class ShoppingAddresActivity extends BaseActivity {
 			final ViewHolder vh;
 			if (convertView == null) {
 				vh = new ViewHolder();
-				convertView = LayoutInflater.from(ShoppingAddresActivity.this)
+				convertView = LayoutInflater.from(ShoppingAddressActivity.this)
 						.inflate(R.layout.item_confirmorder, null);
 				vh.iv = (ImageView) convertView.findViewById(R.id.iv);
 				vh.tvName = (TextView) convertView.findViewById(R.id.tv_name);

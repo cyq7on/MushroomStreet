@@ -67,7 +67,7 @@ public class ConfirmOrderActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ConfirmOrderActivity.this,
-						ShoppingAddresActivity.class);
+						ShoppingAddressActivity.class);
 				startActivityForResult(intent, 0);
 			}
 		});

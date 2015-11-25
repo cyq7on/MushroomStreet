@@ -45,7 +45,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden" >
         </activity>
         <activity android:name="com.cyq7on.mushrommstreet.activity.CheckstandActivity" />
-        <activity android:name="com.cyq7on.mushrommstreet.activity.ShoppingAddresActivity" />
+        <activity android:name="com.cyq7on.mushrommstreet.activity.ShoppingAddressActivity" />
         <activity android:name="com.cyq7on.mushrommstreet.activity.EditAddresActivity" />
         <activity android:name="com.cyq7on.mushrommstreet.shoppingfragment.activity.SearchActivity" />
         <activity
